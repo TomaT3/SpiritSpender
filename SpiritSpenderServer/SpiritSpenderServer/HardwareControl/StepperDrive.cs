@@ -175,12 +175,12 @@ namespace SpiritSpenderServer.HardwareControl
                 if (i != tempAccelerationArray.Length - 1)
                     waitTimeBetweenAccelerationSteps[i] = (tempAccelerationArray[i + 1] - tempAccelerationArray[i]) / 2.0;
                 else
-                    waitTimeBetweenAccelerationSteps[i] = 1.0 / Convert.ToDouble(maxSpeed) / 2.0;
+                    waitTimeBetweenAccelerationSteps[i] = 1.0 / maxSpeed / 2.0;
             }
 
             for (int i = 0; i < numberOfStepsWithMaxSpeed; i++)
             {
-                waitTimeBetweenMaxSpeedSteps[i] = 1 / Convert.ToDouble(maxSpeed) / 2.0;
+                waitTimeBetweenMaxSpeedSteps[i] = 1 / maxSpeed / 2.0;
             }
 
             int j = 0;
