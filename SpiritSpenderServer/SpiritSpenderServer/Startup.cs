@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Persistence;
+using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer
 {
@@ -29,6 +30,10 @@ namespace SpiritSpenderServer
         {
             var config = new ServerConfig();
             Configuration.Bind(config);
+
+            services.AddControllers().AddNewtonsoftJson(action => action.SerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
+
+            //services.AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new UnitsNetJsonConverter()));
 
             services.AddSingleton<MongoDBConfig>(config.MongoDB);
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
@@ -62,7 +67,7 @@ namespace SpiritSpenderServer
             });
 
             app.UseRouting();
-
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
