@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using SpiritSpenderServer.Persistence;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnitsNet;
-using UnitsNet.Serialization.JsonNet;
 using UnitsNet.Units;
 
 namespace SpiritSpenderServer.Controllers
@@ -17,15 +12,9 @@ namespace SpiritSpenderServer.Controllers
     public class DriveSettingsController : ControllerBase
     {
         private readonly IDriveSettingRepository _driveSettingsRepo;
-        //private JsonSerializerSettings _settings;
 
         public DriveSettingsController(IDriveSettingRepository driveSettingRepository)
         {
-            //_settings = new JsonSerializerSettings
-            //{
-            //    Converters = { new UnitsNetJsonConverter() },
-            //};
-
             _driveSettingsRepo = driveSettingRepository;
         }
 
@@ -36,9 +25,8 @@ namespace SpiritSpenderServer.Controllers
             return new ObjectResult(await _driveSettingsRepo.GetAllDriveSettings());
         }
 
-        // GET: api/DriveSettings/5
-        [HttpGet("{driveName}")]
-        public async Task<ActionResult<DriveSetting>> Get(string driveName)
+        [HttpGet("test")]
+        public ActionResult<DriveSetting> GetTest()
         {
             var test = new DriveSetting
             {
@@ -52,9 +40,14 @@ namespace SpiritSpenderServer.Controllers
                 StepGpioPin = 22,
                 ReverseDirection = false
             };
-            //var jsonString = JsonConvert.SerializeObject(test, Formatting.Indented, _settings);
-            return new ObjectResult(test);
 
+            return new ObjectResult(test);
+        }
+
+        // GET: api/DriveSettings/5
+        [HttpGet("{driveName}")]
+        public async Task<ActionResult<DriveSetting>> Get(string driveName)
+        {
             var driveSettings = await _driveSettingsRepo.GetDriveSetting(driveName);
             if (driveSettings == null)
                 return new NotFoundResult();
