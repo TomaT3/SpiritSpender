@@ -40,20 +40,20 @@ namespace SpiritSpenderServer.Controllers
         [HttpGet("{driveName}")]
         public async Task<ActionResult<DriveSetting>> Get(string driveName)
         {
-            //var test = new DriveSetting
-            //{
-            //    DriveName = "X",
-            //    Acceleration = new Acceleration(20, AccelerationUnit.MillimeterPerSecondSquared),
-            //    MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
-            //    SpindelPitch = new Length(8, LengthUnit.Millimeter),
-            //    StepsPerRevolution = 400,
-            //    EnableGpioPin = 17,
-            //    DirectionGpioPin = 27,
-            //    StepGpioPin = 22,
-            //    ReverseDirection = false
-            //};
+            var test = new DriveSetting
+            {
+                DriveName = "X",
+                Acceleration = new Acceleration(20, AccelerationUnit.MillimeterPerSecondSquared),
+                MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
+                SpindelPitch = new Length(8, LengthUnit.Millimeter),
+                StepsPerRevolution = 400,
+                EnableGpioPin = 17,
+                DirectionGpioPin = 27,
+                StepGpioPin = 22,
+                ReverseDirection = false
+            };
             //var jsonString = JsonConvert.SerializeObject(test, Formatting.Indented, _settings);
-            //return new ObjectResult(test);
+            return new ObjectResult(test);
 
             var driveSettings = await _driveSettingsRepo.GetDriveSetting(driveName);
             if (driveSettings == null)
