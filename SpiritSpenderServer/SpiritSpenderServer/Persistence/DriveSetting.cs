@@ -11,26 +11,27 @@ namespace SpiritSpenderServer.Persistence
 {
     public class DriveSetting
     {
+        [JsonIgnore]
         [BsonId]
         public ObjectId InternalId { get; set; }
         
-        //[JsonProperty]
+        [JsonProperty]
         public string DriveName { get; set; }
-        //[JsonProperty]
+        [JsonProperty]
         public int StepsPerRevolution { get; set; }
-        //[JsonProperty]
+        [JsonProperty]
         public Length SpindelPitch { get; set; }
-        //[JsonProperty]
+       [JsonProperty]
         public Speed MaxSpeed { get; set; }
-        //[JsonProperty]
+        [JsonProperty]
         public Acceleration Acceleration { get; set; }
-        //[JsonProperty]
+        [JsonProperty]
         public int EnableGpioPin { get; set; }
-        //[JsonProperty]
+        [JsonProperty]
         public int DirectionGpioPin { get; set; }
-        //[JsonProperty]
+        [JsonProperty]
         public int StepGpioPin { get; set; }
-        //[JsonProperty]
+        [JsonProperty]
         public bool ReverseDirection { get; set; }
 
     }

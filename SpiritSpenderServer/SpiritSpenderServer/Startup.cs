@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson.Serialization;
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Persistence;
 using UnitsNet.Serialization.JsonNet;
@@ -33,13 +34,10 @@ namespace SpiritSpenderServer
 
             services.AddControllers().AddNewtonsoftJson(action => action.SerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
 
-            //services.AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new UnitsNetJsonConverter()));
-
+            //BsonClassMap.RegisterClassMap<sdfsdf>();
             services.AddSingleton<MongoDBConfig>(config.MongoDB);
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
-
-            services.AddControllers();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
