@@ -1,5 +1,7 @@
 ﻿using MongoDB.Driver;
 using SpiritSpenderServer.Config;
+using SpiritSpenderServer.Persistence.DriveSetings;
+using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,8 @@ namespace SpiritSpenderServer.Persistence
             _db = client.GetDatabase(config.Database);
         }
 
-        public MongoDB.Driver.IMongoCollection<DriveSetting> DriveSettings => _db.GetCollection<DriveSetting>("DriveSettings");
+        public IMongoCollection<DriveSetting> DriveSettings => _db.GetCollection<DriveSetting>("DriveSettings");
+
+        public IMongoCollection<SpiritDispenserSetting> SpiritDispenserSettings => _db.GetCollection<SpiritDispenserSetting>("SpiritDispenserSettings");
     }
 }

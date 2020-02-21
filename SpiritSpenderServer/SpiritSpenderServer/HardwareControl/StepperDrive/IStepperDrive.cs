@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnitsNet;
 
-namespace SpiritSpenderServer.HardwareControl
+namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
     public interface IStepperDrive
     {
