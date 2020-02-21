@@ -1,4 +1,4 @@
-﻿using SpiritSpenderServer.Persistence.DriveSetings;
+﻿using SpiritSpenderServer.Persistence.DriveSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

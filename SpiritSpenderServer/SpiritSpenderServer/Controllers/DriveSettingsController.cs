@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SpiritSpenderServer.Persistence.DriveSetings;
+using SpiritSpenderServer.Persistence.DriveSettings;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnitsNet;

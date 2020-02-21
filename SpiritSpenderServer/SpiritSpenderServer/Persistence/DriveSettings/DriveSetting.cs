@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnitsNet;
 
-namespace SpiritSpenderServer.Persistence.DriveSetings
+namespace SpiritSpenderServer.Persistence.DriveSettings
 {
     public class DriveSetting
     {
@@ -21,7 +21,7 @@ namespace SpiritSpenderServer.Persistence.DriveSetings
         public int StepsPerRevolution { get; set; }
         [JsonProperty]
         public Length SpindelPitch { get; set; }
-       [JsonProperty]
+        [JsonProperty]
         public Speed MaxSpeed { get; set; }
         [JsonProperty]
         public Acceleration Acceleration { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SpiritSpenderServer.Persistence.DriveSetings
+namespace SpiritSpenderServer.Persistence.DriveSettings
 {
     public interface IDriveSettingRepository
     {

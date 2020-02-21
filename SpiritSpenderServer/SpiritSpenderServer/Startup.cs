@@ -13,7 +13,7 @@ using Microsoft.OpenApi.Models;
 using MongoDB.Bson.Serialization;
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Persistence;
-using SpiritSpenderServer.Persistence.DriveSetings;
+using SpiritSpenderServer.Persistence.DriveSettings;
 using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer

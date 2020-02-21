@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 using SpiritSpenderServer.Config;
-using SpiritSpenderServer.Persistence.DriveSetings;
+using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
 using System.Collections.Generic;
