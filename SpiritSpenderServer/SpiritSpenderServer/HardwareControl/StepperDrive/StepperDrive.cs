@@ -1,4 +1,4 @@
-﻿using SpiritSpenderServer.Persistence;
+﻿using SpiritSpenderServer.Persistence.DriveSetings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using UnitsNet.Units;
 using System.Device.Gpio;
 using System.Diagnostics;
 
-namespace SpiritSpenderServer.HardwareControl
+namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
     public class StepperDrive : IStepperDrive
     {

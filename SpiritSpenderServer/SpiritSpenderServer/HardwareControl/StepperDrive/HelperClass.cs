@@ -1,4 +1,4 @@
-﻿using SpiritSpenderServer.Persistence;
+﻿using SpiritSpenderServer.Persistence.DriveSetings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnitsNet;
 using UnitsNet.Units;
 
-namespace SpiritSpenderServer.HardwareControl
+namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
     public static class HelperClass
     {

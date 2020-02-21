@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnitsNet;
 
-namespace SpiritSpenderServer.Persistence
+namespace SpiritSpenderServer.Persistence.DriveSetings
 {
     public class DriveSetting
     {
