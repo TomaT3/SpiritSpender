@@ -17,27 +17,11 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         private ISpiritSpenderMotor _spiritSpenderMotor;
 
         public SpiritDispenserControl(ISpiritSpenderMotor spiritSpenderMotor, ISpiritDispenserSettingRepository dispenserSettingRepository, string name)
-        {
-            _spiritSpenderMotor = spiritSpenderMotor;
-            _spiritDispenserSettingRepository = dispenserSettingRepository;
-            _name = "SpiritDispenser1";
-        }
+            => (_spiritSpenderMotor, _spiritDispenserSettingRepository, _name) = (spiritSpenderMotor, dispenserSettingRepository, name);
 
         public async Task UpdateSettings()
         {
             _spiritDispenserSetting = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
-            if (_spiritDispenserSetting == null)
-            {
-                _spiritDispenserSetting = new SpiritDispenserSetting
-                {
-                    Name = _name,
-                    DriveTimeToCloseTheSpiritSpender = new Duration(1, DurationUnit.Second),
-                    DriveTimeToReleaseTheSpirit = new Duration(1, DurationUnit.Second),
-                    WaitTimeUntilSpiritIsReleased = new Duration(2, DurationUnit.Second),
-                };
-
-                await _spiritDispenserSettingRepository.Create(_spiritDispenserSetting);
-            }
         }
 
         public void FillGlas()

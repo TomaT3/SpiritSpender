@@ -12,8 +12,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MongoDB.Bson.Serialization;
 using SpiritSpenderServer.Config;
+using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.Persistence;
 using SpiritSpenderServer.Persistence.DriveSettings;
+using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer
@@ -39,6 +41,8 @@ namespace SpiritSpenderServer
             services.AddSingleton<MongoDBConfig>(config.MongoDB);
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
+            services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
+            services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -73,6 +77,9 @@ namespace SpiritSpenderServer
             {
                 endpoints.MapControllers();
             });
+
+            //var hardwareConfiguration = app.ApplicationServices.GetService<IHardwareConfiguration>();
+            //hardwareConfiguration.LoadHardwareConfiguration().Wait();
         }
     }
 }

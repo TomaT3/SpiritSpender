@@ -8,9 +8,8 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
     public interface IStepperDrive
     {
         Length CurrentPosition { get; }
-
         void DriveDistance(Length distance);
         void DriveToPosition(Length position);
-        Task InitDriveAsync();
+        Task UpdateSettingsAsync();
     }
 }

@@ -26,12 +26,6 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
         [JsonProperty]
         public Acceleration Acceleration { get; set; }
         [JsonProperty]
-        public int EnableGpioPin { get; set; }
-        [JsonProperty]
-        public int DirectionGpioPin { get; set; }
-        [JsonProperty]
-        public int StepGpioPin { get; set; }
-        [JsonProperty]
         public bool ReverseDirection { get; set; }
 
     }

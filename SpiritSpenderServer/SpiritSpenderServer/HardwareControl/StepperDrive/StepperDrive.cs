@@ -12,80 +12,32 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
     public class StepperDrive : IStepperDrive
     {
-        private static PinValue FORWARD = PinValue.High;
-        private static PinValue BACKWARD = PinValue.Low;
-        private static PinValue ENA_RELEASED = PinValue.High;
-        private static PinValue ENA_LOCKED = PinValue.Low;
-
-        GpioPin _enablePin;
-        GpioPin _directionPin;
-        GpioPin _stepPin;
+        private static bool FORWARD = true;
+        private static bool BACKWARD = false;
 
         private string _driveName;
+        private IStepperMotorControl _stepperMotorControl;
         private IDriveSettingRepository _driveSettingRepository;
         private DriveSetting _driveSetting;
         private Length _lengthOfOneStep;
 
-        public StepperDrive(string driveName, IDriveSettingRepository driveSettingRepository)
-        {
-            _driveName = driveName;
-            _driveSettingRepository = driveSettingRepository;
-        }
+       
 
-        public Length CurrentPosition { get; private set; }
+        public StepperDrive(string driveName, IDriveSettingRepository driveSettingRepository, IStepperMotorControl stepperMotorControl)
+            => (_driveName, _driveSettingRepository, _stepperMotorControl) = (driveName, driveSettingRepository, stepperMotorControl);
 
-        public async Task InitDriveAsync()
+        public Length CurrentPosition => _stepperMotorControl.CurrentPosition;
+
+        public async Task UpdateSettingsAsync()
         {
             _driveSetting = await _driveSettingRepository.GetDriveSetting(_driveName);
-            if (_driveSetting == null)
-            {
-                _driveSetting = new DriveSetting
-                {
-                    DriveName = _driveName,
-                    Acceleration = new Acceleration(20, AccelerationUnit.MillimeterPerSecondSquared),
-                    MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
-                    SpindelPitch = new Length(8, LengthUnit.Millimeter),
-                    StepsPerRevolution = 400,
-                    EnableGpioPin = 17,
-                    DirectionGpioPin = 27,
-                    StepGpioPin = 22,
-                    ReverseDirection = false
-                };
-                await _driveSettingRepository.Create(_driveSetting);
-            }
-
             _lengthOfOneStep = 1.ToDistance(_driveSetting);
-            SetGpio();
         }
 
-        private void SetGpio()
-        {
-            GpioController controller = new GpioController();
-            _enablePin = new GpioPin(controller, _driveSetting.EnableGpioPin, PinMode.Output);
-            _enablePin.Write(ENA_RELEASED);
-
-            _stepPin = new GpioPin(controller, _driveSetting.StepGpioPin, PinMode.Output);
-            _stepPin.Write(PinValue.Low);
-
-
-            if (_driveSetting.ReverseDirection)
-            {
-                FORWARD = PinValue.Low;
-                BACKWARD = PinValue.High;
-            }
-            else
-            {
-                FORWARD = PinValue.High;
-                BACKWARD = PinValue.Low;
-            }
-
-            _directionPin = new GpioPin(controller, _driveSetting.DirectionGpioPin, PinMode.Output);
-            _directionPin.Write(FORWARD);
-        }
 
         public void DriveToPosition(Length position)
         {
-            var distanceToGo = CurrentPosition - position;
+            var distanceToGo = _stepperMotorControl.CurrentPosition - position;
             DriveSteps(distanceToGo.ToSteps(_driveSetting));
         }
 
@@ -121,9 +73,10 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
                 maxSpeedinStepsPerSecond,
                 maxAccelerationInStepsPerSecondSquare);
 
-            PinValue direction;
+            bool direction;
             Length distanceToAdd;
-            if (steps > 0)
+            if (steps > 0 && !_driveSetting.ReverseDirection ||
+                steps < 0 && _driveSetting.ReverseDirection)
             {
                 direction = FORWARD;
                 distanceToAdd = _lengthOfOneStep;
@@ -134,29 +87,10 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
                 distanceToAdd = _lengthOfOneStep * -1;
             }
 
-            SetOutput(waitTimeBetweenSteps, direction, distanceToAdd);
+            _stepperMotorControl.SetOutput(waitTimeBetweenSteps, direction, distanceToAdd);
         }
 
-        private void SetOutput(double[] waitTimeBetweenSteps, PinValue direction, Length distanceToAdd)
-        {
-            _enablePin.Write(ENA_LOCKED);
-            _directionPin.Write(direction);
-            DoNothing(500);
-
-            for (int i = 0; i < waitTimeBetweenSteps.Length; i++)
-            {
-                _stepPin.Write(PinValue.High);
-                DoNothing(waitTimeBetweenSteps[i]);
-
-                _stepPin.Write(PinValue.Low);
-                DoNothing(waitTimeBetweenSteps[i]);
-
-                CurrentPosition += distanceToAdd;
-            }
-
-            _enablePin.Write(ENA_RELEASED);
-        }
-
+       
         private double[] CalculateWaitTimeBetweenSteps(
             int numberOfStepsForAcceleration,
             int numberOfStepsWithMaxSpeed,
@@ -220,16 +154,6 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             for (int i = 0; i < arrayToConvert.Length; i++)
             {
                 arrayToConvert[i] = arrayToConvert[i] * 1000.0;
-            }
-        }
-
-        private static void DoNothing(double durationMilliseconds)
-        {
-            var sw = Stopwatch.StartNew();
-
-            while (sw.Elapsed.Milliseconds < durationMilliseconds)
-            {
-
             }
         }
     }

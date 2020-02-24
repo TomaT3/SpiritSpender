@@ -35,9 +35,6 @@ namespace SpiritSpenderServer.Controllers
                 MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
                 SpindelPitch = new Length(8, LengthUnit.Millimeter),
                 StepsPerRevolution = 400,
-                EnableGpioPin = 17,
-                DirectionGpioPin = 27,
-                StepGpioPin = 22,
                 ReverseDirection = false
             };
 
