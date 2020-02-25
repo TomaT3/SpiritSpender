@@ -26,7 +26,7 @@ namespace SpiritSpenderServer.Controllers
         }
 
         [HttpGet("test")]
-        public ActionResult<DriveSetting> GetTest()
+        public async Task<ActionResult<DriveSetting>> GetTest()
         {
             var test = new DriveSetting
             {
@@ -37,7 +37,7 @@ namespace SpiritSpenderServer.Controllers
                 StepsPerRevolution = 400,
                 ReverseDirection = false
             };
-
+            await _driveSettingsRepo.Create(test);
             return new ObjectResult(test);
         }
 
@@ -69,7 +69,6 @@ namespace SpiritSpenderServer.Controllers
             if (todoFromDb == null)
                 return new NotFoundResult();
             driveSetting.DriveName = todoFromDb.DriveName;
-            driveSetting.InternalId = todoFromDb.InternalId;
             await _driveSettingsRepo.Update(driveSetting);
             return new OkObjectResult(driveSetting);
         }

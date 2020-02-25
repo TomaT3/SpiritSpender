@@ -11,10 +11,7 @@ namespace SpiritSpenderServer.Persistence.SpiritDispenserSettings
 {
     public class SpiritDispenserSetting
     {
-        [JsonIgnore]
         [BsonId]
-        public ObjectId InternalId { get; set; }
-
         [JsonProperty]
         public string Name { get; set; }
 

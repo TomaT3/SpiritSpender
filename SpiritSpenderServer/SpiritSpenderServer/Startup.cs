@@ -15,6 +15,7 @@ using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.Persistence;
 using SpiritSpenderServer.Persistence.DriveSettings;
+using SpiritSpenderServer.Persistence.Serialization;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using UnitsNet.Serialization.JsonNet;
 
@@ -37,7 +38,7 @@ namespace SpiritSpenderServer
 
             services.AddControllers().AddNewtonsoftJson(action => action.SerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
 
-            //BsonClassMap.RegisterClassMap<sdfsdf>();
+            BsonSerializer.RegisterSerializationProvider(new UnitNetSerializationProvider());
             services.AddSingleton<MongoDBConfig>(config.MongoDB);
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();

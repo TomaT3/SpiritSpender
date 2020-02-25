@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
+using SpiritSpenderServer.Persistence.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,7 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
 {
     public class DriveSetting
     {
-        [JsonIgnore]
         [BsonId]
-        public ObjectId InternalId { get; set; }
-        
         [JsonProperty]
         public string DriveName { get; set; }
         [JsonProperty]
