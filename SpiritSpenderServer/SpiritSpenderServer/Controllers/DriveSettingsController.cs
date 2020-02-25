@@ -69,7 +69,6 @@ namespace SpiritSpenderServer.Controllers
             if (todoFromDb == null)
                 return new NotFoundResult();
             driveSetting.DriveName = todoFromDb.DriveName;
-            //driveSetting.InternalId = todoFromDb.InternalId;
             await _driveSettingsRepo.Update(driveSetting);
             return new OkObjectResult(driveSetting);
         }
