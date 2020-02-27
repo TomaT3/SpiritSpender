@@ -1,4 +1,5 @@
-﻿using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
+﻿using SpiritSpenderServer.HardwareControl;
+using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
@@ -11,11 +12,12 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 {
     public class HardwareConfiguration : IHardwareConfiguration
     {
+        private IGpioControllerFacade _gpioControllerFacade;
         private ISpiritDispenserSettingRepository _spiritDispenserSettingRepository;
         private IDriveSettingRepository _driveSettingRepository;
 
-        public HardwareConfiguration(ISpiritDispenserSettingRepository spiritDispenserSettingRepository, IDriveSettingRepository driveSettingRepository)
-            => (_spiritDispenserSettingRepository, _driveSettingRepository) = (spiritDispenserSettingRepository, driveSettingRepository);
+        public HardwareConfiguration(ISpiritDispenserSettingRepository spiritDispenserSettingRepository, IDriveSettingRepository driveSettingRepository, IGpioControllerFacade gpioControllerFacade)
+            => (_spiritDispenserSettingRepository, _driveSettingRepository, _gpioControllerFacade) = (spiritDispenserSettingRepository, driveSettingRepository, gpioControllerFacade);
 
         public ISpiritDispenserControl SpiritDispenserControl { get; private set; }
 
@@ -45,7 +47,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
             }
 
             SpiritDispenserControl = new SpiritDispenserControl(
-                new SpiritSpenderMotor(forwardGpioPin: 18, backwardGpioPin: 23),
+                new SpiritSpenderMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: _gpioControllerFacade),
                 _spiritDispenserSettingRepository, SPIRIT_DISPENSER_NAME);
             await SpiritDispenserControl.UpdateSettings();
         }
@@ -77,7 +79,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
             }
 
             var stepperDrive = new StepperDrive(DRIVE_NAME, _driveSettingRepository,
-                new StepperMotorControl(enablePin: 4, directionPin: 7, stepPin: 27));
+                new StepperMotorControl(enablePin: 4, directionPin: 7, stepPin: 27, gpioControllerFacade: _gpioControllerFacade));
             await stepperDrive.UpdateSettingsAsync();
             StepperDrives.Add(DRIVE_NAME, stepperDrive);
         }
@@ -102,7 +104,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
             }
 
             var stepperDrive = new StepperDrive(DRIVE_NAME, _driveSettingRepository,
-                new StepperMotorControl(enablePin: 22, directionPin: 5, stepPin: 6));
+                new StepperMotorControl(enablePin: 22, directionPin: 5, stepPin: 6, gpioControllerFacade: _gpioControllerFacade));
             await stepperDrive.UpdateSettingsAsync();
             StepperDrives.Add(DRIVE_NAME, stepperDrive);
         }

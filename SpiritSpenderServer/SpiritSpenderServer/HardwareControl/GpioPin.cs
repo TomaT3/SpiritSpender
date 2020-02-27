@@ -8,9 +8,9 @@ namespace SpiritSpenderServer.HardwareControl
 {
     public class GpioPin
     {
-        private readonly GpioController _controller;
+        private readonly IGpioControllerFacade _controller;
         private readonly int _pinNumber;
-        public GpioPin(GpioController controller, int pinNumber, PinMode pinMode)
+        public GpioPin(IGpioControllerFacade controller, int pinNumber, PinMode pinMode)
         {
             _controller = controller;
             _pinNumber = pinNumber;

@@ -9,11 +9,11 @@ namespace SpiritSpenderServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DriveSettingsController : ControllerBase
+    public class TestingController : ControllerBase
     {
         private readonly IDriveSettingRepository _driveSettingsRepo;
 
-        public DriveSettingsController(IDriveSettingRepository driveSettingRepository)
+        public TestingController(IDriveSettingRepository driveSettingRepository)
         {
             _driveSettingsRepo = driveSettingRepository;
         }
@@ -41,35 +41,11 @@ namespace SpiritSpenderServer.Controllers
             return new ObjectResult(test);
         }
 
-        // GET: api/DriveSettings/5
-        [HttpGet("{driveName}")]
-        public async Task<ActionResult<DriveSetting>> Get(string driveName)
-        {
-            var driveSettings = await _driveSettingsRepo.GetDriveSetting(driveName);
-            if (driveSettings == null)
-                return new NotFoundResult();
-
-            
-            return new ObjectResult(driveSettings);
-        }
-
         // POST: api/DriveSettings
         [HttpPost]
         public async Task<ActionResult<DriveSetting>> Post([FromBody] DriveSetting driveSetting)
         {
             await _driveSettingsRepo.Create(driveSetting);
-            return new OkObjectResult(driveSetting);
-        }
-
-        // PUT: api/DriveSettings/5
-        [HttpPut("{driveName}")]
-        public async Task<ActionResult<DriveSetting>> Put(string driveName, [FromBody] DriveSetting driveSetting)
-        {
-            var todoFromDb = await _driveSettingsRepo.GetDriveSetting(driveName);
-            if (todoFromDb == null)
-                return new NotFoundResult();
-            driveSetting.DriveName = todoFromDb.DriveName;
-            await _driveSettingsRepo.Update(driveSetting);
             return new OkObjectResult(driveSetting);
         }
 
