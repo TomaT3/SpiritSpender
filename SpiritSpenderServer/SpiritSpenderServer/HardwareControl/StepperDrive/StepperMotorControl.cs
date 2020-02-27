@@ -19,20 +19,21 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         GpioPin _directionPin;
         GpioPin _stepPin;
 
-        public StepperMotorControl(int enablePin, int directionPin, int stepPin)
+        public StepperMotorControl(int enablePin, int directionPin, int stepPin, IGpioControllerFacade gpioControllerFacade)
         {
-            GpioController controller = new GpioController();
-            _enablePin = new GpioPin(controller, enablePin, PinMode.Output);
+            _enablePin = new GpioPin(gpioControllerFacade, enablePin, PinMode.Output);
             _enablePin.Write(ENA_RELEASED);
 
-            _directionPin = new GpioPin(controller, directionPin, PinMode.Output);
+            _directionPin = new GpioPin(gpioControllerFacade, directionPin, PinMode.Output);
             _directionPin.Write(BACKWARD);
 
-            _stepPin = new GpioPin(controller, stepPin, PinMode.Output);
+            _stepPin = new GpioPin(gpioControllerFacade, stepPin, PinMode.Output);
             _stepPin.Write(PinValue.Low);
         }
 
         public Length CurrentPosition { get; private set; }
+
+        public void SetPosition(Length position) => CurrentPosition = position;
 
         public void SetOutput(double[] waitTimeBetweenSteps, bool direction, Length distanceToAddForOneStep)
         {

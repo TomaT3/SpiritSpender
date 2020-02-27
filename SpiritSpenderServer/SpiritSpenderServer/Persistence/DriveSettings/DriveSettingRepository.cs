@@ -22,6 +22,15 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
                             .ToListAsync();
         }
 
+        public async Task<IEnumerable<string>> GetAllDriveSettingNames()
+        {
+            return await _context
+                            .DriveSettings
+                            .Find(_ => true)
+                            .Project(ds => ds.DriveName)
+                            .ToListAsync();
+        }
+
         public Task<DriveSetting> GetDriveSetting(string driveName)
         {
             FilterDefinition<DriveSetting> filter = Builders<DriveSetting>.Filter.Eq(m => m.DriveName, driveName);

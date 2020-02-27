@@ -14,7 +14,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         public static int ToSteps(this Length distance, DriveSetting driveSetting)
         {
-            var steps = distance.Millimeters * driveSetting.StepsPerRevolution / driveSetting.SpindelPitch.Millimeters;
+            var steps = Math.Abs(distance.Millimeters) * driveSetting.StepsPerRevolution / driveSetting.SpindelPitch.Millimeters;
             return Convert.ToInt32(steps);
         }
 
@@ -29,7 +29,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         }
         public static Length ToDistance(this int steps, DriveSetting driveSetting)
         {
-            var distanceInMillimeters = steps * driveSetting.SpindelPitch.Millimeters / driveSetting.StepsPerRevolution;
+            var distanceInMillimeters = Math.Abs(steps) * driveSetting.SpindelPitch.Millimeters / driveSetting.StepsPerRevolution;
             return new Length(distanceInMillimeters, LengthUnit.Millimeter);
         }
     }

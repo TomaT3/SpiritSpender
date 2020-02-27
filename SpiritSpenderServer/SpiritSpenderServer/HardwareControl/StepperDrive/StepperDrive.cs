@@ -26,7 +26,9 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         public StepperDrive(string driveName, IDriveSettingRepository driveSettingRepository, IStepperMotorControl stepperMotorControl)
             => (_driveName, _driveSettingRepository, _stepperMotorControl) = (driveName, driveSettingRepository, stepperMotorControl);
 
-        public Length CurrentPosition => _stepperMotorControl.CurrentPosition;
+        public Length CurrentPosition => _stepperMotorControl.CurrentPosition.ToUnit(LengthUnit.Millimeter);
+
+        public void SetPosition(Length position) => _stepperMotorControl.SetPosition(position);
 
         public async Task UpdateSettingsAsync()
         {

@@ -13,15 +13,14 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         GpioPin _forwardPin;
         GpioPin _backwardPin;
 
-        public SpiritSpenderMotor(int forwardGpioPin, int backwardGpioPin)
-            => InitGpio(forwardGpioPin, backwardGpioPin);
+        public SpiritSpenderMotor(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
+            => InitGpio(forwardGpioPin, backwardGpioPin, gpioControllerFacade);
 
 
-        private void InitGpio(int forwardGpioPin, int backwardGpioPin)
+        private void InitGpio(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
         {
-            GpioController controller = new GpioController();
-            _forwardPin = new GpioPin(controller, forwardGpioPin, PinMode.Output);
-            _backwardPin = new GpioPin(controller, backwardGpioPin, PinMode.Output);
+            _forwardPin = new GpioPin(gpioControllerFacade, forwardGpioPin, PinMode.Output);
+            _backwardPin = new GpioPin(gpioControllerFacade, backwardGpioPin, PinMode.Output);
             StopMotor();
         }
 

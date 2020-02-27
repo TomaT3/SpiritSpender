@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Device.Gpio;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -11,8 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MongoDB.Bson.Serialization;
+using NSubstitute;
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Config.HardwareConfiguration;
+using SpiritSpenderServer.HardwareControl;
 using SpiritSpenderServer.Persistence;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Serialization;
@@ -40,6 +43,8 @@ namespace SpiritSpenderServer
 
             BsonSerializer.RegisterSerializationProvider(new UnitNetSerializationProvider());
             services.AddSingleton<MongoDBConfig>(config.MongoDB);
+            //services.AddSingleton<IGpioControllerFacade, GpioControllerFacade>();
+            services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
@@ -79,8 +84,8 @@ namespace SpiritSpenderServer
                 endpoints.MapControllers();
             });
 
-            //var hardwareConfiguration = app.ApplicationServices.GetService<IHardwareConfiguration>();
-            //hardwareConfiguration.LoadHardwareConfiguration().Wait();
+            var hardwareConfiguration = app.ApplicationServices.GetService<IHardwareConfiguration>();
+            hardwareConfiguration.LoadHardwareConfiguration().Wait();
         }
     }
 }
