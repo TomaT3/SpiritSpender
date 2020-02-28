@@ -50,27 +50,27 @@ namespace SpiritSpenderServer.Controllers
             return new OkObjectResult(driveSetting);
         }
 
-        [HttpGet("{driveName}/currentposition")]
+        [HttpGet("{driveName}/current-position")]
         public ActionResult<Length> CurrentPosition(string driveName)
         {
             return new ObjectResult(_hardwareConfiguration.StepperDrives[driveName].CurrentPosition);
         }
 
-        [HttpPost("{driveName}/drivetoposition")]
+        [HttpPost("{driveName}/drive-to-position")]
         public ActionResult DriveToPosition(string driveName, [FromBody] Length position)
         {
             _hardwareConfiguration.StepperDrives[driveName].DriveToPosition(position);
             return new OkObjectResult(new OkResult());
         }
 
-        [HttpPost("{driveName}/drivedistance")]
+        [HttpPost("{driveName}/drive-distance")]
         public ActionResult DriveDistance(string driveName, [FromBody] Length distance)
         {
             _hardwareConfiguration.StepperDrives[driveName].DriveDistance(distance);
             return new OkObjectResult(new OkResult());
         }
 
-        [HttpPost("{driveName}/setposition")]
+        [HttpPost("{driveName}/set-position")]
         public ActionResult SetPosition(string driveName, [FromBody] Length position)
         {
             _hardwareConfiguration.StepperDrives[driveName].SetPosition(position);
