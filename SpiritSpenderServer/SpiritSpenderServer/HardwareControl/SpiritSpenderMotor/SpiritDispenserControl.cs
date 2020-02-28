@@ -19,7 +19,9 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         public SpiritDispenserControl(ISpiritSpenderMotor spiritSpenderMotor, ISpiritDispenserSettingRepository dispenserSettingRepository, string name)
             => (_spiritSpenderMotor, _spiritDispenserSettingRepository, _name) = (spiritSpenderMotor, dispenserSettingRepository, name);
 
-        public async Task UpdateSettings()
+        public string Name => _name;
+
+        public async Task UpdateSettingsAsync()
         {
             _spiritDispenserSetting = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
         }
