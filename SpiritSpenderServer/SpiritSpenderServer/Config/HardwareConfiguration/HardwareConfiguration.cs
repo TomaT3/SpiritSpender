@@ -49,7 +49,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
             SpiritDispenserControl = new SpiritDispenserControl(
                 new SpiritSpenderMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: _gpioControllerFacade),
                 _spiritDispenserSettingRepository, SPIRIT_DISPENSER_NAME);
-            await SpiritDispenserControl.UpdateSettings();
+            await SpiritDispenserControl.UpdateSettingsAsync();
         }
 
         private async Task AddDrives()

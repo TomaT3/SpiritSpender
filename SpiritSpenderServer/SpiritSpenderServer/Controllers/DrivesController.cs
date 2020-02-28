@@ -34,7 +34,6 @@ namespace SpiritSpenderServer.Controllers
             if (driveSetting == null)
                 return new NotFoundResult();
 
-
             return new ObjectResult(driveSetting);
         }
 

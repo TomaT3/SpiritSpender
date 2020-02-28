@@ -8,7 +8,6 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
     public interface IHardwareConfiguration
     {
         Task LoadHardwareConfiguration();
-
         ISpiritDispenserControl SpiritDispenserControl { get; }
         Dictionary<string, IStepperDrive> StepperDrives { get; }
     }
