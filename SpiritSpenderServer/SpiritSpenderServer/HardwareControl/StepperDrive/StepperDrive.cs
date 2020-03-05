@@ -51,21 +51,22 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         private void DriveSteps(int steps)
         {
+            var numberOfSteps = Math.Abs(steps);
             var maxSpeedinStepsPerSecond = _driveSetting.MaxSpeed.ToStepsPerSecond(_driveSetting);
             var maxAccelerationInStepsPerSecondSquare = _driveSetting.Acceleration.ToAccelerationPerSecondSquare(_driveSetting);
             var numberOfStepsForAcceleration = Convert.ToInt32(Math.Pow(maxSpeedinStepsPerSecond, 2) / maxAccelerationInStepsPerSecondSquare / 2);
             var numberOfStepsForDecceleration = numberOfStepsForAcceleration;
             var numberOfStepsWithMaxSpeed = 0;
 
-            if ((2 * numberOfStepsForAcceleration) < steps)
+            if ((2 * numberOfStepsForAcceleration) < numberOfSteps)
             {
                 numberOfStepsForDecceleration = numberOfStepsForAcceleration;
-                numberOfStepsWithMaxSpeed = steps - numberOfStepsForAcceleration - numberOfStepsForDecceleration;
+                numberOfStepsWithMaxSpeed = numberOfSteps - numberOfStepsForAcceleration - numberOfStepsForDecceleration;
             }
             else
             {
-                numberOfStepsForAcceleration = steps / 2;
-                numberOfStepsForDecceleration = steps / 2;
+                numberOfStepsForAcceleration = numberOfSteps / 2;
+                numberOfStepsForDecceleration = numberOfSteps / 2;
             }
 
             var waitTimeBetweenSteps = CalculateWaitTimeBetweenSteps(
@@ -75,23 +76,23 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
                 maxSpeedinStepsPerSecond,
                 maxAccelerationInStepsPerSecondSquare);
 
-            bool direction;
-            Length distanceToAdd;
+            var drive = GetDriveDirection(steps);
+
+            _stepperMotorControl.SetOutput(waitTimeBetweenSteps, drive.direction, drive.distanceOfOneStep);
+        }
+
+        private (bool direction, Length distanceOfOneStep) GetDriveDirection(int steps)
+        {
             if (steps > 0 && !_driveSetting.ReverseDirection ||
                 steps < 0 && _driveSetting.ReverseDirection)
             {
-                direction = FORWARD;
-                distanceToAdd = _lengthOfOneStep;
+                return (FORWARD, _lengthOfOneStep);
             }
             else
             {
-                direction = BACKWARD;
-                distanceToAdd = _lengthOfOneStep * -1;
+                return (BACKWARD, _lengthOfOneStep * -1);
             }
-
-            _stepperMotorControl.SetOutput(waitTimeBetweenSteps, direction, distanceToAdd);
         }
-
        
         private double[] CalculateWaitTimeBetweenSteps(
             int numberOfStepsForAcceleration,
