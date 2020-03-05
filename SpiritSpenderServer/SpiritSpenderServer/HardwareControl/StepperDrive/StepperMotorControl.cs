@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Device.Gpio;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
@@ -37,18 +35,19 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         public void SetOutput(double[] waitTimeBetweenSteps, bool direction, Length distanceToAddForOneStep)
         {
+            var ticksToWaitBetweenSteps = WaitTimeToTicks(waitTimeBetweenSteps);
             _enablePin.Write(ENA_LOCKED);
             _directionPin.Write(direction ? FORWARD : BACKWARD);
 
-            DoNothing(500);
+            Thread.Sleep(500);
 
-            for (int i = 0; i < waitTimeBetweenSteps.Length; i++)
+            for (int i = 0; i < ticksToWaitBetweenSteps.Length; i++)
             {
                 _stepPin.Write(PinValue.High);
-                DoNothing(waitTimeBetweenSteps[i]);
+                DoNothing(ticksToWaitBetweenSteps[i]);
 
                 _stepPin.Write(PinValue.Low);
-                DoNothing(waitTimeBetweenSteps[i]);
+                DoNothing(ticksToWaitBetweenSteps[i]);
 
                 CurrentPosition += distanceToAddForOneStep;
             }
@@ -56,13 +55,23 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             _enablePin.Write(ENA_RELEASED);
         }
 
-        private static void DoNothing(double durationMilliseconds)
+        private long[] WaitTimeToTicks(double[] waitTimeBetweenSteps)
+        {
+            long[] ticksToWaitBetweenSteps = new long[waitTimeBetweenSteps.Length];
+            for (int i = 0; i < waitTimeBetweenSteps.Length; i++)
+            {
+                ticksToWaitBetweenSteps[i] = Convert.ToInt64(Math.Round((waitTimeBetweenSteps[i] / 1000) * Stopwatch.Frequency));
+            }
+
+            return ticksToWaitBetweenSteps;
+        }
+
+        private static void DoNothing(long ticksToWait)
         {
             var sw = Stopwatch.StartNew();
 
-            while (sw.Elapsed.Milliseconds < durationMilliseconds)
+            while (sw.ElapsedTicks < ticksToWait)
             {
-
             }
         }
     }
