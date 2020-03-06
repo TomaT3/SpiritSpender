@@ -79,7 +79,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
             }
 
             var stepperDrive = new StepperDrive(DRIVE_NAME, _driveSettingRepository,
-                new StepperMotorControl(enablePin: 4, directionPin: 7, stepPin: 27, gpioControllerFacade: _gpioControllerFacade));
+                new StepperMotorControl(enablePin: 4, directionPin: 17, stepPin: 27, gpioControllerFacade: _gpioControllerFacade));
             await stepperDrive.UpdateSettingsAsync();
             StepperDrives.Add(DRIVE_NAME, stepperDrive);
         }
