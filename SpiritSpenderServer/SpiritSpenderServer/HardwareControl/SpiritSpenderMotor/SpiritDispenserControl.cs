@@ -35,12 +35,12 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 
         public void ReleaseSpirit()
         {
-            _spiritSpenderMotor.DriveForward(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit);
+            _spiritSpenderMotor.DriveBackward(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit);
         }
 
         public void CloseSpiritSpender()
         {
-            _spiritSpenderMotor.DriveBackward(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit);
+            _spiritSpenderMotor.DriveForward(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit);
         }
     }
 }
