@@ -43,8 +43,8 @@ namespace SpiritSpenderServer
 
             BsonSerializer.RegisterSerializationProvider(new UnitNetSerializationProvider());
             services.AddSingleton<MongoDBConfig>(config.MongoDB);
-            //services.AddSingleton<IGpioControllerFacade, GpioControllerFacade>();
-            services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
+            services.AddSingleton<IGpioControllerFacade, GpioControllerFacade>();
+            //services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
