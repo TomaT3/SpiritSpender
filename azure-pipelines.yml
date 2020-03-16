@@ -24,6 +24,9 @@ stages:
       displayName: Build an image
       inputs:
         containerRegistry: 'DockerHub@TomaT3'
-        repository: 'spiritspender:pi'
+        repository: 'spiritspender'
         command: 'build'
         Dockerfile: '**/pi.dockerfile'
+        tags: |
+          pi
+          $(Build.BuildId)
