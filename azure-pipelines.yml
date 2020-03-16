@@ -27,6 +27,4 @@ stages:
         repository: 'spiritspender'
         command: 'build'
         Dockerfile: '**/pi.dockerfile'
-        tags: |
-          pi
-          $(Build.BuildId)
+        tags: 'pi'
