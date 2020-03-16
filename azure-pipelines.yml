@@ -27,4 +27,4 @@ stages:
         repository: 'spiritspender:pi'
         command: 'build'
         Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
+        tags: 
