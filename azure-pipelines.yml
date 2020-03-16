@@ -26,5 +26,4 @@ stages:
         containerRegistry: 'DockerHub@TomaT3'
         repository: 'spiritspender:pi'
         command: 'build'
-        Dockerfile: '**/Dockerfile'
-        tags: 
+        Dockerfile: '**/pi.dockerfile'
