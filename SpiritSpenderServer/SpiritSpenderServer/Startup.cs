@@ -26,9 +26,12 @@ namespace SpiritSpenderServer
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -43,13 +46,20 @@ namespace SpiritSpenderServer
 
             BsonSerializer.RegisterSerializationProvider(new UnitNetSerializationProvider());
             services.AddSingleton<MongoDBConfig>(config.MongoDB);
-            services.AddSingleton<IGpioControllerFacade, GpioControllerFacade>();
-            //services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
             services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
 
+            if (_env.IsDevelopment())
+            {
+                services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
+            }
+            else
+            {
+                services.AddSingleton<IGpioControllerFacade, GpioControllerFacade>();
+            }
+            
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -58,9 +68,9 @@ namespace SpiritSpenderServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
