@@ -1,0 +1,9 @@
+<mat-tab-group  [backgroundColor]="'primary'">
+  <ng-template *ngFor="let driveName of drives$ | async">
+    <mat-tab label="{{driveName}}-Axis">
+      <app-drive [driveName]="driveName"></app-drive>
+    </mat-tab>
+  </ng-template>
+    <mat-tab label="Spirit dispenser"> Content 3 </mat-tab>
+    <mat-tab label="Positions"> Content 4 </mat-tab>
+  </mat-tab-group>
