@@ -26,6 +26,7 @@ namespace SpiritSpenderServer
 {
     public class Startup
     {
+        private readonly string _myAllowSpecificOrigins = "_myAllowSpecificOrigins";
         private readonly IWebHostEnvironment _env;
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
@@ -54,6 +55,15 @@ namespace SpiritSpenderServer
             if (_env.IsDevelopment())
             {
                 services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
+
+                services.AddCors(options =>
+                {
+                    options.AddPolicy(_myAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200");
+                    });
+                });
             }
             else
             {
@@ -73,6 +83,7 @@ namespace SpiritSpenderServer
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(_myAllowSpecificOrigins);
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
