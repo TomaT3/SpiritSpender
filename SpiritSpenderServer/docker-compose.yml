@@ -11,6 +11,14 @@ services:
     ports:
      - 5000:80
 
+  angular-client:
+    image: ${DOCKER_REGISTRY-}angular-client
+    build:
+      context: ../SpiritSpenderClient
+      dockerfile: Dockerfile
+    ports:
+     - 5050:80
+
   mongo:
     image: mongo
     restart: always
