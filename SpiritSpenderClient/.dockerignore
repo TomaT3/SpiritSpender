@@ -1,6 +1,5 @@
 **/.classpath
 **/.dockerignore
-**/.dist
 **/.env
 **/.git
 **/.gitignore
@@ -15,6 +14,7 @@
 **/azds.yaml
 **/bin
 **/charts
+**/dist
 **/docker-compose*
 **/Dockerfile*
 **/node_modules

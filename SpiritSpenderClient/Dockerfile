@@ -4,8 +4,6 @@ WORKDIR /usr/src/app
 COPY package.json ./
 RUN npm install
 COPY . .
-RUN ls
-RUN du -ha
 RUN npm run build
 
 FROM nginx:1.17.1-alpine AS prod
