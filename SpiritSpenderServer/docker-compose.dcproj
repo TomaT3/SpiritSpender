@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>c2b796ca-b5b9-40b8-b700-ee5582fc0206</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:5000/swagger</DockerServiceUrl>
     <DockerServiceName>spiritspenderserver</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
