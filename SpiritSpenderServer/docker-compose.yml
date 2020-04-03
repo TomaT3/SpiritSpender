@@ -8,6 +8,9 @@ services:
       dockerfile: SpiritSpenderServer/Dockerfile
     environment:
       MongoDB__Host: mongo
+    ports:
+      - 5000:5000
+      - 5001:5001
 
   mongo:
     image: mongo
