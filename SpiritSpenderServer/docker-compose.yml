@@ -9,7 +9,7 @@ services:
     environment:
       MongoDB__Host: mongo
     ports:
-      - 5000:80
+     - 5000:80
 
   mongo:
     image: mongo
