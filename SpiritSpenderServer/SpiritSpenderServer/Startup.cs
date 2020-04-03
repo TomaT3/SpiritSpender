@@ -52,18 +52,18 @@ namespace SpiritSpenderServer
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
             services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_myAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200");
+                });
+            });
+
             if (_env.IsDevelopment())
             {
                 services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
-
-                services.AddCors(options =>
-                {
-                    options.AddPolicy(_myAllowSpecificOrigins,
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:4200");
-                    });
-                });
             }
             else
             {
@@ -83,8 +83,9 @@ namespace SpiritSpenderServer
             if (_env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseCors(_myAllowSpecificOrigins);
             }
+
+            app.UseCors(_myAllowSpecificOrigins);
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
