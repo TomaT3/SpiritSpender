@@ -6,10 +6,11 @@ import { SetupRoutingModule } from './setup-routing.module';
 import { SetupMainComponent } from './components/setup-main/setup-main.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DriveComponent } from './components/drive/drive.component';
+import { DriveSettingsComponent } from './components/drive/drive-settings/drive-settings.component';
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,
