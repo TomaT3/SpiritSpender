@@ -9,13 +9,12 @@ import { DriveComponent } from './components/drive/drive.component';
 import { DriveSettingsComponent } from './components/drive/drive-settings/drive-settings.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MaxSpeedComponent } from './components/drive/drive-settings/propertyComponents/max-speed/max-speed.component';
-import { UnitToStringPipe } from '../shared/pipes/unit-to-string.pipe';
+import { UnitsComponent } from './components/drive/drive-settings/propertyComponents/units/units.component';
 import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, MaxSpeedComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,

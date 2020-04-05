@@ -2,13 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UnitsType } from 'src/app/setup/types/units-type';
 
 @Component({
-  selector: 'app-max-speed',
-  templateUrl: './max-speed.component.html',
-  styleUrls: ['./max-speed.component.scss']
+  selector: 'app-units',
+  templateUrl: './units.component.html',
+  styleUrls: ['./units.component.scss']
 })
-export class MaxSpeedComponent implements OnInit {
+export class UnitsComponent implements OnInit {
   @Input() title: string;
-  @Input() maxSpeedParameter: UnitsType;
+  @Input() unitsParameter: UnitsType;
   @Input() editable: boolean;
 
   constructor() { }
