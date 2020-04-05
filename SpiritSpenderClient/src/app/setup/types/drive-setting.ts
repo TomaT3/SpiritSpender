@@ -1,11 +1,11 @@
-import { Speed, Length, Acceleration } from 'unitsnet-js'
+import { UnitsType } from './units-type';
 
 export interface DriveSetting {
     driveName: string;
     stepsPerRevolution: number;
-    spindelPitch: Length;
-    maxSpeed: Speed;
-    acceleration: Acceleration;
+    spindelPitch: UnitsType;
+    maxSpeed: UnitsType;
+    acceleration: UnitsType;
     reverseDirection: boolean;
 
 }

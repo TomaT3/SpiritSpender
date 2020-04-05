@@ -8,15 +8,15 @@
 .drive-setting {
     grid-area: drive-setting;
     display: flex; 
-    justify-content: center; 
-    align-items: center;
+    justify-content: left; 
+    align-items: left;
 }
 
 .drive-actions {
     grid-area: drive-actions;
     display: flex; 
-    justify-content: center; 
-    align-items: center;
+    justify-content: left; 
+    align-items: left;
 }
 
 .grid-container {

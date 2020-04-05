@@ -11,13 +11,13 @@ services:
     ports:
      - 5000:80
 
-  angular-client:
-    image: ${DOCKER_REGISTRY-}angular-client
-    build:
-      context: ../SpiritSpenderClient
-      dockerfile: Dockerfile
-    ports:
-     - 4200:80
+ # angular-client:
+ #   image: ${DOCKER_REGISTRY-}angular-client
+ #   build:
+ #     context: ../SpiritSpenderClient
+ #     dockerfile: Dockerfile
+ #   ports:
+ #    - 4200:80
 
   mongo:
     image: mongo

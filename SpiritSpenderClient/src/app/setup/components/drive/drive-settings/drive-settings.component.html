@@ -1,1 +1,14 @@
-<p>{{speed()}}</p>
+<div class="grid-container">
+    <div class="caption"><h1>Server value</h1></div>
+    <div class="caption"><h1>New value</h1></div>
+
+    <app-max-speed class="grid-item" [title]="'Max. speed'" [maxSpeedParameter]="this.driveSetting.maxSpeed" [editable]="false"></app-max-speed>
+    <app-max-speed class="grid-item" [title]="'Max. speed'" [maxSpeedParameter]="this.driveSetting.maxSpeed" [editable]="true"></app-max-speed>
+
+    <app-max-speed class="grid-item" [title]="'Acceleration'" [maxSpeedParameter]="this.driveSetting.acceleration" [editable]="false"></app-max-speed>
+    <app-max-speed class="grid-item" [title]="'Acceleration'" [maxSpeedParameter]="this.driveSetting.acceleration" [editable]="true"></app-max-speed>
+
+    <app-max-speed class="grid-item" [title]="'Spindlle pitch'" [maxSpeedParameter]="this.driveSetting.spindelPitch" [editable]="false"></app-max-speed>
+    <app-max-speed class="grid-item" [title]="'Spindlle pitch'" [maxSpeedParameter]="this.driveSetting.spindelPitch" [editable]="true"></app-max-speed>
+
+</div>

@@ -12,12 +12,12 @@ import { Angle, AngleUnits, Length, LengthUnits } from 'unitsnet-js';
 export class DriveComponent implements OnInit {
   @Input() driveName: string;
 
-  public driveSetting$: Observable<DriveSetting>;
+  public driveSetting: DriveSetting;
 
   constructor(private drivesApiService: DrivesApiService) { }
 
-  ngOnInit(): void {
-    this.driveSetting$ = this. drivesApiService.getDriveSetting(this.driveName);
+  async ngOnInit(): Promise<void> {
+    this.driveSetting = await this. drivesApiService.getDriveSetting(this.driveName);
   }
 
 }

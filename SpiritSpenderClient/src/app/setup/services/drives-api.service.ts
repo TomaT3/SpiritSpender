@@ -14,16 +14,16 @@ export class DrivesApiService {
 
   constructor(private http: HttpClient) { }
 
-  public getAllDrives(): Observable<string[]> {
-    const drives = this.http.get<string[]>(API_URL);
+  public async getAllDrives(): Promise<string[]> {
+    const drives = await this.http.get<string[]>(API_URL).toPromise();
     return drives;
   }
 
-  public getDriveSetting(driveName: string): Observable<DriveSetting> {
+  public async getDriveSetting(driveName: string): Promise<DriveSetting> {
     const url = `${API_URL}/${driveName}/setting`;
     // const driveSetting1 = this.http.get(url).pipe(
     //   map(x => x));
-    const driveSetting = this.http.get<DriveSetting>(url);
+    const driveSetting = await this.http.get<DriveSetting>(url).toPromise();
     return driveSetting;
   }
 

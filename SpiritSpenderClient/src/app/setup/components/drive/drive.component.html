@@ -1,7 +1,7 @@
 <div class="grid-container">
-    <div class="current-position">Current position: {{(driveSetting$ | async).stepsPerRevolution}}</div>
+    <div class="current-position">Current position: {{driveSetting.driveName}}</div>
     <div class="drive-setting">
-        <app-drive-settings [driveSetting]="driveSetting$ | async" ></app-drive-settings>
+        <app-drive-settings [driveSetting]="driveSetting" ></app-drive-settings>
     </div>
     <div class="drive-actions">drive action</div>
 </div>
