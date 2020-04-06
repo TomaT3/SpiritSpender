@@ -4,8 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DriveSetting } from '../types/drive-setting';
+import { environment } from 'src/environments/environment';
+import { UnitsType } from '../types/units-type';
 
-const API_URL = 'http://localhost:5000/api/drives'
+const API_URL = environment.baseUrl + 'drives'
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +23,14 @@ export class DrivesApiService {
 
   public async getDriveSetting(driveName: string): Promise<DriveSetting> {
     const url = `${API_URL}/${driveName}/setting`;
-    // const driveSetting1 = this.http.get(url).pipe(
-    //   map(x => x));
     const driveSetting = await this.http.get<DriveSetting>(url).toPromise();
     return driveSetting;
+  }
+
+  public async getCurrentPosition(driveName: string): Promise<UnitsType> {
+    const url = `${API_URL}/${driveName}/current-position`;
+    const currentPosition = await this.http.get<UnitsType>(url).toPromise();
+    return currentPosition;
   }
 
 }

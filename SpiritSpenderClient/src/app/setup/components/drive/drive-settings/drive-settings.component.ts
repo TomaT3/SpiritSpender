@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
-import { DriveSetting } from 'src/app/setup/types/drive-setting';
+import { DriveSetting, DriveSettingTexts } from 'src/app/setup/types/drive-setting';
 import { LengthUnits, AccelerationUnits, SpeedUnits, Length, Speed } from 'unitsnet-js';
 
 @Component({
@@ -10,6 +10,12 @@ import { LengthUnits, AccelerationUnits, SpeedUnits, Length, Speed } from 'units
 })
 export class DriveSettingsComponent implements OnInit {
   @Input() driveSetting: DriveSetting;
+
+  public readonly maxSpeed = DriveSettingTexts.maxSpeed;
+  public readonly stepsPerRevolution = DriveSettingTexts.stepsPerRevolution;
+  public readonly spindlePitch = DriveSettingTexts.spindlePitch;
+  public readonly acceleration = DriveSettingTexts.acceleration;
+  public readonly reverseDirection = DriveSettingTexts.reverseDirection;
 
   constructor() { }
 
