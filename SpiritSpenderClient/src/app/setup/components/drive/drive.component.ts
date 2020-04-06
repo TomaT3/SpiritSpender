@@ -1,4 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DrivesApiService } from '../../services/drives-api.service';
+import { Observable } from 'rxjs';
+import { DriveSetting } from '../../types/drive-setting';
+import { Angle, AngleUnits, Length, LengthUnits } from 'unitsnet-js';
+import { UnitsType } from '../../types/units-type';
 
 @Component({
   selector: 'app-drive',
@@ -8,9 +13,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DriveComponent implements OnInit {
   @Input() driveName: string;
 
-  constructor() { }
+  public driveSetting: DriveSetting;
+  public currentPosition: UnitsType;
 
-  ngOnInit(): void {
+  constructor(private drivesApiService: DrivesApiService) { }
+
+  async ngOnInit(): Promise<void> {
+    this.driveSetting = await this.drivesApiService.getDriveSetting(this.driveName);
+    this.currentPosition = await this.drivesApiService.getCurrentPosition(this.driveName);
   }
-
 }

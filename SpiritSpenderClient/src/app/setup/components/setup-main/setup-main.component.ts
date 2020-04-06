@@ -9,11 +9,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./setup-main.component.scss']
 })
 export class SetupMainComponent implements OnInit {
-  public drives$: Observable<string[]>;
+  public drives: string[];
 
   constructor(private drivesApiService: DrivesApiService) { }
 
-  ngOnInit(): void {
-    this.drives$ = this.drivesApiService.getAllDrives();
+  async ngOnInit(): Promise<void> {
+    this.drives = await this.drivesApiService.getAllDrives();
   }
 }

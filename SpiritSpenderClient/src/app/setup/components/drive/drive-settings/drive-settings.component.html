@@ -1,0 +1,20 @@
+<div class="grid-container">
+    <div class="caption"><h1>Server value</h1></div>
+    <div class="caption"><h1>New value</h1></div>
+
+    <app-units class="grid-item" [title]="maxSpeed" [unitsParameter]="this.driveSetting.maxSpeed" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="maxSpeed" [unitsParameter]="this.driveSetting.maxSpeed" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="acceleration" [unitsParameter]="this.driveSetting.acceleration" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="acceleration" [unitsParameter]="this.driveSetting.acceleration" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="spindlePitch" [unitsParameter]="this.driveSetting.spindelPitch" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="spindlePitch" [unitsParameter]="this.driveSetting.spindelPitch" [editable]="true"></app-units>
+
+    <app-number class="grid-item" [title]="stepsPerRevolution" [value]="this.driveSetting.stepsPerRevolution" [editable]="false"></app-number>
+    <app-number class="grid-item" [title]="stepsPerRevolution" [value]="this.driveSetting.stepsPerRevolution" [editable]="true"></app-number>
+
+    <mat-checkbox class="grid-item" [checked]="this.driveSetting.reverseDirection" [disabled]="true">{{reverseDirection}}</mat-checkbox>
+    <mat-checkbox class="grid-item" [checked]="this.driveSetting.reverseDirection" [disabled]="false">{{reverseDirection}}</mat-checkbox>
+
+</div>

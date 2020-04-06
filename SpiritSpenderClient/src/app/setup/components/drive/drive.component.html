@@ -1,1 +1,7 @@
-<p>{{driveName}}</p>
+<div class="grid-container">
+    <div class="current-position">Current position: {{currentPosition.Value}} {{currentPosition.Unit | unitToString}}</div>
+    <div class="drive-setting">
+        <app-drive-settings [driveSetting]="driveSetting" ></app-drive-settings>
+    </div>
+    <div class="drive-actions">drive action</div>
+</div>

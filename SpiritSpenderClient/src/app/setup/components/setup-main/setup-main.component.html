@@ -1,5 +1,5 @@
 <mat-tab-group  [backgroundColor]="'primary'">
-    <mat-tab *ngFor="let driveName of drives$ | async" label="{{driveName}}-Axis">
+    <mat-tab *ngFor="let driveName of drives" label="{{driveName}}-Axis">
       <app-drive [driveName]="driveName"></app-drive>
     </mat-tab>
     <mat-tab label="Spirit dispenser"> Content 3 </mat-tab>

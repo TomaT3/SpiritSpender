@@ -1,0 +1,34 @@
+.current-position {
+    grid-area: current-position;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    border: 1px solid black;
+}
+
+.drive-setting {
+    grid-area: drive-setting;
+    display: flex; 
+    justify-content: left; 
+    align-items: left;
+    border: 1px solid black;
+}
+
+.drive-actions {
+    grid-area: drive-actions;
+    display: flex; 
+    justify-content: left; 
+    align-items: left;
+    border: 1px solid black;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas: 'current-position current-position'
+                         'drive-setting drive-actions';
+    //align-items: center;
+    //justify-content:center;
+    gap: 2px;
+   
+  }
