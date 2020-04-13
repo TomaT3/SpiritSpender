@@ -17,4 +17,12 @@
     <mat-checkbox class="grid-item" [checked]="this.driveSetting.reverseDirection" [disabled]="true">{{reverseDirection}}</mat-checkbox>
     <mat-checkbox class="grid-item" [checked]="this.driveSetting.reverseDirection" [disabled]="false">{{reverseDirection}}</mat-checkbox>
 
+    <app-units class="grid-item" [title]="referencePosition" [unitsParameter]="this.driveSetting.referencePosition" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="referencePosition" [unitsParameter]="this.driveSetting.referencePosition" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="referenceDrivingSpeed" [unitsParameter]="this.driveSetting.referenceDrivingSpeed" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="referenceDrivingSpeed" [unitsParameter]="this.driveSetting.referenceDrivingSpeed" [editable]="true"></app-units>
+
+    <!-- <app-enum class="grid-item" [title]="referenceDrivingDirection" [value]="this.driveSetting.referenceDrivingDirection" [editable]="false"></app-enum>
+    <app-enum class="grid-item" [title]="referenceDrivingDirection" [value]="this.driveSetting.referenceDrivingDirection" [editable]="true"></app-enum> -->
 </div>

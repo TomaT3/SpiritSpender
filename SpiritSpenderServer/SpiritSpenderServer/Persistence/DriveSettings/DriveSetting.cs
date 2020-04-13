@@ -35,7 +35,7 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
 
     public enum DrivingDirection
     {
-        Positive,
-        Negative
+        Positive = 0,
+        Negative = 1
     }
 }
