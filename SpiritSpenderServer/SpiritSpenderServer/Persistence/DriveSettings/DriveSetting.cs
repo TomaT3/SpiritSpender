@@ -18,7 +18,7 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
         [JsonProperty]
         public int StepsPerRevolution { get; set; }
         [JsonProperty]
-        public Length SpindelPitch { get; set; }
+        public Length SpindlePitch { get; set; }
         [JsonProperty]
         public Speed MaxSpeed { get; set; }
         [JsonProperty]

@@ -33,7 +33,7 @@ namespace SpiritSpenderServer.Controllers
                 DriveName = "X",
                 Acceleration = new Acceleration(20, AccelerationUnit.MillimeterPerSecondSquared),
                 MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
-                SpindelPitch = new Length(8, LengthUnit.Millimeter),
+                SpindlePitch = new Length(8, LengthUnit.Millimeter),
                 StepsPerRevolution = 400,
                 ReverseDirection = false
             };
