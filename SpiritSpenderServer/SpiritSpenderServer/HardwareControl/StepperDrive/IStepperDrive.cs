@@ -11,6 +11,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         void SetPosition(Length position);
         void DriveDistance(Length distance);
         void DriveToPosition(Length position);
+        void ReferenceDrive();
         Task UpdateSettingsAsync();
     }
 }

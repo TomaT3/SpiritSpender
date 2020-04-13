@@ -75,5 +75,12 @@ namespace SpiritSpenderServer.Controllers
             _hardwareConfiguration.StepperDrives[driveName].SetPosition(position);
             return new OkObjectResult(new OkResult());
         }
+
+        [HttpPost("{driveName}/reference-drive")]
+        public ActionResult ReferenceDrive(string driveName)
+        {
+            _hardwareConfiguration.StepperDrives[driveName].ReferenceDrive();
+            return new OkObjectResult(new OkResult());
+        }
     }
 }

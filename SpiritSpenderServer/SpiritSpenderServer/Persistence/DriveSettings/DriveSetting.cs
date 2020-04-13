@@ -25,6 +25,17 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
         public Acceleration Acceleration { get; set; }
         [JsonProperty]
         public bool ReverseDirection { get; set; }
+        [JsonProperty]
+        public Length ReferencePosition { get; set; }
+        [JsonProperty]
+        public DrivingDirection ReferenceDrivingDirection { get; set; }
+        [JsonProperty]
+        public Speed ReferenceDrivingSpeed { get; set; }
+    }
 
+    public enum DrivingDirection
+    {
+        Positive,
+        Negative
     }
 }

@@ -72,14 +72,25 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                     MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
                     SpindlePitch = new Length(8, LengthUnit.Millimeter),
                     StepsPerRevolution = 400,
-                    ReverseDirection = false
+                    ReverseDirection = false,
+                    ReferenceDrivingDirection = DrivingDirection.Negative,
+                    ReferencePosition = new Length(100, LengthUnit.Millimeter),
+                    ReferenceDrivingSpeed = new Speed(50, SpeedUnit.MillimeterPerSecond)
                 };
 
                 await _driveSettingRepository.Create(driveSetting);
             }
 
+            var drivePins = new DrivePins
+            {
+                EnablePin = 4,
+                DirectionPin = 17,
+                StepPin = 27,
+                ReferenceSwitchPin = 20
+            };
+
             var stepperDrive = new StepperDrive(DRIVE_NAME, _driveSettingRepository,
-                new StepperMotorControl(enablePin: 4, directionPin: 17, stepPin: 27, gpioControllerFacade: _gpioControllerFacade));
+                new StepperMotorControl(drivePins, _gpioControllerFacade));
             await stepperDrive.UpdateSettingsAsync();
             StepperDrives.Add(DRIVE_NAME, stepperDrive);
         }
@@ -97,14 +108,25 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                     MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
                     SpindlePitch = new Length(8, LengthUnit.Millimeter),
                     StepsPerRevolution = 400,
-                    ReverseDirection = false
+                    ReverseDirection = false,
+                    ReferenceDrivingDirection = DrivingDirection.Negative,
+                    ReferencePosition = new Length(100, LengthUnit.Millimeter),
+                    ReferenceDrivingSpeed = new Speed(50, SpeedUnit.MillimeterPerSecond)
                 };
 
                 await _driveSettingRepository.Create(driveSetting);
             }
 
+            var drivePins = new DrivePins
+            {
+                EnablePin = 22,
+                DirectionPin = 5,
+                StepPin = 6,
+                ReferenceSwitchPin = 21
+            };
+
             var stepperDrive = new StepperDrive(DRIVE_NAME, _driveSettingRepository,
-                new StepperMotorControl(enablePin: 22, directionPin: 5, stepPin: 6, gpioControllerFacade: _gpioControllerFacade));
+                new StepperMotorControl(drivePins, _gpioControllerFacade));
             await stepperDrive.UpdateSettingsAsync();
             StepperDrives.Add(DRIVE_NAME, stepperDrive);
         }
