@@ -7,8 +7,15 @@ export interface DriveSetting {
     maxSpeed: UnitsType;
     acceleration: UnitsType;
     reverseDirection: boolean;
+    referencePosition: UnitsType;
+    referenceDrivingDirection: DrivingDirection;
+    referenceDrivingSpeed: UnitsType;
 }
 
+export enum DrivingDirection{
+    positive = 0,
+    negative = 1
+}
 export class DriveSettingTexts {
     static readonly driveName = "Drive name";
     static readonly stepsPerRevolution = "Steps per Revolution";
@@ -16,4 +23,7 @@ export class DriveSettingTexts {
     static readonly maxSpeed = "Max. speed";
     static readonly acceleration = "Acceleration";
     static readonly reverseDirection = "Reverse direction";
+    static readonly referencePosition = "Reference position";
+    static readonly referenceDrivingDirection = "Reference driving direction";
+    static readonly referenceDrivingSpeed = "Reference driving speed";
 }

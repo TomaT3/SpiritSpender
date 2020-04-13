@@ -36,6 +36,14 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             _lengthOfOneStep = 1.ToDistance(_driveSetting);
         }
 
+        public void ReferenceDrive()
+        {
+            var referenceSpeedInStepsPerSecond = _driveSetting.ReferenceDrivingSpeed.ToStepsPerSecond(_driveSetting);
+            var waitTimeBetweenSteps = new Duration(1 / referenceSpeedInStepsPerSecond / 2.0, DurationUnit.Second);
+            var direction = GetReferenceDirection();
+
+            _stepperMotorControl.ReferenceDrive(waitTimeBetweenSteps, direction, _driveSetting.ReferencePosition);
+        }
 
         public void DriveToPosition(Length position)
         {
@@ -93,31 +101,43 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
                 return (BACKWARD, _lengthOfOneStep * -1);
             }
         }
+
+        private bool GetReferenceDirection()
+        {
+            var direction = _driveSetting.ReferenceDrivingDirection == DrivingDirection.Positive ? FORWARD : BACKWARD;
+
+            if (_driveSetting.ReverseDirection)
+            {
+                direction = !direction;
+            }
+
+            return direction;
+        }
        
-        private double[] CalculateWaitTimeBetweenSteps(
+        private Duration[] CalculateWaitTimeBetweenSteps(
             int numberOfStepsForAcceleration,
             int numberOfStepsWithMaxSpeed,
             int numberOfStepsForDecceleration,
             double maxSpeed,
             double acceleration)
         {
-            double[] waitTimeBetweenAccelerationSteps = new double[numberOfStepsForAcceleration];
-            double[] waitTimeBetweenMaxSpeedSteps = new double[numberOfStepsWithMaxSpeed];
-            double[] waitTimeBetweenDeccelerationSteps = new double[numberOfStepsForDecceleration];
+            Duration[] waitTimeBetweenAccelerationSteps = new Duration[numberOfStepsForAcceleration];
+            Duration[] waitTimeBetweenMaxSpeedSteps = new Duration[numberOfStepsWithMaxSpeed];
+            Duration[] waitTimeBetweenDeccelerationSteps = new Duration[numberOfStepsForDecceleration];
 
             double[] tempAccelerationArray = GetAccelerationTimeArray(numberOfStepsForAcceleration, acceleration);
 
             for (int i = 0; i < tempAccelerationArray.Length; i++)
             {
                 if (i != tempAccelerationArray.Length - 1)
-                    waitTimeBetweenAccelerationSteps[i] = (tempAccelerationArray[i + 1] - tempAccelerationArray[i]) / 2.0;
+                    waitTimeBetweenAccelerationSteps[i] = new Duration((tempAccelerationArray[i + 1] - tempAccelerationArray[i]) / 2.0, DurationUnit.Second);
                 else
-                    waitTimeBetweenAccelerationSteps[i] = 1.0 / maxSpeed / 2.0;
+                    waitTimeBetweenAccelerationSteps[i] = new Duration(1.0 / maxSpeed / 2.0, DurationUnit.Second);
             }
 
             for (int i = 0; i < numberOfStepsWithMaxSpeed; i++)
             {
-                waitTimeBetweenMaxSpeedSteps[i] = 1 / maxSpeed / 2.0;
+                waitTimeBetweenMaxSpeedSteps[i] = new Duration(1.0 / maxSpeed / 2.0, DurationUnit.Second);
             }
 
             int j = 0;
@@ -127,18 +147,12 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
                 j++;
             }
 
-            ConvertArrayFromSecondsToMilliseconds(waitTimeBetweenAccelerationSteps);
-            ConvertArrayFromSecondsToMilliseconds(waitTimeBetweenMaxSpeedSteps);
-            ConvertArrayFromSecondsToMilliseconds(waitTimeBetweenDeccelerationSteps);
+            var waitTimeBetweenSteps = waitTimeBetweenAccelerationSteps.ToList<Duration>()
+                .Concat<Duration>(waitTimeBetweenMaxSpeedSteps.ToList<Duration>())
+                .Concat<Duration>(waitTimeBetweenDeccelerationSteps.ToList<Duration>())
+                .ToArray();
 
-            List<double> waitTimeBetweenSteps = new List<double>();
-
-            waitTimeBetweenSteps = waitTimeBetweenAccelerationSteps.ToList<double>()
-                .Concat<double>(waitTimeBetweenMaxSpeedSteps.ToList<double>())
-                .Concat<double>(waitTimeBetweenDeccelerationSteps.ToList<double>())
-                .ToList();
-
-            return waitTimeBetweenSteps.ToArray();
+            return waitTimeBetweenSteps;
         }
 
         private static double[] GetAccelerationTimeArray(int numberOfStepsForAcceleration, double acceleration)
@@ -150,14 +164,6 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             }
 
             return tempAccelerationArray;
-        }
-
-        private void ConvertArrayFromSecondsToMilliseconds(double[] arrayToConvert)
-        {
-            for (int i = 0; i < arrayToConvert.Length; i++)
-            {
-                arrayToConvert[i] = arrayToConvert[i] * 1000.0;
-            }
         }
     }
 }

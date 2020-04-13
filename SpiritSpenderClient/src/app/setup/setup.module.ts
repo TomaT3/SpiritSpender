@@ -10,13 +10,15 @@ import { DriveSettingsComponent } from './components/drive/drive-settings/drive-
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 import { UnitsComponent } from './components/drive/drive-settings/propertyComponents/units/units.component';
 import { SharedModule } from '../shared/shared.module';
 import { NumberComponent } from './components/drive/drive-settings/propertyComponents/number/number.component';
+import { EnumComponent } from './components/drive/drive-settings/propertyComponents/enum/enum.component';
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, EnumComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,
@@ -24,6 +26,7 @@ import { NumberComponent } from './components/drive/drive-settings/propertyCompo
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
+    MatSelectModule,
     HttpClientModule,
     SharedModule
   ]

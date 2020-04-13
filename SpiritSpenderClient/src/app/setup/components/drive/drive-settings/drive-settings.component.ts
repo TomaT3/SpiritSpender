@@ -16,6 +16,9 @@ export class DriveSettingsComponent implements OnInit {
   public readonly spindlePitch = DriveSettingTexts.spindlePitch;
   public readonly acceleration = DriveSettingTexts.acceleration;
   public readonly reverseDirection = DriveSettingTexts.reverseDirection;
+  public readonly referencePosition = DriveSettingTexts.referencePosition;
+  public readonly referenceDrivingSpeed = DriveSettingTexts.referenceDrivingSpeed;
+  public readonly referenceDrivingDirection = DriveSettingTexts.referenceDrivingDirection;
 
   constructor() { }
 
