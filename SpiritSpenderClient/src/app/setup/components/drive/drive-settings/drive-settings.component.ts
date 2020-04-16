@@ -11,10 +11,14 @@ import { LengthUnits, AccelerationUnits, SpeedUnits, Length, Speed } from 'units
 export class DriveSettingsComponent implements OnInit {
   @Input() driveSetting: DriveSetting;
 
+  public currentDriveSetting: DriveSetting;
+
   public readonly maxSpeed = DriveSettingTexts.maxSpeed;
   public readonly stepsPerRevolution = DriveSettingTexts.stepsPerRevolution;
   public readonly spindlePitch = DriveSettingTexts.spindlePitch;
   public readonly acceleration = DriveSettingTexts.acceleration;
+  public readonly softwareLimitMinus = DriveSettingTexts.softwareLimitMinus;
+  public readonly softwareLimitPlus = DriveSettingTexts.softwareLimitPlus;
   public readonly reverseDirection = DriveSettingTexts.reverseDirection;
   public readonly referencePosition = DriveSettingTexts.referencePosition;
   public readonly referenceDrivingSpeed = DriveSettingTexts.referenceDrivingSpeed;
@@ -23,6 +27,8 @@ export class DriveSettingsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    Object.assign(this.driveSetting, this.currentDriveSetting);
+    this.currentDriveSetting.stepsPerRevolution = 999;
   }
 
 
