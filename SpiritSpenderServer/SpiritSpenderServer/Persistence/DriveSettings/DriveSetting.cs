@@ -24,6 +24,10 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
         [JsonProperty]
         public Acceleration Acceleration { get; set; }
         [JsonProperty]
+        public Length SoftwareLimitMinus { get; set; }
+        [JsonProperty]
+        public Length SoftwareLimitPlus { get; set; }
+        [JsonProperty]
         public bool ReverseDirection { get; set; }
         [JsonProperty]
         public Length ReferencePosition { get; set; }

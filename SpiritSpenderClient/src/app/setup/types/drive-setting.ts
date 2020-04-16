@@ -6,6 +6,8 @@ export interface DriveSetting {
     spindlePitch: UnitsType;
     maxSpeed: UnitsType;
     acceleration: UnitsType;
+    softwareLimitMinus: UnitsType;
+    softwareLimitPlus: UnitsType;
     reverseDirection: boolean;
     referencePosition: UnitsType;
     referenceDrivingDirection: DrivingDirection;
@@ -22,6 +24,8 @@ export class DriveSettingTexts {
     static readonly spindlePitch = "Spindle pitch";
     static readonly maxSpeed = "Max. speed";
     static readonly acceleration = "Acceleration";
+    static readonly softwareLimitMinus = "Software limit -"
+    static readonly softwareLimitPlus ="Software limit +"
     static readonly reverseDirection = "Reverse direction";
     static readonly referencePosition = "Reference position";
     static readonly referenceDrivingDirection = "Reference driving direction";

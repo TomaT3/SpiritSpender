@@ -14,6 +14,12 @@
     <app-number class="grid-item" [title]="stepsPerRevolution" [value]="this.driveSetting.stepsPerRevolution" [editable]="false"></app-number>
     <app-number class="grid-item" [title]="stepsPerRevolution" [value]="this.driveSetting.stepsPerRevolution" [editable]="true"></app-number>
 
+    <app-units class="grid-item" [title]="softwareLimitMinus" [unitsParameter]="this.driveSetting.softwareLimitMinus" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="softwareLimitMinus" [unitsParameter]="this.driveSetting.softwareLimitMinus" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="softwareLimitPlus" [unitsParameter]="this.driveSetting.softwareLimitPlus" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="softwareLimitPlus" [unitsParameter]="this.driveSetting.softwareLimitPlus" [editable]="true"></app-units>
+
     <mat-checkbox class="grid-item" [checked]="this.driveSetting.reverseDirection" [disabled]="true">{{reverseDirection}}</mat-checkbox>
     <mat-checkbox class="grid-item" [checked]="this.driveSetting.reverseDirection" [disabled]="false">{{reverseDirection}}</mat-checkbox>
 
