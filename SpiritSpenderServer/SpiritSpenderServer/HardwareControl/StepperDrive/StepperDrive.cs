@@ -48,17 +48,35 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         public void DriveToPosition(Length position)
         {
             var distanceToGo = _stepperMotorControl.CurrentPosition - position;
-            DriveSteps(distanceToGo.ToSteps(_driveSetting));
+            DriveSteps(distanceToGo);
         }
 
         public void DriveDistance(Length distance)
         {
-            var distanceToGo = distance;
-            DriveSteps(distanceToGo.ToSteps(_driveSetting));
+            DriveSteps(distance);
         }
 
-        private void DriveSteps(int steps)
+        private bool CheckLimitSwitches(Length distance)
         {
+            var endPosition = _stepperMotorControl.CurrentPosition + distance;
+            if ( endPosition < _driveSetting.SoftwareLimitMinus
+                || endPosition > _driveSetting.SoftwareLimitPlus)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private bool DriveSteps(Length distanceToGo)
+        {
+            var isDistanceOk = CheckLimitSwitches(distanceToGo);
+            if (!isDistanceOk)
+                return false;
+
+            var steps = distanceToGo.ToSteps(_driveSetting);
             var numberOfSteps = Math.Abs(steps);
             var maxSpeedinStepsPerSecond = _driveSetting.MaxSpeed.ToStepsPerSecond(_driveSetting);
             var maxAccelerationInStepsPerSecondSquare = _driveSetting.Acceleration.ToAccelerationPerSecondSquare(_driveSetting);
@@ -87,6 +105,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             var drive = GetDriveDirection(steps);
 
             _stepperMotorControl.SetOutput(waitTimeBetweenSteps, drive.direction, drive.distanceOfOneStep);
+            return true;
         }
 
         private (bool direction, Length distanceOfOneStep) GetDriveDirection(int steps)
