@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { UnitsType } from 'src/app/setup/types/units-type';
 
 @Component({
@@ -8,8 +8,18 @@ import { UnitsType } from 'src/app/setup/types/units-type';
 })
 export class UnitsComponent implements OnInit {
   @Input() title: string;
-  @Input() unitsParameter: UnitsType;
+  @Input() get unitsParameter(): UnitsType{
+    return this._unitsParameter;
+  }
+
+  set unitsParameter(value: UnitsType) {
+    this._unitsParameter = value;
+    this.unitsParameterChange.emit(this._unitsParameter);
+  }
   @Input() editable: boolean;
+  @Output() unitsParameterChange = new EventEmitter<UnitsType>();
+
+  private _unitsParameter: UnitsType;
 
   constructor() { }
 
@@ -23,4 +33,8 @@ export class UnitsComponent implements OnInit {
       return 0.5;
   }
 
+  public valueChanged($event): void{
+    this.unitsParameter.Value = $event.target.value;
+    this.unitsParameter = this.unitsParameter;
+  }
 }

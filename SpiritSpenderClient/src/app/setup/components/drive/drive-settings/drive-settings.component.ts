@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import { DriveSetting, DriveSettingTexts } from 'src/app/setup/types/drive-setting';
 import { LengthUnits, AccelerationUnits, SpeedUnits, Length, Speed } from 'unitsnet-js';
+import { DrivesApiService } from 'src/app/setup/services/drives-api.service';
+import { CopyHelper } from 'src/app/shared/Helpers/CopyHelper';
 
 @Component({
   selector: 'app-drive-settings',
@@ -9,8 +11,8 @@ import { LengthUnits, AccelerationUnits, SpeedUnits, Length, Speed } from 'units
   styleUrls: ['./drive-settings.component.scss']
 })
 export class DriveSettingsComponent implements OnInit {
-  @Input() driveSetting: DriveSetting;
-
+  @Input() driveName: string; 
+  public driveSetting: DriveSetting;
   public currentDriveSetting: DriveSetting;
 
   public readonly maxSpeed = DriveSettingTexts.maxSpeed;
@@ -24,25 +26,21 @@ export class DriveSettingsComponent implements OnInit {
   public readonly referenceDrivingSpeed = DriveSettingTexts.referenceDrivingSpeed;
   public readonly referenceDrivingDirection = DriveSettingTexts.referenceDrivingDirection;
 
-  constructor() { }
+  constructor(private drivesApiService: DrivesApiService) { }
 
-  ngOnInit(): void {
-    Object.assign(this.driveSetting, this.currentDriveSetting);
-    this.currentDriveSetting.stepsPerRevolution = 999;
-  }
-
-
-  public speed(): number {
-    const string = this.driveSetting.maxSpeed.Value;
-    //const value1 = name(this.driveSetting.maxSpeed.Value);
-    if(string !== undefined){
-      // const length1 = new Speed(23.4);
-      // console.log(length1);
-      // console.log(this.driveSetting.maxSpeed);
-      // console.log(string);
-      return string;
+  async ngOnInit(): Promise<void> {
+    if (this.driveName !== undefined)
+    {
+    this.driveSetting = await this.drivesApiService.getDriveSetting(this.driveName);
+    this.currentDriveSetting = <DriveSetting>CopyHelper.deepCopy(this.driveSetting);
     }
-      
-      else return -1;
   }
+
+
+  public async updateValues(): Promise<void> {
+    await this.drivesApiService.updateDriveSettings(this.driveName, this.currentDriveSetting);
+    this.driveSetting = await this.drivesApiService.getDriveSetting(this.driveName);
+  }
+
+  
 }

@@ -27,10 +27,17 @@ export class DrivesApiService {
     return driveSetting;
   }
 
+  public async updateDriveSettings(driveName: string, driveSetting: DriveSetting): Promise<void>{
+    const url = `${API_URL}/${driveName}/setting`;
+    const result = await this.http.put(url, driveSetting).toPromise();
+  }
+
   public async getCurrentPosition(driveName: string): Promise<UnitsType> {
     const url = `${API_URL}/${driveName}/current-position`;
     const currentPosition = await this.http.get<UnitsType>(url).toPromise();
     return currentPosition;
   }
+
+
 
 }

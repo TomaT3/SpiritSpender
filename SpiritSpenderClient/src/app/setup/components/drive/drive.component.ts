@@ -11,15 +11,12 @@ import { UnitsType } from '../../types/units-type';
   styleUrls: ['./drive.component.scss']
 })
 export class DriveComponent implements OnInit {
-  @Input() driveName: string;
-
-  public driveSetting: DriveSetting;
+  @Input() driveName: string = "";
   public currentPosition: UnitsType;
 
   constructor(private drivesApiService: DrivesApiService) { }
 
   async ngOnInit(): Promise<void> {
-    this.driveSetting = await this.drivesApiService.getDriveSetting(this.driveName);
-    this.currentPosition = await this.drivesApiService.getCurrentPosition(this.driveName);
+    //this.currentPosition = await this.drivesApiService.getCurrentPosition(this.driveName);
   }
 }
