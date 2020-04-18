@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {MatInputModule} from '@angular/material/input';
 import { DriveSetting, DriveSettingTexts } from 'src/app/setup/types/drive-setting';
-import { LengthUnits, AccelerationUnits, SpeedUnits, Length, Speed } from 'unitsnet-js';
 import { DrivesApiService } from 'src/app/setup/services/drives-api.service';
 import { CopyHelper } from 'src/app/shared/Helpers/CopyHelper';
 

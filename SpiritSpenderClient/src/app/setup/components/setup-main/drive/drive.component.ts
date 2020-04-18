@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DrivesApiService } from '../../services/drives-api.service';
+import { DrivesApiService } from '../../../services/drives-api.service';
 import { Observable } from 'rxjs';
-import { DriveSetting } from '../../types/drive-setting';
+import { DriveSetting } from '../../../types/drive-setting';
 import { Angle, AngleUnits, Length, LengthUnits } from 'unitsnet-js';
-import { UnitsType } from '../../types/units-type';
+import { UnitsType } from '../../../types/units-type';
 
 @Component({
   selector: 'app-drive',
