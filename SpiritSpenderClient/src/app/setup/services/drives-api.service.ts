@@ -38,6 +38,24 @@ export class DrivesApiService {
     return currentPosition;
   }
 
+  public async driveToPosition(driveName: string, position: UnitsType): Promise<void>{
+    const url = `${API_URL}/${driveName}/drive-to-position`;
+    const result = await this.http.post(url, position).toPromise();
+  }
 
+  public async driveDistance(driveName: string, distance: UnitsType): Promise<void>{
+    const url = `${API_URL}/${driveName}/drive-distance`;
+    const result = await this.http.post(url, distance).toPromise();
+  }
+
+  public async setPosition(driveName: string, positionToSet: UnitsType): Promise<void>{
+    const url = `${API_URL}/${driveName}/set-position`;
+    const result = await this.http.post(url, positionToSet).toPromise();
+  }
+
+  public async referenceDrive(driveName: string): Promise<void>{
+    const url = `${API_URL}/${driveName}/reference-drive`;
+    const result = await this.http.post(url, null).toPromise();
+  }
 
 }
