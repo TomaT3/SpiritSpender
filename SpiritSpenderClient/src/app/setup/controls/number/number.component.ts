@@ -30,9 +30,4 @@ export class NumberComponent implements OnInit {
     else
       return 0.5;
   }
-
-  public valueChanged($event): void{
-    this.value = $event.target.value;
-  }
-  
 }

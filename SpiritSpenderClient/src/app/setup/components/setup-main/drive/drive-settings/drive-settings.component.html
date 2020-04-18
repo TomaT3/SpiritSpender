@@ -29,8 +29,9 @@
     <app-units class="grid-item" [title]="referenceDrivingSpeed" [unitsParameter]="this.driveSetting.referenceDrivingSpeed" [editable]="false"></app-units>
     <app-units class="grid-item" [title]="referenceDrivingSpeed" [(unitsParameter)]="this.currentDriveSetting.referenceDrivingSpeed" [editable]="true"></app-units>
 
-    <!-- <app-enum class="grid-item" [title]="referenceDrivingDirection" [value]="this.driveSetting.referenceDrivingDirection" [editable]="false"></app-enum>
-    <app-enum class="grid-item" [title]="referenceDrivingDirection" [value]="this.driveSetting.referenceDrivingDirection" [editable]="true"></app-enum> -->
+    <app-drive-direction class="grid-item" [title]="referenceDrivingDirection" [value]="this.driveSetting.referenceDrivingDirection" [editable]="false"></app-drive-direction>
+    <app-drive-direction class="grid-item" [title]="referenceDrivingDirection" [(value)]="this.currentDriveSetting.referenceDrivingDirection" [editable]="true"></app-drive-direction>
+    
     <div class="second-column caption">
         <button mat-raised-button color="primary" (click)="updateValues()">Save values to sever</button>
     </div>

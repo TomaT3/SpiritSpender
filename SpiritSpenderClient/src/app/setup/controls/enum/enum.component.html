@@ -1,6 +1,0 @@
-<mat-form-field appearance="outline">
-    <mat-label>{{title}}</mat-label>
-    <mat-select value="{{this.value}}" disabled="{{!editable}}">
-        <mat-option *ngFor="let valueAndViewValue of descriptionsAndValues()" [value]="valueAndViewValue.value">{{valueAndViewValue.viewValue}}</mat-option>
-  </mat-select>
-</mat-form-field>

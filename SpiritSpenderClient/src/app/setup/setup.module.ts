@@ -16,11 +16,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { UnitsComponent } from './controls/units/units.component';
 import { SharedModule } from '../shared/shared.module';
 import { NumberComponent } from './controls/number/number.component';
-import { EnumComponent } from './controls/enum/enum.component';
+import { DriveDirectionComponent } from './controls/enums/drive-direction/drive-direction.component';
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, EnumComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,

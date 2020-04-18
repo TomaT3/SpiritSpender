@@ -2,16 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { UnitToStringPipe } from './pipes/unit-to-string.pipe';
+import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 
 
 
 @NgModule({
-  declarations: [PageNotFoundComponent, UnitToStringPipe],
+  declarations: [PageNotFoundComponent, UnitToStringPipe, EnumToArrayPipe],
   imports: [
     CommonModule
   ],
   exports: [
-    UnitToStringPipe
+    UnitToStringPipe,
+    EnumToArrayPipe
   ]
 })
 export class SharedModule { }

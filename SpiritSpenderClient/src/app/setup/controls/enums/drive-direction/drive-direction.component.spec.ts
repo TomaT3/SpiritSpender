@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EnumComponent } from './enum.component';
+import { DriveDirectionComponent } from './drive-direction.component';
 
-describe('EnumComponent', () => {
-  let component: EnumComponent;
-  let fixture: ComponentFixture<EnumComponent>;
+describe('DriveDirectionComponent', () => {
+  let component: DriveDirectionComponent;
+  let fixture: ComponentFixture<DriveDirectionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EnumComponent ]
+      declarations: [ DriveDirectionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EnumComponent);
+    fixture = TestBed.createComponent(DriveDirectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

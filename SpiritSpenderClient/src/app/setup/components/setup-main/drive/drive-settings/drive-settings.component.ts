@@ -10,7 +10,7 @@ import { CopyHelper } from 'src/app/shared/Helpers/CopyHelper';
 })
 export class DriveSettingsComponent implements OnInit {
   @Input() driveName: string; 
-  public driveSetting: DriveSetting;
+  public driveSetting: DriveSetting = null;
   public currentDriveSetting: DriveSetting;
 
   public readonly maxSpeed = DriveSettingTexts.maxSpeed;
@@ -27,18 +27,21 @@ export class DriveSettingsComponent implements OnInit {
   constructor(private drivesApiService: DrivesApiService) { }
 
   async ngOnInit(): Promise<void> {
-    if (this.driveName !== undefined)
-    {
-    this.driveSetting = await this.drivesApiService.getDriveSetting(this.driveName);
-    this.currentDriveSetting = <DriveSetting>CopyHelper.deepCopy(this.driveSetting);
+    try{
+      await this.getServerValues();
+    } catch (error) {
+      console.error(error);
     }
   }
 
-
   public async updateValues(): Promise<void> {
     await this.drivesApiService.updateDriveSettings(this.driveName, this.currentDriveSetting);
-    this.driveSetting = await this.drivesApiService.getDriveSetting(this.driveName);
+    await this.getServerValues();
   }
 
+  private async getServerValues(): Promise<void> {
+    this.driveSetting = await this.drivesApiService.getDriveSetting(this.driveName);
+    this.currentDriveSetting = <DriveSetting>CopyHelper.deepCopy(this.driveSetting);
+  }
   
 }
