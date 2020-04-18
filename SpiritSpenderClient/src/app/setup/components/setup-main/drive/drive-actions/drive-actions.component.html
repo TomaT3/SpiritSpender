@@ -1,1 +1,22 @@
-<p>drive-actions works! with {{this.driveName}}</p>
+<div class="container">
+    <app-unitstype-two-actions class="firstitem flexitem"
+        [title]="'Drive distance'" 
+        [unitsValue]="this.driveDistanceValue"
+        [action1Text]="'-'"
+        [action2Text]="'+'"
+        (action1Clicked)="this.driveDistanceMinus($event)"
+        (action2Clicked)="this.driveDistancePlus($event)"></app-unitstype-two-actions>
+    <app-unitstype-one-action class="flexitem"
+        [title]="'Drive to position'"
+        [unitsValue]="this.driveToPositionValue"
+        [actionText]="'Go'"
+        (actionClicked)="this.driveToPosition($event)"></app-unitstype-one-action>
+    <app-unitstype-one-action class="flexitem"
+        [title]="'Position to set'"
+        [unitsValue]="this.positionToSetValue"
+        [actionText]="'Set it'"
+        (actionClicked)="this.setPosition($event)"></app-unitstype-one-action>
+    <div class="flexitem">
+        <button mat-raised-button color="primary" (click)="referenceDrive()">Reference drive</button>
+    </div>
+</div>

@@ -48,6 +48,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         public void DriveToPosition(Length position)
         {
             var distanceToGo = _stepperMotorControl.CurrentPosition - position;
+            distanceToGo = distanceToGo * -1;
             DriveSteps(distanceToGo);
         }
 

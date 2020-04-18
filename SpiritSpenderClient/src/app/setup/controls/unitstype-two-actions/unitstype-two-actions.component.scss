@@ -1,14 +1,14 @@
 .container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: baseline;
 }
 
-.firstitem{
-    padding-top: 5px;
+.button1{
+    padding-right: 10px;
 }
 
-.flexitem{
+.button2{
     padding-left: 10px;
 }

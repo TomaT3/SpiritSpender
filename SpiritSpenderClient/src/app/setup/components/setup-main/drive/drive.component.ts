@@ -17,6 +17,6 @@ export class DriveComponent implements OnInit {
   constructor(private drivesApiService: DrivesApiService) { }
 
   async ngOnInit(): Promise<void> {
-    //this.currentPosition = await this.drivesApiService.getCurrentPosition(this.driveName);
+    this.currentPosition = await this.drivesApiService.getCurrentPosition(this.driveName);
   }
 }

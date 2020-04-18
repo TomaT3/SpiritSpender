@@ -1,0 +1,6 @@
+<div class="container">
+    <app-units [title]="this.title" [(unitsParameter)]="this.unitsValue" [editable]="true"></app-units>
+    <div [style.padding-left]="'10px'">
+        <button mat-fab color="primary" (click)="buttonClicked()">{{this.actionText}}</button>
+    </div>
+</div>

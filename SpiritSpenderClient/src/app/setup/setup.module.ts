@@ -18,10 +18,12 @@ import { SharedModule } from '../shared/shared.module';
 import { NumberComponent } from './controls/number/number.component';
 import { DriveDirectionComponent } from './controls/enums/drive-direction/drive-direction.component';
 import { DriveActionsComponent } from './components/setup-main/drive/drive-actions/drive-actions.component';
+import { UnitstypeOneActionComponent } from './controls/unitstype-one-action/unitstype-one-action.component';
+import { UnitstypeTwoActionsComponent } from './controls/unitstype-two-actions/unitstype-two-actions.component';
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,
