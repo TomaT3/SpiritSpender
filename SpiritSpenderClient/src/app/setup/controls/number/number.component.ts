@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-number',
@@ -7,9 +7,18 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class NumberComponent implements OnInit {
   @Input() title: string;
-  @Input() value: number;
+  @Input() get value(): number {
+    return this._value;
+  }
   @Input() editable: boolean;
+  @Output() valueChange = new EventEmitter<number>();
 
+  set value(newValue: number) {
+    this._value = newValue;
+    this.valueChange.emit(this._value);
+  }
+
+  _value: number;
   constructor() { }
 
   ngOnInit(): void {
@@ -21,5 +30,4 @@ export class NumberComponent implements OnInit {
     else
       return 0.5;
   }
-  
 }

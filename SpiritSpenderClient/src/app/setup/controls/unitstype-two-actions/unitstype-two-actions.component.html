@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="button1">
+        <button mat-fab color="primary" (click)="button1Clicked()">{{this.action1Text}}</button>
+    </div>
+    <app-units [title]="this.title" [(unitsParameter)]="this.unitsValue" [editable]="true"></app-units>
+    <div class="button2">
+        <button mat-fab color="primary" (click)="button2Clicked()">{{this.action2Text}}</button>
+    </div>
+</div>

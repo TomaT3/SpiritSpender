@@ -1,0 +1,6 @@
+<mat-form-field appearance="outline">
+    <mat-label>{{title}}</mat-label>
+    <mat-select [(value)]="this.value" disabled="{{!editable}}">
+        <mat-option *ngFor="let item of this.drivingDirections | enumToArray" [value]="item.index">{{item.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
