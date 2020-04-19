@@ -8,7 +8,7 @@ export interface SpiritDispenserSetting {
 }
 
 export class SpiritDispenserTexts {
-    static readonly driveTimeToReleaseTheSpirit = "Drive down timespan";
-    static readonly driveTimeToCloseTheSpiritSpender = "Drive up timespan";
+    static readonly driveTimeToReleaseTheSpirit = "Drive time to open spirit dispenser";
+    static readonly driveTimeToCloseTheSpiritSpender = "Drive time to close spirit dispenser";
     static readonly waitTimeUntilSpiritIsReleased = "Timespan to empty spirit dispenser";
 }
