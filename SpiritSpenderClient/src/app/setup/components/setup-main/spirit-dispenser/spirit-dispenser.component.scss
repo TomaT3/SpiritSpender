@@ -1,0 +1,23 @@
+.setting {
+    grid-area: drive-setting;
+    display: flex; 
+    justify-content: left; 
+    align-items: left;
+    border: 1px solid black;
+}
+
+.actions {
+    grid-area: drive-actions;
+    display: flex; 
+    justify-content: left; 
+    align-items: left;
+    border: 1px solid black;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas: 'drive-setting drive-actions';
+    gap: 2px;
+   
+  }

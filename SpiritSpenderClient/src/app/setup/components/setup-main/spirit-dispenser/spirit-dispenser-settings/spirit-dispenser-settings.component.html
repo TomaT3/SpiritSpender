@@ -1,0 +1,17 @@
+<div class="grid-container">
+    <div class="caption"><h1>Server value</h1></div>
+    <div class="caption"><h1>New value</h1></div>
+
+    <app-units class="grid-item" [title]="driveTimeToReleaseTheSpirit" [unitsParameter]="this.serverSettingValue.driveTimeToReleaseTheSpirit" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="driveTimeToReleaseTheSpirit" [(unitsParameter)]="this.newSettingValue.driveTimeToReleaseTheSpirit" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="driveTimeToCloseTheSpiritSpender" [unitsParameter]="this.serverSettingValue.driveTimeToCloseTheSpiritSpender" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="driveTimeToCloseTheSpiritSpender" [(unitsParameter)]="this.newSettingValue.driveTimeToCloseTheSpiritSpender" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="waitTimeUntilSpiritIsReleased" [unitsParameter]="this.serverSettingValue.waitTimeUntilSpiritIsReleased" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="waitTimeUntilSpiritIsReleased" [(unitsParameter)]="this.newSettingValue.waitTimeUntilSpiritIsReleased" [editable]="true"></app-units>
+
+    <div class="second-column caption">
+        <button mat-raised-button color="primary" (click)="this.updateSettingValues()">Save values to sever</button>
+    </div>
+</div>

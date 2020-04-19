@@ -2,35 +2,35 @@
     <div class="caption"><h1>Server value</h1></div>
     <div class="caption"><h1>New value</h1></div>
 
-    <app-units class="grid-item" [title]="maxSpeed" [unitsParameter]="this.driveSetting.maxSpeed" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="maxSpeed" [(unitsParameter)]="this.currentDriveSetting.maxSpeed" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="maxSpeed" [unitsParameter]="this.serverSettingValue.maxSpeed" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="maxSpeed" [(unitsParameter)]="this.newSettingValue.maxSpeed" [editable]="true"></app-units>
 
-    <app-units class="grid-item" [title]="acceleration" [unitsParameter]="this.driveSetting.acceleration" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="acceleration" [(unitsParameter)]="this.currentDriveSetting.acceleration" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="acceleration" [unitsParameter]="this.serverSettingValue.acceleration" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="acceleration" [(unitsParameter)]="this.newSettingValue.acceleration" [editable]="true"></app-units>
 
-    <app-units class="grid-item" [title]="spindlePitch" [unitsParameter]="this.driveSetting.spindlePitch" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="spindlePitch" [(unitsParameter)]="this.currentDriveSetting.spindlePitch" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="spindlePitch" [unitsParameter]="this.serverSettingValue.spindlePitch" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="spindlePitch" [(unitsParameter)]="this.newSettingValue.spindlePitch" [editable]="true"></app-units>
 
-    <app-number class="grid-item" [title]="stepsPerRevolution" [value]="this.driveSetting.stepsPerRevolution" [editable]="false"></app-number>
-    <app-number class="grid-item" [title]="stepsPerRevolution" [(value)]="this.currentDriveSetting.stepsPerRevolution" [editable]="true"></app-number>
+    <app-number class="grid-item" [title]="stepsPerRevolution" [value]="this.serverSettingValue.stepsPerRevolution" [editable]="false"></app-number>
+    <app-number class="grid-item" [title]="stepsPerRevolution" [(value)]="this.newSettingValue.stepsPerRevolution" [editable]="true"></app-number>
 
-    <app-units class="grid-item" [title]="softwareLimitMinus" [unitsParameter]="this.driveSetting.softwareLimitMinus" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="softwareLimitMinus" [(unitsParameter)]="this.currentDriveSetting.softwareLimitMinus" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="softwareLimitMinus" [unitsParameter]="this.serverSettingValue.softwareLimitMinus" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="softwareLimitMinus" [(unitsParameter)]="this.newSettingValue.softwareLimitMinus" [editable]="true"></app-units>
 
-    <app-units class="grid-item" [title]="softwareLimitPlus" [unitsParameter]="this.driveSetting.softwareLimitPlus" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="softwareLimitPlus" [(unitsParameter)]="this.currentDriveSetting.softwareLimitPlus" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="softwareLimitPlus" [unitsParameter]="this.serverSettingValue.softwareLimitPlus" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="softwareLimitPlus" [(unitsParameter)]="this.newSettingValue.softwareLimitPlus" [editable]="true"></app-units>
 
-    <mat-checkbox class="grid-item" [checked]="this.driveSetting.reverseDirection" [disabled]="true">{{reverseDirection}}</mat-checkbox>
-    <mat-checkbox class="grid-item" [(ngModel)]="this.currentDriveSetting.reverseDirection" [disabled]="false">{{reverseDirection}}</mat-checkbox>
+    <mat-checkbox class="grid-item" [checked]="this.serverSettingValue.reverseDirection" [disabled]="true">{{reverseDirection}}</mat-checkbox>
+    <mat-checkbox class="grid-item" [(ngModel)]="this.newSettingValue.reverseDirection" [disabled]="false">{{reverseDirection}}</mat-checkbox>
 
-    <app-units class="grid-item" [title]="referencePosition" [unitsParameter]="this.driveSetting.referencePosition" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="referencePosition" [(unitsParameter)]="this.currentDriveSetting.referencePosition" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="referencePosition" [unitsParameter]="this.serverSettingValue.referencePosition" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="referencePosition" [(unitsParameter)]="this.newSettingValue.referencePosition" [editable]="true"></app-units>
 
-    <app-units class="grid-item" [title]="referenceDrivingSpeed" [unitsParameter]="this.driveSetting.referenceDrivingSpeed" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="referenceDrivingSpeed" [(unitsParameter)]="this.currentDriveSetting.referenceDrivingSpeed" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="referenceDrivingSpeed" [unitsParameter]="this.serverSettingValue.referenceDrivingSpeed" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="referenceDrivingSpeed" [(unitsParameter)]="this.newSettingValue.referenceDrivingSpeed" [editable]="true"></app-units>
 
-    <app-drive-direction class="grid-item" [title]="referenceDrivingDirection" [value]="this.driveSetting.referenceDrivingDirection" [editable]="false"></app-drive-direction>
-    <app-drive-direction class="grid-item" [title]="referenceDrivingDirection" [(value)]="this.currentDriveSetting.referenceDrivingDirection" [editable]="true"></app-drive-direction>
+    <app-drive-direction class="grid-item" [title]="referenceDrivingDirection" [value]="this.serverSettingValue.referenceDrivingDirection" [editable]="false"></app-drive-direction>
+    <app-drive-direction class="grid-item" [title]="referenceDrivingDirection" [(value)]="this.newSettingValue.referenceDrivingDirection" [editable]="true"></app-drive-direction>
     
     <div class="second-column caption">
         <button mat-raised-button color="primary" (click)="updateValues()">Save values to sever</button>

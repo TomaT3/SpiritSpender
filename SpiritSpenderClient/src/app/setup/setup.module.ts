@@ -20,10 +20,13 @@ import { DriveDirectionComponent } from './controls/enums/drive-direction/drive-
 import { DriveActionsComponent } from './components/setup-main/drive/drive-actions/drive-actions.component';
 import { UnitstypeOneActionComponent } from './controls/unitstype-one-action/unitstype-one-action.component';
 import { UnitstypeTwoActionsComponent } from './controls/unitstype-two-actions/unitstype-two-actions.component';
+import { SpiritDispenserComponent } from './components/setup-main/spirit-dispenser/spirit-dispenser.component';
+import { SpiritDispenserSettingsComponent } from './components/setup-main/spirit-dispenser/spirit-dispenser-settings/spirit-dispenser-settings.component';
+import { SpiritDispenserActionsComponent } from './components/setup-main/spirit-dispenser/spirit-dispenser-actions/spirit-dispenser-actions.component';
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,

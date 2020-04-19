@@ -10,8 +10,8 @@ import { CopyHelper } from 'src/app/shared/Helpers/CopyHelper';
 })
 export class DriveSettingsComponent implements OnInit {
   @Input() driveName: string; 
-  public driveSetting: DriveSetting = null;
-  public currentDriveSetting: DriveSetting;
+  public serverSettingValue: DriveSetting = null;
+  public newSettingValue: DriveSetting;
 
   public readonly maxSpeed = DriveSettingTexts.maxSpeed;
   public readonly stepsPerRevolution = DriveSettingTexts.stepsPerRevolution;
@@ -35,13 +35,13 @@ export class DriveSettingsComponent implements OnInit {
   }
 
   public async updateValues(): Promise<void> {
-    await this.drivesApiService.updateDriveSettings(this.driveName, this.currentDriveSetting);
+    await this.drivesApiService.updateDriveSettings(this.driveName, this.newSettingValue);
     await this.getServerValues();
   }
 
   private async getServerValues(): Promise<void> {
-    this.driveSetting = await this.drivesApiService.getDriveSetting(this.driveName);
-    this.currentDriveSetting = <DriveSetting>CopyHelper.deepCopy(this.driveSetting);
+    this.serverSettingValue = await this.drivesApiService.getDriveSetting(this.driveName);
+    this.newSettingValue = <DriveSetting>CopyHelper.deepCopy(this.serverSettingValue);
   }
   
 }
