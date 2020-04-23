@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DriveSetting } from '../types/drive-setting';
 import { environment } from 'src/environments/environment';
-import { UnitsType } from '../types/units-type';
+import { UnitsType } from '../../shared/types/units-type';
 
 const API_URL = environment.baseUrl + 'drives'
 

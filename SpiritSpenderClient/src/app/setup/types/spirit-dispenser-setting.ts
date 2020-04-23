@@ -1,4 +1,4 @@
-import { UnitsType } from './units-type';
+import { UnitsType } from '../../shared/types/units-type';
 
 export interface SpiritDispenserSetting {
     name: string;

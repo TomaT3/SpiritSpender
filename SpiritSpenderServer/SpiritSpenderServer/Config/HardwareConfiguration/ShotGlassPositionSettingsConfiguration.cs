@@ -11,7 +11,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
         {
             const int NUMBER_OF_SHOT_GLASS_POSITIONS = 12;
             var settings = await shotGlassPositionSettingRepository.GetAllSettingsAsync();
-            if (settings != null)
+            if (settings == null)
             {
                 for (int i = 1; i <= NUMBER_OF_SHOT_GLASS_POSITIONS; i++)
                 {

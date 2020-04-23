@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
-import { UnitsType } from 'src/app/setup/types/units-type';
+import { Component, OnInit, Input, Output, EventEmitter, NgZone, ViewChild, ElementRef  } from '@angular/core';
+import { UnitsType } from 'src/app/shared/types/units-type';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-units',
@@ -8,6 +10,7 @@ import { UnitsType } from 'src/app/setup/types/units-type';
 })
 export class UnitsComponent implements OnInit {
   @Input() title: string;
+  @Input() autoSizeWidthToInput: boolean = false;
   @Input() get unitsParameter(): UnitsType{
     return this._unitsParameter;
   }
@@ -18,7 +21,7 @@ export class UnitsComponent implements OnInit {
   }
   @Input() editable: boolean;
   @Output() unitsParameterChange = new EventEmitter<UnitsType>();
-
+  
   private _unitsParameter: UnitsType;
 
   constructor() { }
@@ -37,4 +40,6 @@ export class UnitsComponent implements OnInit {
     this.unitsParameter.Value = $event.target.value;
     this.unitsParameter = this.unitsParameter;
   }
+
+  
 }

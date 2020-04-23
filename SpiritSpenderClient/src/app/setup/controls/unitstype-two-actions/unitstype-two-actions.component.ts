@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { UnitsType } from '../../types/units-type';
+import { UnitsType } from '../../../shared/types/units-type';
 
 @Component({
   selector: 'app-unitstype-two-actions',

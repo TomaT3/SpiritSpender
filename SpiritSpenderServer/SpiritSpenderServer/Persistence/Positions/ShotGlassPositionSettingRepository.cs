@@ -32,6 +32,11 @@ namespace SpiritSpenderServer.Persistence.Positions
                     .FirstOrDefaultAsync();
         }
 
+        public async Task<long> GetCountAsync()
+        {
+            return await _context.ShotGlassPositionSettings.CountDocumentsAsync(s => s.Number > 0);
+        }
+
         public async Task CreateAsync(ShotGlassPositionSetting shotGlassPositionSetting)
         {
             await _context.ShotGlassPositionSettings.InsertOneAsync(shotGlassPositionSetting);

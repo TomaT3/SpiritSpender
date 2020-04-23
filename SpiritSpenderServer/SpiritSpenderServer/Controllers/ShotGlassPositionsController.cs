@@ -28,6 +28,14 @@ namespace SpiritSpenderServer.Controllers
             return new ObjectResult(await _shotGlassPositionSettingRepository.GetAllSettingsAsync());
         }
 
+        [HttpGet("count")]
+        public async Task<ActionResult<long>> GetNumberOfPositions()
+        {
+            var numberOfPositions = await _shotGlassPositionSettingRepository.GetCountAsync();
+
+            return new ObjectResult(numberOfPositions);
+        }
+
         [HttpGet("{positionNumber}/setting")]
         public async Task<ActionResult<ShotGlassPositionSetting>> GetSetting(int positionNumber)
         {
