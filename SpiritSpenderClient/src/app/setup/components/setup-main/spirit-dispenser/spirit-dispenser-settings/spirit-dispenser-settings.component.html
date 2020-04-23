@@ -1,4 +1,4 @@
-<div class="grid-container">
+<div *ngIf="this.serverSettingValue as SpiritDispenserSetting; else loading" class="grid-container">
     <div class="caption"><h1>Server value</h1></div>
     <div class="caption"><h1>New value</h1></div>
 
@@ -15,3 +15,4 @@
         <button mat-raised-button color="primary" (click)="this.updateSettingValues()">Save values to sever</button>
     </div>
 </div>
+<ng-template #loading>Loading server data...</ng-template>
