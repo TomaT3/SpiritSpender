@@ -23,10 +23,15 @@ import { UnitstypeTwoActionsComponent } from './controls/unitstype-two-actions/u
 import { SpiritDispenserComponent } from './components/setup-main/spirit-dispenser/spirit-dispenser.component';
 import { SpiritDispenserSettingsComponent } from './components/setup-main/spirit-dispenser/spirit-dispenser-settings/spirit-dispenser-settings.component';
 import { SpiritDispenserActionsComponent } from './components/setup-main/spirit-dispenser/spirit-dispenser-actions/spirit-dispenser-actions.component';
+import { PositionsComponent } from './components/setup-main/positions/positions.component';
+import { PositionSettingsComponent } from './components/setup-main/positions/position-settings/position-settings.component';
+import { PositionActionsComponent } from './components/setup-main/positions/position-actions/position-actions.component';
+import { PositionSettingComponent } from './components/setup-main/positions/position-settings/position-setting/position-setting.component';
+import {AutoSizeInputModule} from 'ngx-autosize-input';
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionActionsComponent, PositionSettingComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,
@@ -38,7 +43,8 @@ import { SpiritDispenserActionsComponent } from './components/setup-main/spirit-
     MatSelectModule,
     MatButtonModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    AutoSizeInputModule
   ]
 })
 export class SetupModule { }

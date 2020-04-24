@@ -22,7 +22,7 @@ namespace SpiritSpenderServer.Controllers
        
 
         [HttpGet]
-        public async Task<ActionResult<DriveSetting>> Get()
+        public async Task<ActionResult<IEnumerable<string>>> Get()
         {
             return new ObjectResult(await _driveSettingsRepo.GetAllDriveSettingNames());
         }

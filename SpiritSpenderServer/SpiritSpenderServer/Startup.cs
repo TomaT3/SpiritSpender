@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Device.Gpio;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MongoDB.Bson.Serialization;
 using NSubstitute;
@@ -18,8 +11,11 @@ using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.HardwareControl;
 using SpiritSpenderServer.Persistence;
 using SpiritSpenderServer.Persistence.DriveSettings;
+using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.Serialization;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
+using System;
+using System.Linq;
 using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer
@@ -50,6 +46,7 @@ namespace SpiritSpenderServer
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
+            services.AddSingleton<IShotGlassPositionSettingRepository, ShotGlassPositionSettingRepository>();
             services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
 
             services.AddCors(options =>

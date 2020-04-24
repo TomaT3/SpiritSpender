@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
@@ -12,5 +13,6 @@ namespace SpiritSpenderServer.Persistence
     {
         IMongoCollection<DriveSetting> DriveSettings { get; }
         IMongoCollection<SpiritDispenserSetting> SpiritDispenserSettings { get; }
+        IMongoCollection<ShotGlassPositionSetting> ShotGlassPositionSettings { get; }
     }
 }

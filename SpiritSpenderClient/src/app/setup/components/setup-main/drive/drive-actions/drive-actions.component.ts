@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DrivesApiService } from 'src/app/setup/services/drives-api.service';
-import { UnitsType, LengthUnit } from 'src/app/setup/types/units-type';
+import { UnitsType, LengthUnit } from 'src/app/shared/types/units-type';
 
 @Component({
   selector: 'app-drive-actions',

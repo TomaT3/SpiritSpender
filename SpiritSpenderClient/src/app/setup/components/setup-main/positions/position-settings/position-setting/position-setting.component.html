@@ -1,0 +1,12 @@
+<div class="grid-container">
+    <h4 class="caption center">Position {{this.positionNumber}}</h4>
+
+    <app-units title="X" [unitsParameter]="this.position.x" [editable]="false" [autoSizeWidthToInput]="true"></app-units>
+    <app-units title="Y" [unitsParameter]="this.position.y" [editable]="false" [autoSizeWidthToInput]="true"></app-units>
+   
+    <app-units title="X" [(unitsParameter)]="this.newPosition.x" [editable]="true" [autoSizeWidthToInput]="true"></app-units>
+    <app-units title="Y" [(unitsParameter)]="this.newPosition.y" [editable]="true" [autoSizeWidthToInput]="true"></app-units>
+
+    <button mat-raised-button color="primary" (click)="this.setPositionValue()">Set Pos</button>
+    <button mat-fab class="center" (click)="this.driveToPosition()">GoTo</button>
+</div>

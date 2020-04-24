@@ -1,0 +1,7 @@
+<div class="container" *ngIf="this.positionSettings as PositionSetting; else loading">
+    <ng-container *ngFor="let positionSetting of this.positionSettings">
+        <app-position-setting class="item" [positionNumber]="positionSetting.number" [position]="positionSetting.position"></app-position-setting>
+        <div *ngIf="positionSetting.number%4 === 0"  class="break"></div>
+    </ng-container>
+</div>
+<ng-template #loading>loading server data...</ng-template>
