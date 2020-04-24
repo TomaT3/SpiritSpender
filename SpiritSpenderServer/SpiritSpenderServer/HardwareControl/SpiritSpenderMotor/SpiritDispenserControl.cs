@@ -40,7 +40,7 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 
         public void CloseSpiritSpender()
         {
-            _spiritSpenderMotor.DriveForward(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit);
+            _spiritSpenderMotor.DriveForward(_spiritDispenserSetting.DriveTimeToCloseTheSpiritSpender);
         }
     }
 }
