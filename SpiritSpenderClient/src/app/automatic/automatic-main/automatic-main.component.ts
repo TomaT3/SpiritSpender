@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AutomaticApiService } from '../services/automatic-api.service';
 
 @Component({
   selector: 'app-automatic-main',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AutomaticMainComponent implements OnInit {
 
-  constructor() { }
+  constructor(private automaticApiService: AutomaticApiService) { }
 
   ngOnInit(): void {
   }
 
+  public async releaseTheSpirit(): Promise<void> {
+    await this.automaticApiService.releaseTheSpirit();
+  }
 }

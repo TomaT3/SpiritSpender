@@ -19,9 +19,9 @@ namespace SpiritSpenderServer.Automatic
         private readonly IStepperDrive _X_Axis;
         private readonly IStepperDrive _Y_Axis;
 
-        public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration, ISpiritDispenserControl spiritDispenserControl)
+        public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration)
            => (_shotGlassPositionSettingRepository, _X_Axis, _Y_Axis, _spiritDispenserControl) =
-           (shotGlassPositionSettingRepository, hardwareConfiguration.StepperDrives[X_AXIS_NAME], hardwareConfiguration.StepperDrives[Y_AXIS_NAME], spiritDispenserControl);
+           (shotGlassPositionSettingRepository, hardwareConfiguration.StepperDrives[X_AXIS_NAME], hardwareConfiguration.StepperDrives[Y_AXIS_NAME], hardwareConfiguration.SpiritDispenserControl);
 
 
         public async Task ReleaseTheSpiritAsync()
@@ -42,6 +42,7 @@ namespace SpiritSpenderServer.Automatic
                         await DriveToPositionAsync(positionSetting.Position);
                         _spiritDispenserControl.FillGlas();
                         Thread.Sleep(2000); // ToDo: add setting with wait time until spirit dispenser is refilled and start timer
+                        _spiritDispenserControl.FillGlas();
                         break;
                     case Quantity.Empty:
                         // do nothing

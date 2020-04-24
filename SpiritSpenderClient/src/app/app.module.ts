@@ -8,6 +8,8 @@ import { AutomaticModule } from './automatic/automatic.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SharedModule } from './shared/shared.module';
 import { SetupModule } from './setup/setup.module';
+import { MatIconModule } from "@angular/material/icon";
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { SetupModule } from './setup/setup.module';
     AutomaticModule,
     SharedModule,
     MatTabsModule,
-    SetupModule
+    SetupModule,
+    HttpClientModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

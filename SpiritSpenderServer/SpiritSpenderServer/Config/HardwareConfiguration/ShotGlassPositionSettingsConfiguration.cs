@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.Persistence.Positions;
+using System.Linq;
 using System.Threading.Tasks;
 using UnitsNet;
 using UnitsNet.Units;
@@ -11,12 +12,13 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
         {
             const int NUMBER_OF_SHOT_GLASS_POSITIONS = 12;
             var settings = await shotGlassPositionSettingRepository.GetAllSettingsAsync();
-            if (settings == null)
+            
+            if (settings != null && settings.Count() > 0)
+                return;
+
+            for (int i = 1; i <= NUMBER_OF_SHOT_GLASS_POSITIONS; i++)
             {
-                for (int i = 1; i <= NUMBER_OF_SHOT_GLASS_POSITIONS; i++)
-                {
-                    await AddShotGlassPositionSettingAsync(i, shotGlassPositionSettingRepository);
-                }
+                await AddShotGlassPositionSettingAsync(i, shotGlassPositionSettingRepository);
             }
         }
 

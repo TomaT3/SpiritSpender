@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -10,8 +12,12 @@ export class AppComponent {
   title = 'SpiritSpenderClient';
   navLinks: any[];
   activeLinkIndex = -1; 
-  constructor(private router: Router) {
-    this.navLinks = [
+  constructor(
+    private router: Router,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer){
+      this.registerIcons();
+      this.navLinks = [
         {
             label: 'Automatic',
             path: './automatic',
@@ -30,4 +36,9 @@ export class AppComponent {
     });
   }
 
+  private registerIcons(): void {
+    this.matIconRegistry.addSvgIcon(
+      `oneShotIcon`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/oneShotIcon.svg"));
+  }
 }
