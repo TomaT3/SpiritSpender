@@ -23,7 +23,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                     DriveName = DRIVE_NAME,
                     Acceleration = new Acceleration(20, AccelerationUnit.MillimeterPerSecondSquared),
                     MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
-                    SpindlePitch = new Length(3, LengthUnit.Millimeter),
+                    SpindlePitch = new Length(4, LengthUnit.Millimeter),
                     StepsPerRevolution = 400,
                     SoftwareLimitMinus = new Length(-0.1, LengthUnit.Millimeter),
                     SoftwareLimitPlus = new Length(248.1, LengthUnit.Millimeter),
