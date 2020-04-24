@@ -47,6 +47,16 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             _stepperMotorControl.ReferenceDrive(waitTimeBetweenSteps, direction, _driveSetting.ReferencePosition);
         }
 
+        public Task DriveToPositionAsync(Length position)
+        {
+            var task = Task.Run(() =>
+            {
+                DriveToPosition(position);
+            });
+
+            return task;
+        }
+
         public void DriveToPosition(Length position)
         {
             var distanceToGo = _stepperMotorControl.CurrentPosition - position;

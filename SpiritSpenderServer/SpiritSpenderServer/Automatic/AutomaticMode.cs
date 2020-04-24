@@ -51,15 +51,13 @@ namespace SpiritSpenderServer.Automatic
             }
         }
 
-        public Task DriveToPositionAsync(Position position)
+        public async Task DriveToPositionAsync(Position position)
         {
-            var task = Task.Run(() =>
-            {
-                _X_Axis.DriveToPosition(position.X);
-                _Y_Axis.DriveToPosition(position.Y);
-            });
-
-            return task;
+            var taskX = _X_Axis.DriveToPositionAsync(position.X);
+            var taskY = _Y_Axis.DriveToPositionAsync(position.Y);
+            
+            await taskX;
+            await taskY;
         }
     }
 }
