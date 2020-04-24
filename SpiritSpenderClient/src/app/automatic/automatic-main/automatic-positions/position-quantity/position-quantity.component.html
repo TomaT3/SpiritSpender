@@ -1,0 +1,15 @@
+<div class="container">
+    <ng-container [ngSwitch]="this.quantity">
+    <button *ngSwitchCase="0" mat-fab color="primary" (click)="this.changeQuantity()">
+        <mat-icon>not_interested</mat-icon>
+    </button>
+    <button *ngSwitchCase="1" mat-fab color="primary" (click)="this.changeQuantity()">
+        <mat-icon svgIcon="oneShotIcon"></mat-icon>
+    </button>
+    <button *ngSwitchCase="2" mat-fab color="primary" (click)="this.changeQuantity()">
+        <mat-icon svgIcon="oneShotIcon"></mat-icon>
+        <mat-icon svgIcon="oneShotIcon"></mat-icon>
+    </button>
+
+    </ng-container>
+</div>

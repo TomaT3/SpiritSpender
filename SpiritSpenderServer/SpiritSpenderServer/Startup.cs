@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Bson.Serialization;
 using NSubstitute;
+using SpiritSpenderServer.Automatic;
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.HardwareControl;
@@ -47,6 +48,7 @@ namespace SpiritSpenderServer
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
             services.AddSingleton<IShotGlassPositionSettingRepository, ShotGlassPositionSettingRepository>();
+            services.AddSingleton<IAutomaticMode, AutomaticMode>();
             services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
 
             services.AddCors(options =>

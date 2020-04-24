@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SpiritSpenderServer.Automatic;
 using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.Positions;
@@ -11,16 +12,12 @@ namespace SpiritSpenderServer.Controllers
     [ApiController]
     public class ShotGlassPositionsController : ControllerBase
     {
-        const string X_AXIS_NAME = "X";
-        const string Y_AXIS_NAME = "Y";
         private readonly IShotGlassPositionSettingRepository _shotGlassPositionSettingRepository;
-        private readonly IStepperDrive _X_Axis;
-        private readonly IStepperDrive _Y_Axis;
+        private readonly IAutomaticMode _automaticMode;
 
-
-        public ShotGlassPositionsController(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration)
-            => (_shotGlassPositionSettingRepository, _X_Axis, _Y_Axis) = 
-            (shotGlassPositionSettingRepository, hardwareConfiguration.StepperDrives[X_AXIS_NAME], hardwareConfiguration.StepperDrives[Y_AXIS_NAME]);
+        public ShotGlassPositionsController(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IAutomaticMode automaticMode)
+            => (_shotGlassPositionSettingRepository, _automaticMode) = 
+            (shotGlassPositionSettingRepository, automaticMode);
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShotGlassPositionSetting>>> Get()
@@ -91,19 +88,9 @@ namespace SpiritSpenderServer.Controllers
         {
             var positionSetting = await _shotGlassPositionSettingRepository.GetSettingAsync(positionNumber);
 
-            await DriveToPosition(positionSetting.Position);
+            await _automaticMode.DriveToPositionAsync(positionSetting.Position);
 
             return new OkObjectResult(new OkResult());
-        }
-
-        private Task DriveToPosition(Position position)
-        {
-            var task = Task.Run(() => {
-                _X_Axis.DriveToPosition(position.X);
-                _Y_Axis.DriveToPosition(position.Y);
-            });
-
-            return task;
         }
     }
 }
