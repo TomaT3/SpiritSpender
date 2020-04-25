@@ -21,6 +21,7 @@ namespace SpiritSpenderServer.Automatic
             _shotGlassPositionSettingRepository = shotGlassPositionSettingRepository;
             _X_Axis = hardwareConfiguration.StepperDrives[X_AXIS_NAME];
             _Y_Axis = hardwareConfiguration.StepperDrives[Y_AXIS_NAME];
+            _spiritDispenserControl = hardwareConfiguration.SpiritDispenserControl;
         }
 
         public async Task ReleaseTheSpiritAsync()
