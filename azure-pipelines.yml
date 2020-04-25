@@ -34,5 +34,5 @@ stages:
         containerRegistry: 'DockerHub@TomaT3'
         repository: 'spiritspender'
         command: 'build'
-        Dockerfile: '**/pi.client.dockerfile'
+        Dockerfile: '**/pi.client.Dockerfile'
         tags: 'client'
