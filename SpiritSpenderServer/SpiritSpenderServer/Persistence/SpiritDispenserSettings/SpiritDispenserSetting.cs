@@ -23,5 +23,8 @@ namespace SpiritSpenderServer.Persistence.SpiritDispenserSettings
 
         [JsonProperty]
         public Duration WaitTimeUntilSpiritIsReleased { get; set; }
+
+        [JsonProperty]
+        public Duration WaitTimeUntilSpiritIsRefilled { get; set; }
     }
 }
