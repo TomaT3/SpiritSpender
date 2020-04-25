@@ -1,6 +1,6 @@
 ## build docker
 docker build -f pi.dockerfile -t tomat3/spiritspender:pi .
-docker build -f --no-cache pi.client.dockerfile -t tomat3/spiritspender:client .
+docker build -f pi.client.dockerfile -t tomat3/spiritspender:client .
 docker push tomat3/spiritspender:pi
 docker push tomat3/spiritspender:client
 
