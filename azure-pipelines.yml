@@ -27,4 +27,11 @@ stages:
         repository: 'spiritspender'
         command: buildAndPush
         Dockerfile: '**/pi.dockerfile'
-        tags: 'pi'
+        tags: 'server'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'DockerHub@TomaT3'
+        repository: 'spiritspender'
+        command: 'buildAndPush'
+        Dockerfile: '**/pi.client-dockerfile'
+        tags: 'client'
