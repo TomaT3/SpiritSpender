@@ -1,9 +1,6 @@
 ﻿using SpiritSpenderServer.HardwareControl;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UnitsNet;
 using UnitsNet.Units;
@@ -24,6 +21,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                     DriveTimeToCloseTheSpiritSpender = new Duration(1, DurationUnit.Second),
                     DriveTimeToReleaseTheSpirit = new Duration(1, DurationUnit.Second),
                     WaitTimeUntilSpiritIsReleased = new Duration(2, DurationUnit.Second),
+                    WaitTimeUntilSpiritIsRefilled = new Duration(1, DurationUnit.Second)
                 };
 
                 await spiritDispenserSettingRepository.Create(settings);
