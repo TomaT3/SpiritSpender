@@ -21,7 +21,7 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
-      displayName: Build an push server image
+      displayName: Build server docker image
       inputs:
         containerRegistry: 'DockerHub@TomaT3'
         repository: 'spiritspender'
@@ -29,9 +29,10 @@ stages:
         Dockerfile: '**/pi.dockerfile'
         tags: 'server'
     - task: Docker@2
+      displayName: Build client docker image
       inputs:
         containerRegistry: 'DockerHub@TomaT3'
         repository: 'spiritspender'
         command: 'build'
-        Dockerfile: '**/pi.client-dockerfile'
+        Dockerfile: '**/pi.client.dockerfile'
         tags: 'client'
