@@ -15,6 +15,7 @@ export class SpiritDispenserSettingsComponent implements OnInit {
   public readonly driveTimeToCloseTheSpiritSpender = SpiritDispenserTexts.driveTimeToCloseTheSpiritSpender;
   public readonly driveTimeToReleaseTheSpirit = SpiritDispenserTexts.driveTimeToReleaseTheSpirit;
   public readonly waitTimeUntilSpiritIsReleased = SpiritDispenserTexts.waitTimeUntilSpiritIsReleased;
+  public readonly waitTimeUntilSpiritIsRefilled = SpiritDispenserTexts.waitTimeUntilSpiritIsRefilled;
 
   constructor(private spiritDispenserApi: SpiritDispenserApiService) { }
 

@@ -11,6 +11,9 @@
     <app-units class="grid-item" [title]="waitTimeUntilSpiritIsReleased" [unitsParameter]="this.serverSettingValue.waitTimeUntilSpiritIsReleased" [editable]="false"></app-units>
     <app-units class="grid-item" [title]="waitTimeUntilSpiritIsReleased" [(unitsParameter)]="this.newSettingValue.waitTimeUntilSpiritIsReleased" [editable]="true"></app-units>
 
+    <app-units class="grid-item" [title]="waitTimeUntilSpiritIsRefilled" [unitsParameter]="this.serverSettingValue.waitTimeUntilSpiritIsRefilled" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="waitTimeUntilSpiritIsRefilled" [(unitsParameter)]="this.newSettingValue.waitTimeUntilSpiritIsRefilled" [editable]="true"></app-units>
+
     <div class="second-column caption">
         <button mat-raised-button color="primary" (click)="this.updateSettingValues()">Save values to sever</button>
     </div>

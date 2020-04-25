@@ -5,10 +5,12 @@ export interface SpiritDispenserSetting {
     driveTimeToReleaseTheSpirit: UnitsType;
     driveTimeToCloseTheSpiritSpender: UnitsType;
     waitTimeUntilSpiritIsReleased: UnitsType;
+    waitTimeUntilSpiritIsRefilled: UnitsType;
 }
 
 export class SpiritDispenserTexts {
     static readonly driveTimeToReleaseTheSpirit = "Drive time to open spirit dispenser";
     static readonly driveTimeToCloseTheSpiritSpender = "Drive time to close spirit dispenser";
     static readonly waitTimeUntilSpiritIsReleased = "Timespan to empty spirit dispenser";
+    static readonly waitTimeUntilSpiritIsRefilled = "Timespan to refill spirit dispenser";
 }
