@@ -56,7 +56,7 @@ namespace SpiritSpenderServer
                 options.AddPolicy(_myAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200")
+                    builder.AllowAnyOrigin()
                            .AllowAnyHeader()
                            .AllowAnyMethod();
                 });
