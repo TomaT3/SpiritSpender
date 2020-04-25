@@ -21,10 +21,10 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build an push server image
       inputs:
         containerRegistry: 'DockerHub@TomaT3'
         repository: 'spiritspender'
-        command: 'build'
+        command: buildAndPush
         Dockerfile: '**/pi.dockerfile'
         tags: 'pi'
