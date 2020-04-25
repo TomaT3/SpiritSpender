@@ -1,6 +1,6 @@
 <div class="position-grid-container" *ngIf="this.positionSettings; else loading">
     <ng-container *ngFor="let positionSetting of this.positionSettings">
-        <app-position-quantity class="item" [positionNumber]="positionSetting.number" [quantity]="positionSetting.quantity"></app-position-quantity>
+        <app-position-quantity class="item" [positionNumber]="positionSetting.number" [disabled]="this.isPositionLocked(positionSetting.number)" [quantity]="positionSetting.quantity"></app-position-quantity>
     </ng-container>
 </div>
 <ng-template #loading>loading server data...</ng-template>

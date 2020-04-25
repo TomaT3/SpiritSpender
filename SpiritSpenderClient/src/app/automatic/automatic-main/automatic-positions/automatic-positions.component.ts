@@ -21,7 +21,12 @@ export class AutomaticPositionsComponent implements OnInit {
     }
   }
 
+  public isPositionLocked(positionNumber: number): boolean {
+    const isLocked = positionNumber % 4 == 0;
+    return isLocked;
+  }
+  
   private async getPositionSettings(): Promise<void> {
     this.positionSettings = await this.positionsApiService.getPositionSettings();
-  }
+  } 
 }

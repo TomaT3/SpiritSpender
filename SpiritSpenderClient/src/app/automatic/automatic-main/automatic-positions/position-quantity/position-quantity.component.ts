@@ -10,10 +10,16 @@ import { ShotGlassPositionsApiService } from 'src/app/shared/services/shot-glass
 export class PositionQuantityComponent implements OnInit {
   @Input() positionNumber: number;
   @Input() quantity: Quantity;
+  @Input() disabled: boolean;
 
   constructor(private positionsApiService: ShotGlassPositionsApiService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    if(this.disabled)
+    {
+      this.quantity = Quantity.empty;
+      await this.updateQuantity();
+    }
   }
 
   public getQuantity() : string{
@@ -30,8 +36,7 @@ export class PositionQuantityComponent implements OnInit {
 
   public async changeQuantity(): Promise<void>{
     this.toggleQuantity();
-    await this.positionsApiService.updateQuantity(this.positionNumber, this.quantity);
-    this.quantity = await this.positionsApiService.getQuantity(this.positionNumber);
+    await this.updateQuantity();
   }
 
   private toggleQuantity() : void{
@@ -47,6 +52,11 @@ export class PositionQuantityComponent implements OnInit {
         this.quantity = Quantity.empty;
         break;
     }
+  }
+
+  private async updateQuantity(): Promise<void> {
+    await this.positionsApiService.updateQuantity(this.positionNumber, this.quantity);
+    this.quantity = await this.positionsApiService.getQuantity(this.positionNumber);
   }
 
 }
