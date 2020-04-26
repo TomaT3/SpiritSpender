@@ -21,18 +21,18 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
-      displayName: Build server docker image
+      displayName: Build and upload server docker image
       inputs:
         containerRegistry: 'DockerHub@TomaT3'
-        repository: 'spiritspender'
-        command: 'build'
+        repository: 'tomat3/spiritspender'
+        command: buildAndPush
         Dockerfile: '**/pi.dockerfile'
         tags: 'server'
     - task: Docker@2
-      displayName: Build client docker image
+      displayName: Build and upload client docker image
       inputs:
         containerRegistry: 'DockerHub@TomaT3'
-        repository: 'spiritspender'
-        command: 'build'
+        repository: 'tomat3/spiritspender'
+        command: 'buildAndPush'
         Dockerfile: '**/pi.client.Dockerfile'
         tags: 'client'
