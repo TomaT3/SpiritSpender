@@ -5,11 +5,6 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'automatic',
-  },
-  {
    path: 'automatic',
    loadChildren: () => import('./automatic/automatic.module').then(m => m.AutomaticModule),
   },
@@ -17,6 +12,11 @@ const routes: Routes = [
     path: 'setup',
     loadChildren: () => import('./setup/setup.module').then(m => m.SetupModule),
    },
+   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'automatic',
+  },
   {
     path: '404',
     component: PageNotFoundComponent
