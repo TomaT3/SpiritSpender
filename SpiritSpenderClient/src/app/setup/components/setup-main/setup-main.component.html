@@ -1,11 +1,11 @@
 <mat-tab-group  [backgroundColor]="'primary'">
-    <mat-tab *ngFor="let driveName of drives" label="{{driveName}}-Axis">
-      <app-drive [driveName]="driveName"></app-drive>
-    </mat-tab>
     <mat-tab label="Spirit dispenser">
       <app-spirit-dispenser></app-spirit-dispenser>
     </mat-tab>
     <mat-tab label="Positions"> 
       <app-positions></app-positions>
+    </mat-tab>
+    <mat-tab *ngFor="let driveName of drives" label="{{driveName}}-Axis">
+      <app-drive [driveName]="driveName"></app-drive>
     </mat-tab>
   </mat-tab-group>

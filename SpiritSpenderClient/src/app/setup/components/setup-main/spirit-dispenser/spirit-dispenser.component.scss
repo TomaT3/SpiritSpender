@@ -4,6 +4,7 @@
     justify-content: left; 
     align-items: left;
     border: 1px solid black;
+    padding: 5px
 }
 
 .actions {
@@ -12,11 +13,12 @@
     justify-content: left; 
     align-items: left;
     border: 1px solid black;
+    padding: 5px
 }
 
 .grid-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: min-content min-content;
     grid-template-areas: 'drive-setting drive-actions';
     gap: 2px;
    

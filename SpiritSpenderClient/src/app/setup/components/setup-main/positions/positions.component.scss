@@ -1,24 +1,7 @@
 .setting {
-    grid-area: position-setting;
     display: flex; 
     flex-direction: row;
     justify-content: flex-start; 
     // align-items: left;
     border: 1px solid black;
 }
-
-.actions {
-    grid-area: position-actions;
-    display: flex; 
-    justify-content: left; 
-    align-items: left;
-    border: 1px solid black;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-template-areas: 'position-setting position-actions';
-    gap: 2px;
-   
-  }

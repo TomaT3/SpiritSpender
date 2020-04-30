@@ -12,6 +12,7 @@
     justify-content: left; 
     align-items: left;
     border: 1px solid black;
+    padding: 5px;
 }
 
 .drive-actions {
@@ -20,11 +21,12 @@
     justify-content: left; 
     align-items: left;
     border: 1px solid black;
+    padding: 5px;
 }
 
 .grid-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: min-content min-content;
     grid-template-areas: 'current-position current-position'
                          'drive-setting drive-actions';
     //align-items: center;
