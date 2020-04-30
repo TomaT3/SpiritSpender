@@ -19,9 +19,9 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 {
                     Name = SPIRIT_DISPENSER_NAME,
                     DriveTimeToCloseTheSpiritSpender = new Duration(1, DurationUnit.Second),
-                    DriveTimeToReleaseTheSpirit = new Duration(1, DurationUnit.Second),
-                    WaitTimeUntilSpiritIsReleased = new Duration(2, DurationUnit.Second),
-                    WaitTimeUntilSpiritIsRefilled = new Duration(1, DurationUnit.Second)
+                    DriveTimeToReleaseTheSpirit = new Duration(1.5, DurationUnit.Second),
+                    WaitTimeUntilSpiritIsReleased = new Duration(1.8, DurationUnit.Second),
+                    WaitTimeUntilSpiritIsRefilled = new Duration(1.5, DurationUnit.Second)
                 };
 
                 await spiritDispenserSettingRepository.Create(settings);

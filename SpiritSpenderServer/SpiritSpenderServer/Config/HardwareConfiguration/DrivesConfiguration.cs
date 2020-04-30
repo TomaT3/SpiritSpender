@@ -21,16 +21,16 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 driveSetting = new DriveSetting
                 {
                     DriveName = DRIVE_NAME,
-                    Acceleration = new Acceleration(20, AccelerationUnit.MillimeterPerSecondSquared),
-                    MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
+                    Acceleration = new Acceleration(80, AccelerationUnit.MillimeterPerSecondSquared),
+                    MaxSpeed = new Speed(60, SpeedUnit.MillimeterPerSecond),
                     SpindlePitch = new Length(4, LengthUnit.Millimeter),
                     StepsPerRevolution = 400,
-                    SoftwareLimitMinus = new Length(-0.1, LengthUnit.Millimeter),
+                    SoftwareLimitMinus = new Length(0.1, LengthUnit.Millimeter),
                     SoftwareLimitPlus = new Length(248.1, LengthUnit.Millimeter),
                     ReverseDirection = false,
                     ReferenceDrivingDirection = DrivingDirection.Negative,
                     ReferencePosition = new Length(0, LengthUnit.Millimeter),
-                    ReferenceDrivingSpeed = new Speed(4, SpeedUnit.MillimeterPerSecond)
+                    ReferenceDrivingSpeed = new Speed(3, SpeedUnit.MillimeterPerSecond)
                 };
 
                 await driveSettingRepository.Create(driveSetting);
@@ -59,16 +59,16 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 driveSetting = new DriveSetting
                 {
                     DriveName = DRIVE_NAME,
-                    Acceleration = new Acceleration(20, AccelerationUnit.MillimeterPerSecondSquared),
-                    MaxSpeed = new Speed(200, SpeedUnit.MillimeterPerSecond),
+                    Acceleration = new Acceleration(100, AccelerationUnit.MillimeterPerSecondSquared),
+                    MaxSpeed = new Speed(80, SpeedUnit.MillimeterPerSecond),
                     SpindlePitch = new Length(8, LengthUnit.Millimeter),
                     StepsPerRevolution = 400,
-                    SoftwareLimitMinus = new Length(-0.1, LengthUnit.Millimeter),
+                    SoftwareLimitMinus = new Length(0.1, LengthUnit.Millimeter),
                     SoftwareLimitPlus = new Length(141.1, LengthUnit.Millimeter),
                     ReverseDirection = false,
                     ReferenceDrivingDirection = DrivingDirection.Negative,
                     ReferencePosition = new Length(0, LengthUnit.Millimeter),
-                    ReferenceDrivingSpeed = new Speed(3, SpeedUnit.MillimeterPerSecond)
+                    ReferenceDrivingSpeed = new Speed(3.5, SpeedUnit.MillimeterPerSecond)
                 };
 
                 await driveSettingRepository.Create(driveSetting);
