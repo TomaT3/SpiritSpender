@@ -5,15 +5,10 @@
     <div class="flexitem">
         <button mat-raised-button color="primary" (click)="this.fillGlas()" [disabled]="isDispenserActive">Fill glas</button>
     </div>
-
-    <!--
-      TODO: Add expert mode for manual open/close of the dispenser
-
-      <div class="flexitem">
-          <button mat-raised-button color="primary" (click)="this.openSpiritSpender()">Open spirit dispenser</button>
-      </div>
-      <div class="flexitem">
-          <button mat-raised-button color="primary" (click)="this.closeSpiritSpender()">Close spirit dispenser</button>
-      </div>
-    -->
+    <div class="flexitem">
+        <button mat-raised-button (click)="this.openSpiritSpender()">Open spirit dispenser</button>
+    </div>
+    <div class="flexitem">
+        <button mat-raised-button (click)="this.closeSpiritSpender()">Close spirit dispenser</button>
+    </div>
 </div>
