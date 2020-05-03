@@ -9,10 +9,12 @@ import { SpiritDispenserApiService } from 'src/app/setup/services/spirit-dispens
 export class SpiritDispenserActionsComponent {
 
   public isBottleChangeModeActive = false;
+  public isDispenserActive = false;
 
   constructor(private spiritDispenserApi: SpiritDispenserApiService) { }
 
   public async toggleBottleChangeMode(): Promise<void> {
+    this.isDispenserActive = true;
     if (this.isBottleChangeModeActive) {
       await this.spiritDispenserApi.closeSpiritSpender();
     } else {
@@ -20,6 +22,7 @@ export class SpiritDispenserActionsComponent {
     }
 
     this.isBottleChangeModeActive = !this.isBottleChangeModeActive;
+    this.isDispenserActive = false;
   }
 
   public async closeSpiritSpender(): Promise<void> {
@@ -31,6 +34,8 @@ export class SpiritDispenserActionsComponent {
   }
 
   public async fillGlas(): Promise<void> {
+    this.isDispenserActive = true;
     await this.spiritDispenserApi.fillGlas();
+    this.isDispenserActive = false;
   }
 }

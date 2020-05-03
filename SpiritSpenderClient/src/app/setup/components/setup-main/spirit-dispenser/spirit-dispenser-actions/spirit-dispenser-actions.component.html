@@ -1,9 +1,9 @@
 <div class="container">
     <div class="flexitem">
-        <button mat-raised-button color="primary" (click)="this.toggleBottleChangeMode()">{{isBottleChangeModeActive ? "Stop" : "Start"}} bottle change</button>
+        <button mat-raised-button color="primary" (click)="this.toggleBottleChangeMode()" [disabled]="isDispenserActive">{{isBottleChangeModeActive ? "Stop" : "Start"}} bottle change</button>
     </div>
     <div class="flexitem">
-        <button mat-raised-button color="primary" (click)="this.fillGlas()">Fill glas</button>
+        <button mat-raised-button color="primary" (click)="this.fillGlas()" [disabled]="isDispenserActive">Fill glas</button>
     </div>
 
     <!--
