@@ -6,9 +6,9 @@
         <button mat-raised-button color="primary" (click)="this.fillGlas()" [disabled]="isDispenserActive">Fill glas</button>
     </div>
     <div class="flexitem">
-        <button mat-raised-button (click)="this.openSpiritSpender()">Open spirit dispenser</button>
+        <button mat-raised-button (click)="this.openSpiritSpender()" [disabled]="isDispenserActive">Open spirit dispenser</button>
     </div>
     <div class="flexitem">
-        <button mat-raised-button (click)="this.closeSpiritSpender()">Close spirit dispenser</button>
+        <button mat-raised-button (click)="this.closeSpiritSpender()" [disabled]="isDispenserActive">Close spirit dispenser</button>
     </div>
 </div>
