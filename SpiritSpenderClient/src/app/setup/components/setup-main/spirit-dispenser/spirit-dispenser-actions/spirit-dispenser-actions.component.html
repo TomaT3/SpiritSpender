@@ -1,11 +1,14 @@
 <div class="container">
     <div class="flexitem">
-        <button mat-raised-button color="primary" (click)="this.openSpiritSpender()">Open spirit dispenser</button>
+        <button mat-raised-button color="primary" (click)="this.toggleBottleChangeMode()" [disabled]="isDispenserActive">{{isBottleChangeModeActive ? "Stop" : "Start"}} bottle change</button>
     </div>
     <div class="flexitem">
-        <button mat-raised-button color="primary" (click)="this.closeSpiritSpender()">Close spirit dispenser</button>
+        <button mat-raised-button color="primary" (click)="this.fillGlas()" [disabled]="isDispenserActive">Fill glas</button>
     </div>
     <div class="flexitem">
-        <button mat-raised-button color="primary" (click)="this.fillGlas()">Fill glas</button>
+        <button mat-raised-button (click)="this.closeSpiritSpender()" [disabled]="isDispenserActive">Close spirit dispenser (Motor up)</button>
+    </div>
+    <div class="flexitem">
+        <button mat-raised-button (click)="this.openSpiritSpender()" [disabled]="isDispenserActive">Open spirit dispenser (Motor down)</button>
     </div>
 </div>
