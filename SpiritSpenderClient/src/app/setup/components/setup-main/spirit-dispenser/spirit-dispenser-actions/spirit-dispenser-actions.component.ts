@@ -16,9 +16,9 @@ export class SpiritDispenserActionsComponent {
   public async toggleBottleChangeMode(): Promise<void> {
     this.isDispenserActive = true;
     if (this.isBottleChangeModeActive) {
-      await this.spiritDispenserApi.closeSpiritSpender();
-    } else {
       await this.spiritDispenserApi.openSpiritSpender();
+    } else {
+      await this.spiritDispenserApi.closeSpiritSpender();
     }
 
     this.isBottleChangeModeActive = !this.isBottleChangeModeActive;
