@@ -11,3 +11,5 @@ docker run -d --restart always --name mongo -e "MONGO_INITDB_ROOT_USERNAME=root"
 docker run -d --restart always --name mongoexpress --link mongo -e "ME_CONFIG_MONGODB_ADMINUSERNAME=root" -e "ME_CONFIG_MONGODB_ADMINPASSWORD=example" -p 8081:8081 mongo-express
 docker run --privileged -d --restart always --name spiritspenderserver --link mongo -e "MongoDB__Host=mongo" -p 5000:80 tomat3/spiritspender:server
 docker run --privileged -d --restart always --name spiritspenderclient -p 4200:80 tomat3/spiritspender:client
+
+docker container stop $(docker container list -q)
