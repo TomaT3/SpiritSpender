@@ -3,25 +3,39 @@ import { SpiritDispenserApiService } from 'src/app/setup/services/spirit-dispens
 
 @Component({
   selector: 'app-spirit-dispenser-actions',
+  styleUrls: ['./spirit-dispenser-actions.component.scss'],
   templateUrl: './spirit-dispenser-actions.component.html',
-  styleUrls: ['./spirit-dispenser-actions.component.scss']
 })
-export class SpiritDispenserActionsComponent implements OnInit {
+export class SpiritDispenserActionsComponent {
+
+  public isBottleChangeModeActive = false;
+  public isDispenserActive = false;
 
   constructor(private spiritDispenserApi: SpiritDispenserApiService) { }
 
-  ngOnInit(): void {
+  public async toggleBottleChangeMode(): Promise<void> {
+    this.isDispenserActive = true;
+    if (this.isBottleChangeModeActive) {
+      await this.spiritDispenserApi.openSpiritSpender();
+    } else {
+      await this.spiritDispenserApi.closeSpiritSpender();
+    }
+
+    this.isBottleChangeModeActive = !this.isBottleChangeModeActive;
+    this.isDispenserActive = false;
   }
 
-  public async closeSpiritSpender() : Promise<void> {
+  public async closeSpiritSpender(): Promise<void> {
     await this.spiritDispenserApi.closeSpiritSpender();
   }
 
-  public async openSpiritSpender() : Promise<void> {
+  public async openSpiritSpender(): Promise<void> {
     await this.spiritDispenserApi.openSpiritSpender();
   }
 
-  public async fillGlas() : Promise<void> {
+  public async fillGlas(): Promise<void> {
+    this.isDispenserActive = true;
     await this.spiritDispenserApi.fillGlas();
+    this.isDispenserActive = false;
   }
 }
