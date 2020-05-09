@@ -68,6 +68,19 @@ namespace SpiritSpenderServer.Persistence.Positions
                     && updateResult.ModifiedCount > 0;
         }
 
+        public async Task<bool> ClearQuantityAsync()
+        {
+            var updateResult =
+                await _context
+                        .ShotGlassPositionSettings
+                        .UpdateManyAsync<ShotGlassPositionSetting>(
+                    f => true,
+                    Builders<ShotGlassPositionSetting>.Update.Set(f => f.Quantity, Quantity.Empty));
+
+            return updateResult.IsAcknowledged
+                && updateResult.ModifiedCount > 0;
+        }
+
         public async Task<bool> UpdateAsync(ShotGlassPositionSetting shotGlassPositionSetting)
         {
             ReplaceOneResult updateResult =

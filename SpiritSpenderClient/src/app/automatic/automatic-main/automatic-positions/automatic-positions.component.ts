@@ -25,6 +25,10 @@ export class AutomaticPositionsComponent implements OnInit {
     return false;
   }
   
+  public async clearPositions(): Promise<void> {
+    this.positionSettings = await this.positionsApiService.clearPositions();
+  }
+
   private async getPositionSettings(): Promise<void> {
     this.positionSettings = await this.positionsApiService.getPositionSettings();
   } 
