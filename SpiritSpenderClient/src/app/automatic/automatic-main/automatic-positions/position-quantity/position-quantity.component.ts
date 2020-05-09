@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Quantity } from 'src/app/shared/types/position-settings';
 import { ShotGlassPositionsApiService } from 'src/app/shared/services/shot-glass-positions-api.service';
 
@@ -34,6 +34,7 @@ export class PositionQuantityComponent implements OnInit {
     }
   }
 
+  @HostListener("click")
   public async changeQuantity(): Promise<void>{
     this.toggleQuantity();
     await this.updateQuantity();

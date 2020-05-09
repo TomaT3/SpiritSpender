@@ -1,12 +1,12 @@
 <div class="container">
     <ng-container [ngSwitch]="this.quantity">
-    <button *ngSwitchCase="0" mat-icon-button class="large" [disabled]="this.disabled" (click)="this.changeQuantity()">
+    <button *ngSwitchCase="0" mat-icon-button class="large" [disabled]="this.disabled">
         <mat-icon>not_interested</mat-icon>
     </button>
-    <button *ngSwitchCase="1" mat-icon-button class="large" color="primary" (click)="this.changeQuantity()">
+    <button *ngSwitchCase="1" mat-icon-button class="large" color="primary">
         <mat-icon svgIcon="oneShotIcon"></mat-icon>
     </button>
-    <button *ngSwitchCase="2" mat-icon-button class="large" color="warn" (click)="this.changeQuantity()">
+    <button *ngSwitchCase="2" mat-icon-button class="large" color="warn">
         <mat-icon svgIcon="oneShotIcon"></mat-icon>
         <mat-icon svgIcon="oneShotIcon"></mat-icon>
     </button>
