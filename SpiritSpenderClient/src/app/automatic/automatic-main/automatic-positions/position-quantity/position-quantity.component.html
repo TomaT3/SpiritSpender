@@ -1,15 +1,20 @@
 <div class="container">
     <ng-container [ngSwitch]="this.quantity">
-    <button *ngSwitchCase="0" mat-icon-button class="large" [disabled]="this.disabled" (click)="this.changeQuantity()">
-        <mat-icon>not_interested</mat-icon>
-    </button>
-    <button *ngSwitchCase="1" mat-icon-button class="large" color="primary" (click)="this.changeQuantity()">
-        <mat-icon svgIcon="oneShotIcon"></mat-icon>
-    </button>
-    <button *ngSwitchCase="2" mat-icon-button class="large" color="warn" (click)="this.changeQuantity()">
-        <mat-icon svgIcon="oneShotIcon"></mat-icon>
-        <mat-icon svgIcon="oneShotIcon"></mat-icon>
-    </button>
+        <button *ngSwitchCase="0" mat-icon-button class="large" [disabled]="this.disabled" (click)="this.changeQuantity()">
+            <mat-icon>not_interested</mat-icon>
+        </button>
+        <button *ngSwitchCase="1" mat-icon-button class="large" color="primary" (click)="this.changeQuantity()">
+            <mat-icon svgIcon="oneShotIcon"></mat-icon>
+        </button>
+        <div *ngSwitchCase="2">
+            <button mat-icon-button class="large" color="warn" (click)="this.changeQuantity()">
+                <mat-icon svgIcon="oneShotIcon"></mat-icon>
+            </button>
+
+            <button mat-icon-button class="large" color="warn" (click)="this.changeQuantity()">
+                <mat-icon svgIcon="oneShotIcon"></mat-icon>
+            </button>
+        </div>
 
     </ng-container>
 </div>
