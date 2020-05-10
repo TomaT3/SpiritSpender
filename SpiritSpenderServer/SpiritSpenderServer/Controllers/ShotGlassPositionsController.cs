@@ -33,7 +33,7 @@ namespace SpiritSpenderServer.Controllers
             return new ObjectResult(numberOfPositions);
         }
 
-        [HttpGet("clear")]
+        [HttpPut("clear")]
         public async Task<ActionResult<IEnumerable<ShotGlassPositionSetting>>> GetClearPositions()
         {
             var result = await _shotGlassPositionSettingRepository.ClearQuantityAsync();
