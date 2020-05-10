@@ -34,7 +34,7 @@ namespace SpiritSpenderServer.Controllers
         }
 
         [HttpPut("clear")]
-        public async Task<ActionResult<IEnumerable<ShotGlassPositionSetting>>> GetClearPositions()
+        public async Task<ActionResult<IEnumerable<ShotGlassPositionSetting>>> PutClearPositions()
         {
             var result = await _shotGlassPositionSettingRepository.ClearQuantityAsync();
             if (result == false)
