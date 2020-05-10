@@ -30,6 +30,11 @@ export class ShotGlassPositionsApiService {
     return position;
   }
 
+  public async clearPositions(): Promise<PositionSettting[]> {
+    const url = `${API_URL}/clear`;
+    return await this.http.put<PositionSettting[]>(url, {}).toPromise();
+  }
+
   public async getQuantity(positionNumber: number): Promise<Quantity> {
     const url = `${API_URL}/${positionNumber}/quantity`;
     const position = await this.http.get<Quantity>(url).toPromise();
@@ -52,6 +57,4 @@ export class ShotGlassPositionsApiService {
     const url = `${API_URL}/${positionNumber}/drive-to-position`;
     const retVal = await this.http.post<Quantity>(url, null).toPromise();
   }
-
-
 }

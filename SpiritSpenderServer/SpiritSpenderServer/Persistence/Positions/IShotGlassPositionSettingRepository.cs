@@ -13,5 +13,6 @@ namespace SpiritSpenderServer.Persistence.Positions
         Task<bool> UpdateAsync(ShotGlassPositionSetting shotGlassPositionSetting);
         Task<bool> UpdatePositionAsync(int positionNumber, Position position);
         Task<bool> UpdateQuantityAsync(int positionNumber, Quantity quantity);
+        Task<bool> ClearQuantityAsync();
     }
 }
