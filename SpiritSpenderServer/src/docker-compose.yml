@@ -9,7 +9,10 @@ services:
     environment:
       MongoDB__Host: mongo
     ports:
-     - 5000:80
+      - 5000:80
+    depends_on:
+      - mongo
+      - mosquitto
 
  # angular-client:
  #   image: ${DOCKER_REGISTRY-}angular-client
@@ -37,3 +40,13 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
     depends_on:
       - mongo
+
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+  #  volumes:
+  #    - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf

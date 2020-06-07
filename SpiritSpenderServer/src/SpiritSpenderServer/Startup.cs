@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,8 +16,8 @@ using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.Serialization;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
-using System;
-using System.Linq;
+using SpiritSpenderServer.Mqtt;
+using SpiritSpenderServer.Mqtt.Settings;
 using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer
@@ -43,7 +44,7 @@ namespace SpiritSpenderServer
             services.AddControllers().AddNewtonsoftJson(action => action.SerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
 
             BsonSerializer.RegisterSerializationProvider(new UnitNetSerializationProvider());
-            services.AddSingleton<MongoDBConfig>(config.MongoDB);
+            services.AddSingleton(config.MongoDB);
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
@@ -51,6 +52,8 @@ namespace SpiritSpenderServer
             services.AddSingleton<IAutomaticMode, AutomaticMode>();
             services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
 
+            ConfigureMqtt(services);
+            
             services.AddCors(options =>
             {
                 options.AddPolicy(_myAllowSpecificOrigins,
@@ -95,7 +98,7 @@ namespace SpiritSpenderServer
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Spirit Spender API V1");
             });
 
             app.UseRouting();
@@ -109,6 +112,24 @@ namespace SpiritSpenderServer
 
             var hardwareConfiguration = app.ApplicationServices.GetService<IHardwareConfiguration>();
             hardwareConfiguration.LoadHardwareConfiguration().Wait();
+
+            var mqttConnection = app.ApplicationServices.GetService<IMqttConnection>();
+            mqttConnection.ConnectAsync().Wait();
+
+            mqttConnection.Subscribe<string>("my/topic", s =>
+            {
+                Console.WriteLine(s);
+            }).Wait();
+            mqttConnection.Publish("my/topic", "it is working");
+        }
+
+        private void ConfigureMqtt(IServiceCollection services)
+        {
+            var mqttSettings = new MqttSettings();
+            Configuration.Bind("Mqtt", mqttSettings);
+
+            services.AddSingleton(mqttSettings);
+            services.AddSingleton<IMqttConnection, MqttConnection>();
         }
     }
 }
