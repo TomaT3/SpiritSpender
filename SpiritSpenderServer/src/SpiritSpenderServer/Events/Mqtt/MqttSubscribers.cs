@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace SpiritSpenderServer.Mqtt
+namespace SpiritSpenderServer.Events.Mqtt
 {
     // TODO: This class is not really thread safe...
     public class MqttSubscribers

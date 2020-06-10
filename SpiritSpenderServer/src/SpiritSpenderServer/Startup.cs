@@ -10,14 +10,15 @@ using NSubstitute;
 using SpiritSpenderServer.Automatic;
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Config.HardwareConfiguration;
+using SpiritSpenderServer.Events.Mqtt;
+using SpiritSpenderServer.Events.Mqtt.Settings;
+using SpiritSpenderServer.Events.SignalR;
 using SpiritSpenderServer.HardwareControl;
 using SpiritSpenderServer.Persistence;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.Serialization;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
-using SpiritSpenderServer.Mqtt;
-using SpiritSpenderServer.Mqtt.Settings;
 using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer
@@ -53,6 +54,7 @@ namespace SpiritSpenderServer
             services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
 
             ConfigureMqtt(services);
+            services.AddSignalR();
             
             services.AddCors(options =>
             {
@@ -108,6 +110,7 @@ namespace SpiritSpenderServer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SignalRHub>("/signalr");
             });
 
             var hardwareConfiguration = app.ApplicationServices.GetService<IHardwareConfiguration>();

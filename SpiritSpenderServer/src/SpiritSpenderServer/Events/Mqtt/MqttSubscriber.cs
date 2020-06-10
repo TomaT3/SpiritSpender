@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpiritSpenderServer.Mqtt
+namespace SpiritSpenderServer.Events.Mqtt
 {
     public class MqttSubscriber
     {

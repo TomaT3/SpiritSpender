@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MQTTnet;
 using MQTTnet.Client.Options;
 using MQTTnet.Extensions.ManagedClient;
 using Newtonsoft.Json;
-using SpiritSpenderServer.Mqtt.Settings;
+using SpiritSpenderServer.Events.Mqtt.Settings;
 
-namespace SpiritSpenderServer.Mqtt
+namespace SpiritSpenderServer.Events.Mqtt
 {
     public class MqttConnection : IMqttConnection
     {

@@ -1,4 +1,4 @@
-﻿namespace SpiritSpenderServer.Mqtt.Settings
+﻿namespace SpiritSpenderServer.Events.Mqtt.Settings
 {
     public class MqttSettings
     {

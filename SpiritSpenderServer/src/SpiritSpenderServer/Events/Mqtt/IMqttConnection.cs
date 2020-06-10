@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SpiritSpenderServer.Mqtt
+namespace SpiritSpenderServer.Events.Mqtt
 {
     public interface IMqttConnection
     {
