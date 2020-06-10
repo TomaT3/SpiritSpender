@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace SpiritSpenderServer.Events.SignalR
 {
-    public class SignalRHub : Hub
+    public class SignalRHub : Hub, ISignalRHub
     {
-        public async Task SendMessage(string user, string message)
+        public async Task Send<TPayload>(string topic, TPayload payload)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync(topic, payload);
         }
     }
 }

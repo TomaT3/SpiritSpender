@@ -75,5 +75,10 @@ namespace SpiritSpenderServer.Events.Mqtt
                 }
             });
         }
+
+        public async Task Send<TPayload>(string topic, TPayload payload)
+        {
+            await Publish(topic, payload);
+        }
     }
 }

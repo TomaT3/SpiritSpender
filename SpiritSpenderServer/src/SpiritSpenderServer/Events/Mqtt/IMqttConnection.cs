@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SpiritSpenderServer.Events.Mqtt
 {
-    public interface IMqttConnection
+    public interface IMqttConnection : IEventConnectionProvider
     {
         Task ConnectAsync();
         Task Subscribe<TPayload>(string topic, Action<TPayload> messageReceivedHandler);
