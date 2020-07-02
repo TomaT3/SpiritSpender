@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Device.Gpio;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SpiritSpenderServer.HardwareControl
 {
@@ -10,12 +7,21 @@ namespace SpiritSpenderServer.HardwareControl
     {
         private readonly IGpioControllerFacade _controller;
         private readonly int _pinNumber;
+
+        public event Action<PinValue> ValueChanged;
+
         public GpioPin(IGpioControllerFacade controller, int pinNumber, PinMode pinMode)
         {
             _controller = controller;
             _pinNumber = pinNumber;
 
             controller.OpenPin(_pinNumber, pinMode);
+            if (pinMode == PinMode.Input)
+            {
+                _controller.RegisterCallbackForPinValueChangedEvent(pinNumber, PinEventTypes.Falling, ValueChangedHandler);
+                _controller.RegisterCallbackForPinValueChangedEvent(pinNumber, PinEventTypes.Rising, ValueChangedHandler);
+
+            }
         }
 
         public void Write(PinValue pinValue)
@@ -26,6 +32,12 @@ namespace SpiritSpenderServer.HardwareControl
         public PinValue Read()
         {
             return _controller.Read(_pinNumber);
+        }
+
+        private void ValueChangedHandler(PinValueChangedEventArgs pinValueChangedEventArgs)
+        {
+            var value = Read();
+            ValueChanged?.Invoke(value);
         }
     }
 }
