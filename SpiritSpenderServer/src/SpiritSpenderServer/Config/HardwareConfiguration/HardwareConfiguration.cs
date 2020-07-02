@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.HardwareControl;
+using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.DriveSettings;
@@ -17,7 +18,10 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
         private IShotGlassPositionSettingRepository _shotGlassPositionSettingRepository;
 
         public HardwareConfiguration(ISpiritDispenserSettingRepository spiritDispenserSettingRepository, IDriveSettingRepository driveSettingRepository, IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IGpioControllerFacade gpioControllerFacade)
-            => (_spiritDispenserSettingRepository, _driveSettingRepository, _shotGlassPositionSettingRepository, _gpioControllerFacade) = (spiritDispenserSettingRepository, driveSettingRepository, shotGlassPositionSettingRepository, gpioControllerFacade);
+            => (_spiritDispenserSettingRepository, _driveSettingRepository, _shotGlassPositionSettingRepository, _gpioControllerFacade) 
+             = (spiritDispenserSettingRepository, driveSettingRepository, shotGlassPositionSettingRepository, gpioControllerFacade);
+
+        public IEmergencyStop EmergencyStop { get; private set; }
 
         public ISpiritDispenserControl SpiritDispenserControl { get; private set; }
 
@@ -25,9 +29,15 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
         public async Task LoadHardwareConfiguration()
         {
+            AddEmergencyStop();
             await AddSpiritDispenserControl();
             await AddDrives();
             await CreateShotGlassPositionsAsync();
+        }
+
+        private void AddEmergencyStop()
+        {
+            EmergencyStop = new EmergencyStop(12, _gpioControllerFacade);
         }
 
         private async Task AddSpiritDispenserControl()

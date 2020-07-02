@@ -10,6 +10,6 @@ namespace SpiritSpenderServer.HardwareControl
         void OpenPin(int pinNumber, PinMode mode);
         PinValue Read(int pinNumber);
         void Write(int pinNumber, PinValue value);
-        void RegisterCallbackForPinValueChangedEvent(int pinNumber, PinEventTypes eventTypes, Action<PinValueChangedEventArgs> callback)
+        void RegisterCallbackForPinValueChangedEvent(int pinNumber, PinEventTypes eventTypes, Action<PinValueChangedEventArgs> callback);
     }
 }
