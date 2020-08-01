@@ -1,0 +1,23 @@
+name: Build and Deploy to DockerHub
+on:
+  release:
+    types: [created]
+
+env:
+  DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build with Docker
+      run: docker build -t "tomat3/spiritspender:server" .
+
+    - name: Push the image to DockerHub
+      run: docker push "tomat3/spiritspender:server"
