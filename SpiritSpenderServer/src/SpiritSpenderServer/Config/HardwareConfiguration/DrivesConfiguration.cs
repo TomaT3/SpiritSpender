@@ -1,9 +1,6 @@
 ﻿using SpiritSpenderServer.HardwareControl;
 using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.DriveSettings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UnitsNet;
 using UnitsNet.Units;

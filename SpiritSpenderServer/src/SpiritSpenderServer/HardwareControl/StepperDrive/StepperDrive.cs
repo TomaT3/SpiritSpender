@@ -1,12 +1,9 @@
 ﻿using SpiritSpenderServer.Persistence.DriveSettings;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnitsNet;
 using System.Threading.Tasks;
 using UnitsNet.Units;
-using System.Device.Gpio;
-using System.Diagnostics;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
