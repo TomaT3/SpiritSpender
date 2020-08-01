@@ -15,8 +15,6 @@ using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.Serialization;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
-using System;
-using System.Linq;
 using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer

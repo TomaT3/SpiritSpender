@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SpiritSpenderServer.HardwareControl.StepperDrive
+﻿namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
     public class DrivePins
     {

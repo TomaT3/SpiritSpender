@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using UnitsNet;
+﻿using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
