@@ -1,5 +1,8 @@
 name: Build and Deploy to DockerHub
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 env:
   DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
