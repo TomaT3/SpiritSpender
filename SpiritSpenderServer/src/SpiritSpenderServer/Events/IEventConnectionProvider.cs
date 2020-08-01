@@ -4,6 +4,6 @@ namespace SpiritSpenderServer.Events
 {
     public interface IEventConnectionProvider
     {
-        public Task Send<TPayload>(string topic, TPayload payload);
+        Task Send<TPayload>(string topic, TPayload payload);
     }
 }
