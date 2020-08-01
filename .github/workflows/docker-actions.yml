@@ -14,8 +14,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Build with Docker
-      run: docker build -t "tomat3/spiritspender:server" -f SpiritSpenderServer/src/SpiritSpenderServer/pi.dockerfile SpiritSpenderServer/src/SpiritSpenderServer 
+    - name: Build and push Client Docker image
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        repository: tomat3/spiritspender
+        tags: client
+        dockerfile: ./SpiritSpenderClient/pi.client.Dockerfile
 
-    - name: Push the image to DockerHub
-      run: docker push "tomat3/spiritspender:server"
+    - name: Build and push Server Docker image
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        repository: tomat3/spiritspender
+        tags: server
+        dockerfile: ./SpiritSpenderServer/src/SpiritSpenderServer/pi.dockerfile
