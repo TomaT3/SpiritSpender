@@ -25,6 +25,7 @@
     "@aspnet/signalr": "^1.1.4",
     "component": "^1.1.0",
     "ngx-autosize-input": "^2.3.7",
+    "ngx-mqtt": "^7.0.0",
     "rxjs": "^6.5.5",
     "tslib": "^1.10.0",
     "unitsnet-js": "^1.0.15",
