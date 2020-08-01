@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpiritSpenderServer.Automatic;
-using SpiritSpenderServer.Config.HardwareConfiguration;
-using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.Positions;
 
 namespace SpiritSpenderServer.Controllers

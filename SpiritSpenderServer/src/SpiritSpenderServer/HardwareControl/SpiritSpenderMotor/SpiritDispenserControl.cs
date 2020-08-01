@@ -1,12 +1,8 @@
 ﻿using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
-using System.Timers;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnitsNet;
-using UnitsNet.Units;
 
 namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
