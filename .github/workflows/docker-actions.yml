@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build with Docker
-      run: docker build -t "tomat3/spiritspender:server" ./SpiritSpenderServer/src/SpiritSpenderServer/pi.dockerfile
+      run: docker build -t "tomat3/spiritspender:server" -f SpiritSpenderServer/src/SpiritSpenderServer/pi.dockerfile SpiritSpenderServer/src/SpiritSpenderServer 
 
     - name: Push the image to DockerHub
       run: docker push "tomat3/spiritspender:server"
