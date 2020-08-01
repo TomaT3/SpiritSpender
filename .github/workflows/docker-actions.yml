@@ -22,6 +22,7 @@ jobs:
         repository: tomat3/spiritspender
         tags: client
         dockerfile: ./SpiritSpenderClient/pi.client.Dockerfile
+        path: ./SpiritSpenderClient
 
     - name: Build and push Server Docker image
       uses: docker/build-push-action@v1
@@ -31,3 +32,4 @@ jobs:
         repository: tomat3/spiritspender
         tags: server
         dockerfile: ./SpiritSpenderServer/src/SpiritSpenderServer/pi.dockerfile
+        path: ./SpiritSpenderServer/src/SpiritSpenderServer
