@@ -1,7 +1,5 @@
 name: Build and Deploy to DockerHub
-on:
-  release:
-    types: [created]
+on: [push]
 
 env:
   DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
