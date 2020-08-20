@@ -28,7 +28,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
             }
 
             return new SpiritDispenserControl(
-                new SpiritSpenderMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: gpioControllerFacade),
+                new LinearMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: gpioControllerFacade),
                 spiritDispenserSettingRepository, SPIRIT_DISPENSER_NAME);
            
         }

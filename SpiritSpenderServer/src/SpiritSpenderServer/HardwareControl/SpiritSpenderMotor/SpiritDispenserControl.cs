@@ -11,11 +11,11 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         private string _name;
         private ISpiritDispenserSettingRepository _spiritDispenserSettingRepository;
         private SpiritDispenserSetting _spiritDispenserSetting;
-        private ISpiritSpenderMotor _spiritSpenderMotor;
+        private ILinearMotor _spiritSpenderMotor;
         private AutoResetEvent _waitHandleSpiritDispenserRefilled = new AutoResetEvent(true);
         private System.Timers.Timer _spiritDispenserRefilledTimer;
 
-        public SpiritDispenserControl(ISpiritSpenderMotor spiritSpenderMotor, ISpiritDispenserSettingRepository dispenserSettingRepository, string name)
+        public SpiritDispenserControl(ILinearMotor spiritSpenderMotor, ISpiritDispenserSettingRepository dispenserSettingRepository, string name)
             => (_spiritSpenderMotor, _spiritDispenserSettingRepository, _name) = (spiritSpenderMotor, dispenserSettingRepository, name);
 
         public string Name => _name;
@@ -25,25 +25,25 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             _spiritDispenserSetting = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
         }
 
-        public void FillGlas()
+        public async Task FillGlas()
         {
             _waitHandleSpiritDispenserRefilled.WaitOne();
 
-            ReleaseSpirit();
-            Thread.Sleep(Convert.ToInt32(_spiritDispenserSetting.WaitTimeUntilSpiritIsReleased.Milliseconds));
-            CloseSpiritSpender();
+            await ReleaseSpirit();
+            await Task.Delay(Convert.ToInt32(_spiritDispenserSetting.WaitTimeUntilSpiritIsReleased.Milliseconds));
+            await CloseSpiritSpender();
 
             StartRefillTimer(_spiritDispenserSetting.WaitTimeUntilSpiritIsRefilled);
         }
 
-        public void ReleaseSpirit()
+        public async Task ReleaseSpirit()
         {
-            _spiritSpenderMotor.DriveBackward(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit);
+            await _spiritSpenderMotor.DriveBackward(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit);
         }
 
-        public void CloseSpiritSpender()
+        public async Task CloseSpiritSpender()
         {
-            _spiritSpenderMotor.DriveForward(_spiritDispenserSetting.DriveTimeToCloseTheSpiritSpender);
+            await _spiritSpenderMotor.DriveForward(_spiritDispenserSetting.DriveTimeToCloseTheSpiritSpender);
         }
 
         private void StartRefillTimer(Duration timeToRefill)

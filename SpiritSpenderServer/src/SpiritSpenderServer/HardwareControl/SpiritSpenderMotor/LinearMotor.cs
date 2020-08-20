@@ -1,38 +1,53 @@
 ﻿using System;
 using System.Device.Gpio;
 using System.Threading;
+using System.Threading.Tasks;
 using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
-    public class SpiritSpenderMotor : ISpiritSpenderMotor
+    public class LinearMotor : ILinearMotor
     {
         GpioPin _forwardPin;
         GpioPin _backwardPin;
+        private CancellationTokenSource _cancelMovementTokensource;
+        private object _lockObject = new Object();
 
-        public SpiritSpenderMotor(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
+        public LinearMotor(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
             => InitGpio(forwardGpioPin, backwardGpioPin, gpioControllerFacade);
 
 
         private void InitGpio(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
         {
+            _cancelMovementTokensource = new CancellationTokenSource();
             _forwardPin = new GpioPin(gpioControllerFacade, forwardGpioPin, PinMode.Output);
             _backwardPin = new GpioPin(gpioControllerFacade, backwardGpioPin, PinMode.Output);
             StopMotor();
         }
 
-        public void DriveForward(Duration drivingTime)
+        public async Task DriveForward(Duration drivingTime)
         {
             DriveForward();
-            Thread.Sleep(Convert.ToInt32(drivingTime.Milliseconds));
-            StopMotor();
+            await Task.Delay(Convert.ToInt32(drivingTime.Milliseconds), _cancelMovementTokensource.Token);
+            StopMovement();
         }
 
-        public void DriveBackward(Duration drivingTime)
+        public async Task DriveBackward(Duration drivingTime)
         {
             DriveBackward();
-            Thread.Sleep(Convert.ToInt32(drivingTime.Milliseconds));
+            await Task.Delay(Convert.ToInt32(drivingTime.Milliseconds), _cancelMovementTokensource.Token);
+            StopMovement();
+        }
+
+        public void StopMovement()
+        {
             StopMotor();
+
+            lock (_lockObject)
+            {
+                _cancelMovementTokensource.Cancel();
+                _cancelMovementTokensource = new CancellationTokenSource();
+            }
         }
 
         private void DriveForward()

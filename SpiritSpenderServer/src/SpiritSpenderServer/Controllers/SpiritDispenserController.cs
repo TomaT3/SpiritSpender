@@ -44,23 +44,23 @@ namespace SpiritSpenderServer.Controllers
         }
 
         [HttpPost("fill-glas")]
-        public ActionResult FillGlas()
+        public async Task<ActionResult> FillGlas()
         {
-            _hardwareConfiguration.SpiritDispenserControl.FillGlas();
+            await _hardwareConfiguration.SpiritDispenserControl.FillGlas();
             return new OkObjectResult(new OkResult());
         }
 
         [HttpPost("close-spirit-spender")]
-        public ActionResult CloseSpiritSpender()
+        public async Task<ActionResult> CloseSpiritSpender()
         {
-            _hardwareConfiguration.SpiritDispenserControl.CloseSpiritSpender();
+            await _hardwareConfiguration.SpiritDispenserControl.CloseSpiritSpender();
             return new OkObjectResult(new OkResult());
         }
 
         [HttpPost("release-spirit")]
-        public ActionResult ReleaseSpirit()
+        public async Task<ActionResult> ReleaseSpirit()
         {
-            _hardwareConfiguration.SpiritDispenserControl.ReleaseSpirit();
+            await _hardwareConfiguration.SpiritDispenserControl.ReleaseSpirit();
             return new OkObjectResult(new OkResult());
         }
     }

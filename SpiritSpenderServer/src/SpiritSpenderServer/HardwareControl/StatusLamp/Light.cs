@@ -35,7 +35,7 @@ namespace SpiritSpenderServer.HardwareControl.StatusLamp
         public void Blink(Duration durationOn, Duration durationOff)
         {
             CheckAndStopBlinkingTask();
-            Task.Run(() => Blinking(Convert.ToInt32(durationOn.Milliseconds), Convert.ToInt32(durationOff.Milliseconds), _blinkingTokensource.Token), _blinkingTokensource.Token);
+            _blinkingTask = Task.Run(() => Blinking(Convert.ToInt32(durationOn.Milliseconds), Convert.ToInt32(durationOff.Milliseconds), _blinkingTokensource.Token), _blinkingTokensource.Token);
         }
 
         private void CheckAndStopBlinkingTask()

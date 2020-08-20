@@ -35,12 +35,12 @@ namespace SpiritSpenderServer.Automatic
                 {
                     case Quantity.OneShot:
                         await DriveToPositionAsync(positionSetting.Position);
-                        _spiritDispenserControl.FillGlas();
+                        await _spiritDispenserControl.FillGlas();
                         break;
                     case Quantity.DoubleShot:
                         await DriveToPositionAsync(positionSetting.Position);
-                        _spiritDispenserControl.FillGlas();
-                        _spiritDispenserControl.FillGlas();
+                        await _spiritDispenserControl.FillGlas();
+                        await _spiritDispenserControl.FillGlas();
                         break;
                     case Quantity.Empty:
                         // do nothing
