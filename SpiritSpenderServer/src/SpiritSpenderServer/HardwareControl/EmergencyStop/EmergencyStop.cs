@@ -14,6 +14,10 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
         public EmergencyStop(int emergencyStopGpioPin, IGpioControllerFacade gpioControllerFacade)
             => InitGpio(emergencyStopGpioPin, gpioControllerFacade);
 
+        public void SetEmergencyStop(bool isEmergencyStopPressed)
+        {
+            EmergencyStopReleased_ValueChanged(isEmergencyStopPressed ? PinValue.Low : PinValue.High);
+        }
 
         private void InitGpio(int emergencyStopGpioPin, IGpioControllerFacade gpioControllerFacade)
         {

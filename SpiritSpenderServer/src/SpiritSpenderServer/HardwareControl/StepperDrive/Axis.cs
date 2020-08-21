@@ -57,7 +57,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             });
 
             await _drivingTask;
-            _drivingTask = null;
+            _drivingTask = Task.CompletedTask;
         }
 
         public async Task DriveToPositionAsync(Length position)
@@ -80,13 +80,12 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         private async Task StopMovement()
         {
-            if (_drivingTask != null)
+            if (!_drivingTask.IsCompleted)
             {
                 try
                 {
                     _stopDrivingTokenSource.Cancel();
                     await _drivingTask;
-                    _drivingTask.Dispose();
                 }
                 finally
                 {
@@ -123,7 +122,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             });
 
             await _drivingTask;
-            _drivingTask = null;
+            _drivingTask = Task.CompletedTask;
         }
 
         private bool DriveSteps(Length distanceToGo)

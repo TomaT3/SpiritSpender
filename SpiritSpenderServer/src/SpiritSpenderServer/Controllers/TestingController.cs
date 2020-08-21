@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SpiritSpenderServer.Config.HardwareConfiguration;
+using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,10 +14,12 @@ namespace SpiritSpenderServer.Controllers
     public class TestingController : ControllerBase
     {
         private readonly IDriveSettingRepository _driveSettingsRepo;
+        private IEmergencyStop _emergencyStop;
 
-        public TestingController(IDriveSettingRepository driveSettingRepository)
+        public TestingController(IDriveSettingRepository driveSettingRepository, IHardwareConfiguration hardwareConfiguration)
         {
             _driveSettingsRepo = driveSettingRepository;
+            _emergencyStop = hardwareConfiguration.EmergencyStop;
         }
 
         // GET: api/DriveSettings
@@ -39,6 +43,13 @@ namespace SpiritSpenderServer.Controllers
             };
             await _driveSettingsRepo.Create(test);
             return new ObjectResult(test);
+        }
+
+        [HttpPost("EmergencyStop")]
+        public ActionResult EmergencyStop([FromBody] bool isEmergencyStopPressed)
+        {
+            _emergencyStop.SetEmergencyStop(isEmergencyStopPressed);
+            return new OkResult();
         }
 
         // POST: api/DriveSettings

@@ -7,5 +7,7 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
         bool EmergencyStopPressed { get; }
 
         event Action<bool> EmergencyStopPressedChanged;
+
+        void SetEmergencyStop(bool isEmergencyStopPressed);
     }
 }
