@@ -41,7 +41,8 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             var waitTimeBetweenSteps = new Duration(1 / referenceSpeedInStepsPerSecond / 2.0, DurationUnit.Second);
             var direction = GetReferenceDirection();
 
-            _stepperMotorControl.ReferenceDrive(waitTimeBetweenSteps, direction, _driveSetting.ReferencePosition);
+            _stepperMotorControl.DriveToReferenceSwitch(waitTimeBetweenSteps, direction);
+            _stepperMotorControl.SetPosition(_driveSetting.ReferencePosition);
         }
 
         public Task DriveToPositionAsync(Length position)

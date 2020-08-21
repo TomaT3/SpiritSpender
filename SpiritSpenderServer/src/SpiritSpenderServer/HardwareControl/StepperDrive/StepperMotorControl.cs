@@ -13,6 +13,8 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         private static PinValue ENA_RELEASED = PinValue.High;
         private static PinValue ENA_LOCKED = PinValue.Low;
 
+        private volatile bool _stopMoving;
+
         GpioPin _enablePin;
         GpioPin _directionPin;
         GpioPin _stepPin;
@@ -46,6 +48,9 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             for (int i = 0; i < ticksToWaitBetweenSteps.Length; i++)
             {
+                if (_stopMoving) 
+                    break;
+
                 DoOneStep(ticksToWaitBetweenSteps[i]);
                 CurrentPosition += distanceToAddForOneStep;
             }
@@ -53,7 +58,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             ReleaseDrive();
         }
 
-        public void ReferenceDrive(Duration waitTimeBetweenSteps, bool direction, Length referencePosition)
+        public void DriveToReferenceSwitch(Duration waitTimeBetweenSteps, bool direction)
         {
             var ticksToWaitBetweenSteps = WaitTimeToTick(waitTimeBetweenSteps);
             EnableDrive();
@@ -61,15 +66,17 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             Thread.Sleep(500);
 
-
-            while (!IsReferencePositionReached())
+            while (!IsReferencePositionReached() && !_stopMoving)
             {
                 DoOneStep(ticksToWaitBetweenSteps);
             }
 
-            SetPosition(referencePosition);
-
             ReleaseDrive();
+        }
+
+        public void StopDrives()
+        {
+            _stopMoving = true;
         }
 
         private void DoOneStep(long ticksToWaitBetweenOneStep)
@@ -89,6 +96,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         private void ReleaseDrive()
         {
             _enablePin.Write(ENA_RELEASED);
+            _stopMoving = false;
         }
 
         private void SetDirection(bool direction)
