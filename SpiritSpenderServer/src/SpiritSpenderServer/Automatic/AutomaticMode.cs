@@ -18,13 +18,13 @@ namespace SpiritSpenderServer.Automatic
         private readonly IAxis _X_Axis;
         private readonly IAxis _Y_Axis;
 
-        public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration, IEmergencyStop emergencyStop)
+        public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration)
         {
             _shotGlassPositionSettingRepository = shotGlassPositionSettingRepository;
             _X_Axis = hardwareConfiguration.StepperDrives[X_AXIS_NAME];
             _Y_Axis = hardwareConfiguration.StepperDrives[Y_AXIS_NAME];
             _spiritDispenserControl = hardwareConfiguration.SpiritDispenserControl;
-            _emergencyStop = emergencyStop;
+            _emergencyStop = hardwareConfiguration.EmergencyStop;
         }
 
         public async Task ReleaseTheSpiritAsync()
