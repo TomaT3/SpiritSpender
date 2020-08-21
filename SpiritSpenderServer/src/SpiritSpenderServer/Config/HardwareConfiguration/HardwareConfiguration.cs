@@ -42,7 +42,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
         private async Task AddSpiritDispenserControl()
         {
-            SpiritDispenserControl = await SpiritDispenserConfiguration.GetSpiritDispenserControl(_spiritDispenserSettingRepository, _gpioControllerFacade);
+            SpiritDispenserControl = await SpiritDispenserConfiguration.GetSpiritDispenserControl(_spiritDispenserSettingRepository, _gpioControllerFacade, EmergencyStop);
             await SpiritDispenserControl.UpdateSettingsAsync();
         }
 

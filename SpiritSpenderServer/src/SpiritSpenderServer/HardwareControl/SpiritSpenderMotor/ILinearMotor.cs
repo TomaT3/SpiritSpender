@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
     public interface ILinearMotor
     {
-        Task DriveBackward(Duration drivingTime);
-        Task DriveForward(Duration drivingTime);
-        void StopMovement();
+        Task DriveBackwardAsync(Duration drivingTime, CancellationToken token);
+        Task DriveForwardAsync(Duration drivingTime, CancellationToken token);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.HardwareControl;
+using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 {
     public class SpiritDispenserConfiguration
     {
-        public static async Task<SpiritDispenserControl> GetSpiritDispenserControl(ISpiritDispenserSettingRepository spiritDispenserSettingRepository, IGpioControllerFacade gpioControllerFacade)
+        public static async Task<SpiritDispenserControl> GetSpiritDispenserControl(ISpiritDispenserSettingRepository spiritDispenserSettingRepository, IGpioControllerFacade gpioControllerFacade, IEmergencyStop emergencyStop)
         {
             const string SPIRIT_DISPENSER_NAME = "SpiritDispenser";
             var settings = await spiritDispenserSettingRepository.GetSpiritDispenserSetting(SPIRIT_DISPENSER_NAME);
@@ -29,7 +30,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
             return new SpiritDispenserControl(
                 new LinearMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: gpioControllerFacade),
-                spiritDispenserSettingRepository, SPIRIT_DISPENSER_NAME);
+                spiritDispenserSettingRepository, emergencyStop, SPIRIT_DISPENSER_NAME);
            
         }
     }

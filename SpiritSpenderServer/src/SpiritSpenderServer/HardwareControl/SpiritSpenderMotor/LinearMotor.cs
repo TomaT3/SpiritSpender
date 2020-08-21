@@ -10,8 +10,6 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
     {
         GpioPin _forwardPin;
         GpioPin _backwardPin;
-        private CancellationTokenSource _cancelMovementTokensource;
-        private object _lockObject = new Object();
 
         public LinearMotor(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
             => InitGpio(forwardGpioPin, backwardGpioPin, gpioControllerFacade);
@@ -19,35 +17,23 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 
         private void InitGpio(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
         {
-            _cancelMovementTokensource = new CancellationTokenSource();
             _forwardPin = new GpioPin(gpioControllerFacade, forwardGpioPin, PinMode.Output);
             _backwardPin = new GpioPin(gpioControllerFacade, backwardGpioPin, PinMode.Output);
             StopMotor();
         }
 
-        public async Task DriveForward(Duration drivingTime)
+        public async Task DriveForwardAsync(Duration drivingTime, CancellationToken token)
         {
             DriveForward();
-            await Task.Delay(Convert.ToInt32(drivingTime.Milliseconds), _cancelMovementTokensource.Token);
-            StopMovement();
+            await Task.Delay(Convert.ToInt32(drivingTime.Milliseconds), token);
+            StopMotor();
         }
 
-        public async Task DriveBackward(Duration drivingTime)
+        public async Task DriveBackwardAsync(Duration drivingTime, CancellationToken token)
         {
             DriveBackward();
-            await Task.Delay(Convert.ToInt32(drivingTime.Milliseconds), _cancelMovementTokensource.Token);
-            StopMovement();
-        }
-
-        public void StopMovement()
-        {
+            await Task.Delay(Convert.ToInt32(drivingTime.Milliseconds), token);
             StopMotor();
-
-            lock (_lockObject)
-            {
-                _cancelMovementTokensource.Cancel();
-                _cancelMovementTokensource = new CancellationTokenSource();
-            }
         }
 
         private void DriveForward()
