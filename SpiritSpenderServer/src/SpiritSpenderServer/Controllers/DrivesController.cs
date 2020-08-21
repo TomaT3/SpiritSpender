@@ -55,14 +55,14 @@ namespace SpiritSpenderServer.Controllers
         [HttpPost("{driveName}/drive-to-position")]
         public ActionResult DriveToPosition(string driveName, [FromBody] Length position)
         {
-            _hardwareConfiguration.StepperDrives[driveName].DriveToPosition(position);
+            _hardwareConfiguration.StepperDrives[driveName].DriveToPositionAsync(position);
             return new OkObjectResult(new OkResult());
         }
 
         [HttpPost("{driveName}/drive-distance")]
         public ActionResult DriveDistance(string driveName, [FromBody] Length distance)
         {
-            _hardwareConfiguration.StepperDrives[driveName].DriveDistance(distance);
+            _hardwareConfiguration.StepperDrives[driveName].DriveDistanceAsync(distance);
             return new OkObjectResult(new OkResult());
         }
 
@@ -76,7 +76,7 @@ namespace SpiritSpenderServer.Controllers
         [HttpPost("{driveName}/reference-drive")]
         public ActionResult ReferenceDrive(string driveName)
         {
-            _hardwareConfiguration.StepperDrives[driveName].ReferenceDrive();
+            _hardwareConfiguration.StepperDrives[driveName].ReferenceDriveAsync();
             return new OkObjectResult(new OkResult());
         }
     }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Device.Gpio;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
@@ -36,7 +38,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         public void SetPosition(Length position) => CurrentPosition = position;
 
-        public void SetOutput(Duration[] waitTimeBetweenSteps, bool direction, Length distanceToAddForOneStep)
+        public void SetOutput(Duration[] waitTimeBetweenSteps, bool direction, Length distanceToAddForOneStep, CancellationToken token)
         {
             var ticksToWaitBetweenSteps = WaitTimeToTicks(waitTimeBetweenSteps);
             EnableDrive();
@@ -46,6 +48,9 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             for (int i = 0; i < ticksToWaitBetweenSteps.Length; i++)
             {
+                if (token.IsCancellationRequested) 
+                    break;
+
                 DoOneStep(ticksToWaitBetweenSteps[i]);
                 CurrentPosition += distanceToAddForOneStep;
             }
@@ -53,7 +58,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             ReleaseDrive();
         }
 
-        public void ReferenceDrive(Duration waitTimeBetweenSteps, bool direction, Length referencePosition)
+        public void DriveToReferenceSwitch(Duration waitTimeBetweenSteps, bool direction, CancellationToken token)
         {
             var ticksToWaitBetweenSteps = WaitTimeToTick(waitTimeBetweenSteps);
             EnableDrive();
@@ -61,13 +66,10 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             Thread.Sleep(500);
 
-
-            while (!IsReferencePositionReached())
+            while (!IsReferencePositionReached() && !token.IsCancellationRequested)
             {
                 DoOneStep(ticksToWaitBetweenSteps);
             }
-
-            SetPosition(referencePosition);
 
             ReleaseDrive();
         }

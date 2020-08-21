@@ -25,7 +25,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
         public ISpiritDispenserControl SpiritDispenserControl { get; private set; }
 
-        public Dictionary<string, IStepperDrive> StepperDrives { get; private set; }
+        public Dictionary<string, IAxis> StepperDrives { get; private set; }
 
         public async Task LoadHardwareConfiguration()
         {
@@ -42,26 +42,26 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
         private async Task AddSpiritDispenserControl()
         {
-            SpiritDispenserControl = await SpiritDispenserConfiguration.GetSpiritDispenserControl(_spiritDispenserSettingRepository, _gpioControllerFacade);
+            SpiritDispenserControl = await SpiritDispenserConfiguration.GetSpiritDispenserControl(_spiritDispenserSettingRepository, _gpioControllerFacade, EmergencyStop);
             await SpiritDispenserControl.UpdateSettingsAsync();
         }
 
         private async Task AddDrives()
         {
-            StepperDrives = new Dictionary<string, IStepperDrive>();
+            StepperDrives = new Dictionary<string, IAxis>();
             await AddStepperDriveX();
             await AddStepperDriveY();
         }
 
         private async Task AddStepperDriveX()
         {
-            var stepperDriveX = await DrivesConfiguration.GetStepperDriveX(_driveSettingRepository, _gpioControllerFacade);
+            var stepperDriveX = await DrivesConfiguration.GetStepperDriveX(_driveSettingRepository, _gpioControllerFacade, EmergencyStop);
             StepperDrives.Add(stepperDriveX.DriveName, stepperDriveX);
         }
 
         private async Task AddStepperDriveY()
         {
-            var stepperDriveY = await DrivesConfiguration.GetStepperDriveY(_driveSettingRepository, _gpioControllerFacade);
+            var stepperDriveY = await DrivesConfiguration.GetStepperDriveY(_driveSettingRepository, _gpioControllerFacade, EmergencyStop);
             StepperDrives.Add(stepperDriveY.DriveName, stepperDriveY);
         }
 

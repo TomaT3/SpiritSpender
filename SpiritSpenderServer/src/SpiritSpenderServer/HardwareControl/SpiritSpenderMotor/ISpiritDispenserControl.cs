@@ -6,9 +6,9 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
     {
         string Name { get; }
         Task UpdateSettingsAsync();
-        void FillGlas();
-        void CloseSpiritSpender();
-        void ReleaseSpirit();
+        Task FillGlas();
+        Task CloseSpiritSpender();
+        Task ReleaseSpirit();
         
     }
 }

@@ -3,15 +3,14 @@ using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
-    public interface IStepperDrive
+    public interface IAxis
     {
         string DriveName { get; }
         Length CurrentPosition { get; }
         void SetPosition(Length position);
-        void DriveDistance(Length distance);
-        void DriveToPosition(Length position);
+        Task DriveDistanceAsync(Length distance);
         Task DriveToPositionAsync(Length position);
-        void ReferenceDrive();
+        Task ReferenceDriveAsync();
         Task UpdateSettingsAsync();
     }
 }

@@ -1,16 +1,18 @@
-﻿using System;
+﻿using SpiritSpenderServer.Helper;
+using System;
 using System.Device.Gpio;
 using System.Threading;
+using System.Threading.Tasks;
 using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
-    public class SpiritSpenderMotor : ISpiritSpenderMotor
+    public class LinearMotor : ILinearMotor
     {
         GpioPin _forwardPin;
         GpioPin _backwardPin;
 
-        public SpiritSpenderMotor(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
+        public LinearMotor(int forwardGpioPin, int backwardGpioPin, IGpioControllerFacade gpioControllerFacade)
             => InitGpio(forwardGpioPin, backwardGpioPin, gpioControllerFacade);
 
 
@@ -21,17 +23,17 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             StopMotor();
         }
 
-        public void DriveForward(Duration drivingTime)
+        public async Task DriveForwardAsync(Duration drivingTime, CancellationToken token)
         {
             DriveForward();
-            Thread.Sleep(Convert.ToInt32(drivingTime.Milliseconds));
+            await Convert.ToInt32(drivingTime.Milliseconds).DelayExceptionFree(token);
             StopMotor();
         }
 
-        public void DriveBackward(Duration drivingTime)
+        public async Task DriveBackwardAsync(Duration drivingTime, CancellationToken token)
         {
             DriveBackward();
-            Thread.Sleep(Convert.ToInt32(drivingTime.Milliseconds));
+            await Convert.ToInt32(drivingTime.Milliseconds).DelayExceptionFree(token);
             StopMotor();
         }
 

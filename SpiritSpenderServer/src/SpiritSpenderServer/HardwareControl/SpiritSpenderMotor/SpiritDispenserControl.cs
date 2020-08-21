@@ -1,4 +1,5 @@
-﻿using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
+﻿using SpiritSpenderServer.HardwareControl.EmergencyStop;
+using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,12 +12,20 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         private string _name;
         private ISpiritDispenserSettingRepository _spiritDispenserSettingRepository;
         private SpiritDispenserSetting _spiritDispenserSetting;
-        private ISpiritSpenderMotor _spiritSpenderMotor;
+        private ILinearMotor _spiritSpenderMotor;
+        private IEmergencyStop _emergencyStop;
         private AutoResetEvent _waitHandleSpiritDispenserRefilled = new AutoResetEvent(true);
         private System.Timers.Timer _spiritDispenserRefilledTimer;
+        private CancellationTokenSource _cancelMovementTokensource;
 
-        public SpiritDispenserControl(ISpiritSpenderMotor spiritSpenderMotor, ISpiritDispenserSettingRepository dispenserSettingRepository, string name)
-            => (_spiritSpenderMotor, _spiritDispenserSettingRepository, _name) = (spiritSpenderMotor, dispenserSettingRepository, name);
+        public SpiritDispenserControl(ILinearMotor spiritSpenderMotor, ISpiritDispenserSettingRepository dispenserSettingRepository, IEmergencyStop emergencyStop, string name)
+        {
+            (_spiritSpenderMotor, _spiritDispenserSettingRepository, _emergencyStop, _name) =
+                (spiritSpenderMotor, dispenserSettingRepository, emergencyStop, name);
+
+            _cancelMovementTokensource = new CancellationTokenSource();
+            emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
+        }
 
         public string Name => _name;
 
@@ -25,25 +34,54 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             _spiritDispenserSetting = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
         }
 
-        public void FillGlas()
+        public async Task FillGlas()
         {
+            if (_emergencyStop.EmergencyStopPressed)
+                return;
+
             _waitHandleSpiritDispenserRefilled.WaitOne();
 
-            ReleaseSpirit();
-            Thread.Sleep(Convert.ToInt32(_spiritDispenserSetting.WaitTimeUntilSpiritIsReleased.Milliseconds));
-            CloseSpiritSpender();
+            await ReleaseSpirit();
+            await Task.Delay(Convert.ToInt32(_spiritDispenserSetting.WaitTimeUntilSpiritIsReleased.Milliseconds), _cancelMovementTokensource.Token);
+            await CloseSpiritSpender();
 
             StartRefillTimer(_spiritDispenserSetting.WaitTimeUntilSpiritIsRefilled);
         }
 
-        public void ReleaseSpirit()
+        public async Task ReleaseSpirit()
         {
-            _spiritSpenderMotor.DriveBackward(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit);
+            if (_emergencyStop.EmergencyStopPressed)
+                return;
+
+            await _spiritSpenderMotor.DriveBackwardAsync(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit, _cancelMovementTokensource.Token);
         }
 
-        public void CloseSpiritSpender()
+        public async Task CloseSpiritSpender()
         {
-            _spiritSpenderMotor.DriveForward(_spiritDispenserSetting.DriveTimeToCloseTheSpiritSpender);
+            if (_emergencyStop.EmergencyStopPressed)
+                return;
+
+            await _spiritSpenderMotor.DriveForwardAsync(_spiritDispenserSetting.DriveTimeToCloseTheSpiritSpender, _cancelMovementTokensource.Token);
+        }
+
+        private void EmergencyStopPressedChanged(bool emergencyStopPressed)
+        {
+            if (emergencyStopPressed)
+                StopMovement();
+        }
+
+        private void StopMovement()
+        {
+            try
+            {
+                _cancelMovementTokensource.Cancel();
+            }
+            finally
+            {
+                _cancelMovementTokensource = new CancellationTokenSource();
+            }
+
+            _waitHandleSpiritDispenserRefilled.Set();
         }
 
         private void StartRefillTimer(Duration timeToRefill)

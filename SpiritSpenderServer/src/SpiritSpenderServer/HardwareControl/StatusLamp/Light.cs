@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpiritSpenderServer.Helper;
+using System;
 using System.Device.Gpio;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,19 +36,17 @@ namespace SpiritSpenderServer.HardwareControl.StatusLamp
         public void Blink(Duration durationOn, Duration durationOff)
         {
             CheckAndStopBlinkingTask();
-            Task.Run(() => Blinking(Convert.ToInt32(durationOn.Milliseconds), Convert.ToInt32(durationOff.Milliseconds), _blinkingTokensource.Token), _blinkingTokensource.Token);
+            _blinkingTask = Task.Run(() => Blinking(Convert.ToInt32(durationOn.Milliseconds), Convert.ToInt32(durationOff.Milliseconds), _blinkingTokensource.Token), _blinkingTokensource.Token);
         }
 
         private void CheckAndStopBlinkingTask()
         {
-            lock (_lockObject)
+            if (_blinkingTask != null)
             {
-                if (_blinkingTask != null)
-                {
-                    _blinkingTokensource.Cancel();
-                    _blinkingTask.Dispose();
-                    _blinkingTokensource = new CancellationTokenSource();
-                }
+                _blinkingTokensource.Cancel();
+                _blinkingTask.Wait();
+                _blinkingTask.Dispose();
+                _blinkingTokensource = new CancellationTokenSource();
             }
         }
 
@@ -57,11 +56,11 @@ namespace SpiritSpenderServer.HardwareControl.StatusLamp
             {
                 if (cancellationToken.IsCancellationRequested) return;
                 TurnLightOn();
-                await Task.Delay(durationOn, cancellationToken);
+                await durationOn.DelayExceptionFree(cancellationToken);
 
                 if (cancellationToken.IsCancellationRequested) return;
                 TurnLightOff();
-                await Task.Delay(durationOff, cancellationToken);
+                await durationOff.DelayExceptionFree(cancellationToken);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.Config.HardwareConfiguration;
+using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.Positions;
@@ -12,16 +13,18 @@ namespace SpiritSpenderServer.Automatic
         const string X_AXIS_NAME = "X";
         const string Y_AXIS_NAME = "Y";
         private readonly IShotGlassPositionSettingRepository _shotGlassPositionSettingRepository;
+        private readonly IEmergencyStop _emergencyStop;
         private readonly ISpiritDispenserControl _spiritDispenserControl;
-        private readonly IStepperDrive _X_Axis;
-        private readonly IStepperDrive _Y_Axis;
-        
+        private readonly IAxis _X_Axis;
+        private readonly IAxis _Y_Axis;
+
         public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration)
         {
             _shotGlassPositionSettingRepository = shotGlassPositionSettingRepository;
             _X_Axis = hardwareConfiguration.StepperDrives[X_AXIS_NAME];
             _Y_Axis = hardwareConfiguration.StepperDrives[Y_AXIS_NAME];
             _spiritDispenserControl = hardwareConfiguration.SpiritDispenserControl;
+            _emergencyStop = hardwareConfiguration.EmergencyStop;
         }
 
         public async Task ReleaseTheSpiritAsync()
@@ -31,16 +34,21 @@ namespace SpiritSpenderServer.Automatic
 
             foreach (var positionSetting in orderedPositionSettings)
             {
+                if (_emergencyStop.EmergencyStopPressed)
+                {
+                    break;
+                }
+
                 switch (positionSetting.Quantity)
                 {
                     case Quantity.OneShot:
                         await DriveToPositionAsync(positionSetting.Position);
-                        _spiritDispenserControl.FillGlas();
+                        await _spiritDispenserControl.FillGlas();
                         break;
                     case Quantity.DoubleShot:
                         await DriveToPositionAsync(positionSetting.Position);
-                        _spiritDispenserControl.FillGlas();
-                        _spiritDispenserControl.FillGlas();
+                        await _spiritDispenserControl.FillGlas();
+                        await _spiritDispenserControl.FillGlas();
                         break;
                     case Quantity.Empty:
                         // do nothing
