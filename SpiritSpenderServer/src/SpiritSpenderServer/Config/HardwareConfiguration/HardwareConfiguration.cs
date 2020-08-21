@@ -55,13 +55,13 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
         private async Task AddStepperDriveX()
         {
-            var stepperDriveX = await DrivesConfiguration.GetStepperDriveX(_driveSettingRepository, _gpioControllerFacade);
+            var stepperDriveX = await DrivesConfiguration.GetStepperDriveX(_driveSettingRepository, _gpioControllerFacade, EmergencyStop);
             StepperDrives.Add(stepperDriveX.DriveName, stepperDriveX);
         }
 
         private async Task AddStepperDriveY()
         {
-            var stepperDriveY = await DrivesConfiguration.GetStepperDriveY(_driveSettingRepository, _gpioControllerFacade);
+            var stepperDriveY = await DrivesConfiguration.GetStepperDriveY(_driveSettingRepository, _gpioControllerFacade, EmergencyStop);
             StepperDrives.Add(stepperDriveY.DriveName, stepperDriveY);
         }
 

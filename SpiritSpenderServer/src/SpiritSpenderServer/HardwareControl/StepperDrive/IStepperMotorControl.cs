@@ -8,5 +8,6 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         void SetPosition(Length position);
         void SetOutput(Duration[] waitTimeBetweenSteps, bool direction, Length distanceToAddForOneStep);
         void DriveToReferenceSwitch(Duration waitTimeBetweenSteps, bool direction);
+        void StopDrives();
     }
 }
