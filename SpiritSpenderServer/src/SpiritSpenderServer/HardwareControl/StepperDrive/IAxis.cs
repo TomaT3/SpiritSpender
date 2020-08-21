@@ -3,7 +3,7 @@ using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
-    public interface IStepperDrive
+    public interface IAxis
     {
         string DriveName { get; }
         Length CurrentPosition { get; }

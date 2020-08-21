@@ -10,7 +10,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
     {
         Task LoadHardwareConfiguration();
         ISpiritDispenserControl SpiritDispenserControl { get; }
-        Dictionary<string, IStepperDrive> StepperDrives { get; }
+        Dictionary<string, IAxis> StepperDrives { get; }
         IEmergencyStop EmergencyStop { get; }
     }
 }

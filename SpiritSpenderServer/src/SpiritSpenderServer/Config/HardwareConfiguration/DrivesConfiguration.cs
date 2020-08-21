@@ -10,7 +10,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 {
     public class DrivesConfiguration
     {
-        public static async Task<StepperDrive> GetStepperDriveX(IDriveSettingRepository driveSettingRepository, IGpioControllerFacade gpioControllerFacade, IEmergencyStop emergencyStop)
+        public static async Task<Axis> GetStepperDriveX(IDriveSettingRepository driveSettingRepository, IGpioControllerFacade gpioControllerFacade, IEmergencyStop emergencyStop)
         {
             const string DRIVE_NAME = "X";
             var driveSetting = await driveSettingRepository.GetDriveSetting(DRIVE_NAME);
@@ -42,13 +42,13 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 ReferenceSwitchPin = 20
             };
 
-            var stepperDrive = new StepperDrive(DRIVE_NAME, driveSettingRepository,
+            var stepperDrive = new Axis(DRIVE_NAME, driveSettingRepository,
                 new StepperMotorControl(drivePins, gpioControllerFacade), emergencyStop);
             await stepperDrive.UpdateSettingsAsync();
             return stepperDrive;
         }
 
-        public static async Task<StepperDrive> GetStepperDriveY(IDriveSettingRepository driveSettingRepository, IGpioControllerFacade gpioControllerFacade, IEmergencyStop emergencyStop)
+        public static async Task<Axis> GetStepperDriveY(IDriveSettingRepository driveSettingRepository, IGpioControllerFacade gpioControllerFacade, IEmergencyStop emergencyStop)
         {
             const string DRIVE_NAME = "Y";
             var driveSetting = await driveSettingRepository.GetDriveSetting(DRIVE_NAME);
@@ -80,7 +80,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 ReferenceSwitchPin = 21
             };
 
-            var stepperDrive = new StepperDrive(DRIVE_NAME, driveSettingRepository,
+            var stepperDrive = new Axis(DRIVE_NAME, driveSettingRepository,
                 new StepperMotorControl(drivePins, gpioControllerFacade), emergencyStop);
             await stepperDrive.UpdateSettingsAsync();
             return stepperDrive;

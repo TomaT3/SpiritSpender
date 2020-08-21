@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
-    public class StepperDrive : IStepperDrive
+    public class Axis : IAxis
     {
         private static bool FORWARD = true;
         private static bool BACKWARD = false;
@@ -26,7 +26,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
 
 
-        public StepperDrive(string driveName, IDriveSettingRepository driveSettingRepository, IStepperMotorControl stepperMotorControl, IEmergencyStop emergencyStop)
+        public Axis(string driveName, IDriveSettingRepository driveSettingRepository, IStepperMotorControl stepperMotorControl, IEmergencyStop emergencyStop)
         {
             (_driveName, _driveSettingRepository, _stepperMotorControl, _emergencyStop) = (driveName, driveSettingRepository, stepperMotorControl, emergencyStop);
             _stopDrivingTokenSource = new CancellationTokenSource();
@@ -54,7 +54,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             _drivingTask = Task.Run(() =>
             {
                 ReferenceDrive(waitTimeBetweenSteps, direction);
-            }, _stopDrivingTokenSource.Token);
+            });
 
             await _drivingTask;
             _drivingTask = null;
@@ -82,17 +82,22 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         {
             if (_drivingTask != null)
             {
-                _stopDrivingTokenSource.Cancel();
-                await _drivingTask;
-                _drivingTask.Dispose();
-                _stopDrivingTokenSource = new CancellationTokenSource();
-                _stepperMotorControl.StopDrives();
+                try
+                {
+                    _stopDrivingTokenSource.Cancel();
+                    await _drivingTask;
+                    _drivingTask.Dispose();
+                }
+                finally
+                {
+                    _stopDrivingTokenSource = new CancellationTokenSource();
+                }
             }
         }
 
         private void ReferenceDrive(Duration waitTimeBetweenSteps, bool direction)
         {
-            _stepperMotorControl.DriveToReferenceSwitch(waitTimeBetweenSteps, direction);
+            _stepperMotorControl.DriveToReferenceSwitch(waitTimeBetweenSteps, direction, _stopDrivingTokenSource.Token);
             _stepperMotorControl.SetPosition(_driveSetting.ReferencePosition);
         }
 
@@ -115,7 +120,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             _drivingTask = Task.Run(() =>
             {
                 DriveSteps(distanceToGo);
-            }, _stopDrivingTokenSource.Token);
+            });
 
             await _drivingTask;
             _drivingTask = null;
@@ -155,7 +160,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             var drive = GetDriveDirection(steps);
 
-            _stepperMotorControl.SetOutput(waitTimeBetweenSteps, drive.direction, drive.distanceOfOneStep);
+            _stepperMotorControl.SetOutput(waitTimeBetweenSteps, drive.direction, drive.distanceOfOneStep, _stopDrivingTokenSource.Token);
             return true;
         }
 

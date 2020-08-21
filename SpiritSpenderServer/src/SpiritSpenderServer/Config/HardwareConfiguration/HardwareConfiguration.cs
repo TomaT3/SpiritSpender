@@ -25,7 +25,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
         public ISpiritDispenserControl SpiritDispenserControl { get; private set; }
 
-        public Dictionary<string, IStepperDrive> StepperDrives { get; private set; }
+        public Dictionary<string, IAxis> StepperDrives { get; private set; }
 
         public async Task LoadHardwareConfiguration()
         {
@@ -48,7 +48,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
         private async Task AddDrives()
         {
-            StepperDrives = new Dictionary<string, IStepperDrive>();
+            StepperDrives = new Dictionary<string, IAxis>();
             await AddStepperDriveX();
             await AddStepperDriveY();
         }

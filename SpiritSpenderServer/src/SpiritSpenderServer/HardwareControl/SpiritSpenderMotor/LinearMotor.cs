@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpiritSpenderServer.Helper;
+using System;
 using System.Device.Gpio;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,14 +26,14 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         public async Task DriveForwardAsync(Duration drivingTime, CancellationToken token)
         {
             DriveForward();
-            await Task.Delay(Convert.ToInt32(drivingTime.Milliseconds), token);
+            await Convert.ToInt32(drivingTime.Milliseconds).DelayExceptionFree(token);
             StopMotor();
         }
 
         public async Task DriveBackwardAsync(Duration drivingTime, CancellationToken token)
         {
             DriveBackward();
-            await Task.Delay(Convert.ToInt32(drivingTime.Milliseconds), token);
+            await Convert.ToInt32(drivingTime.Milliseconds).DelayExceptionFree(token);
             StopMotor();
         }
 

@@ -17,7 +17,6 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         private AutoResetEvent _waitHandleSpiritDispenserRefilled = new AutoResetEvent(true);
         private System.Timers.Timer _spiritDispenserRefilledTimer;
         private CancellationTokenSource _cancelMovementTokensource;
-        private object _lockObject = new Object();
 
         public SpiritDispenserControl(ILinearMotor spiritSpenderMotor, ISpiritDispenserSettingRepository dispenserSettingRepository, IEmergencyStop emergencyStop, string name)
         {
@@ -73,9 +72,12 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 
         private void StopMovement()
         {
-            lock (_lockObject)
+            try
             {
                 _cancelMovementTokensource.Cancel();
+            }
+            finally
+            {
                 _cancelMovementTokensource = new CancellationTokenSource();
             }
 
