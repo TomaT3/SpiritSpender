@@ -7,6 +7,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
     {
         string DriveName { get; }
         Length CurrentPosition { get; }
+        Status Status { get; }
         void SetPosition(Length position);
         Task DriveDistanceAsync(Length distance);
         Task DriveToPositionAsync(Length position);

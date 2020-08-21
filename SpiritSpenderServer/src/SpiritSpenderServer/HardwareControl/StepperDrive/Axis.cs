@@ -30,9 +30,11 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         {
             (_driveName, _driveSettingRepository, _stepperMotorControl, _emergencyStop) = (driveName, driveSettingRepository, stepperMotorControl, emergencyStop);
             _stopDrivingTokenSource = new CancellationTokenSource();
+            Status = Status.NotReady;
             _emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
         }
 
+        public Status Status { get; private set; }
         public string DriveName => _driveName;
 
         public Length CurrentPosition => _stepperMotorControl.CurrentPosition.ToUnit(LengthUnit.Millimeter);
@@ -47,6 +49,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         public async Task ReferenceDriveAsync()
         {
+            Status = Status.NotReady;
             var referenceSpeedInStepsPerSecond = _driveSetting.ReferenceDrivingSpeed.ToStepsPerSecond(_driveSetting);
             var waitTimeBetweenSteps = new Duration(1 / referenceSpeedInStepsPerSecond / 2.0, DurationUnit.Second);
             var direction = GetReferenceDirection();
@@ -75,7 +78,14 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         private void EmergencyStopPressedChanged(bool emergencyStopPressed)
         {
             if (emergencyStopPressed)
+            {
                 StopMovement().Wait();
+                Status = Status.Error;
+            }
+            else
+            {
+                Status = Status.NotReady;
+            }
         }
 
         private async Task StopMovement()
@@ -97,7 +107,12 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         private void ReferenceDrive(Duration waitTimeBetweenSteps, bool direction)
         {
             _stepperMotorControl.DriveToReferenceSwitch(waitTimeBetweenSteps, direction, _stopDrivingTokenSource.Token);
-            _stepperMotorControl.SetPosition(_driveSetting.ReferencePosition);
+
+            if (!_stopDrivingTokenSource.IsCancellationRequested)
+            {
+                _stepperMotorControl.SetPosition(_driveSetting.ReferencePosition);
+                Status = Status.Ready;
+            }
         }
 
         private bool CheckLimitSwitches(Length distance)
@@ -116,6 +131,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         private async Task DriveStepsAsync(Length distanceToGo)
         {
+            Status = Status.Running;
             _drivingTask = Task.Run(() =>
             {
                 DriveSteps(distanceToGo);
@@ -123,6 +139,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             await _drivingTask;
             _drivingTask = Task.CompletedTask;
+            Status = Status.Ready;
         }
 
         private bool DriveSteps(Length distanceToGo)
