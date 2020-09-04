@@ -53,7 +53,6 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
         private async Task AddSpiritDispenserControl()
         {
             SpiritDispenserControl = await SpiritDispenserConfiguration.GetSpiritDispenserControl(_spiritDispenserSettingRepository, _gpioControllerFacade, EmergencyStop);
-            await SpiritDispenserControl.UpdateSettingsAsync();
         }
 
         private async Task AddDrives()
@@ -66,13 +65,13 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
         private async Task AddStepperDriveX()
         {
             var stepperDriveX = await DrivesConfiguration.GetStepperDriveX(_driveSettingRepository, _gpioControllerFacade, EmergencyStop);
-            StepperDrives.Add(stepperDriveX.DriveName, stepperDriveX);
+            StepperDrives.Add(stepperDriveX.DriveSetting.DriveName, stepperDriveX);
         }
 
         private async Task AddStepperDriveY()
         {
             var stepperDriveY = await DrivesConfiguration.GetStepperDriveY(_driveSettingRepository, _gpioControllerFacade, EmergencyStop);
-            StepperDrives.Add(stepperDriveY.DriveName, stepperDriveY);
+            StepperDrives.Add(stepperDriveY.DriveSetting.DriveName, stepperDriveY);
         }
 
         private async Task CreateShotGlassPositionsAsync()

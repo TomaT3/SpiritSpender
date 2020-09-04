@@ -17,7 +17,6 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         private string _driveName;
         private IStepperMotorControl _stepperMotorControl;
         private IDriveSettingRepository _driveSettingRepository;
-        private DriveSetting _driveSetting;
         private Length _lengthOfOneStep;
         private Task _drivingTask;
         private IEmergencyStop _emergencyStop;
@@ -35,22 +34,27 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         }
 
         public Status Status { get; private set; }
-        public string DriveName => _driveName;
+        public DriveSetting DriveSetting { get; private set; }
 
         public Length CurrentPosition => _stepperMotorControl.CurrentPosition.ToUnit(LengthUnit.Millimeter);
 
         public void SetPosition(Length position) => _stepperMotorControl.SetPosition(position);
 
-        public async Task UpdateSettingsAsync()
+        public async Task InitAsync()
         {
-            _driveSetting = await _driveSettingRepository.GetDriveSetting(_driveName);
-            _lengthOfOneStep = 1.ToDistance(_driveSetting);
+            await GetDriveSettings();
+        }
+
+        public async Task UpdateSettingsAsync(DriveSetting setting)
+        {
+            await _driveSettingRepository.Update(setting);
+            await GetDriveSettings();
         }
 
         public async Task ReferenceDriveAsync()
         {
             Status = Status.NotReady;
-            var referenceSpeedInStepsPerSecond = _driveSetting.ReferenceDrivingSpeed.ToStepsPerSecond(_driveSetting);
+            var referenceSpeedInStepsPerSecond = DriveSetting.ReferenceDrivingSpeed.ToStepsPerSecond(DriveSetting);
             var waitTimeBetweenSteps = new Duration(1 / referenceSpeedInStepsPerSecond / 2.0, DurationUnit.Second);
             var direction = GetReferenceDirection();
 
@@ -73,6 +77,12 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         public async Task DriveDistanceAsync(Length distance)
         {
             await DriveStepsAsync(distance);
+        }
+
+        private async Task GetDriveSettings()
+        {
+            DriveSetting = await _driveSettingRepository.GetDriveSetting(_driveName);
+            _lengthOfOneStep = 1.ToDistance(DriveSetting);
         }
 
         private void EmergencyStopPressedChanged(bool emergencyStopPressed)
@@ -110,7 +120,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             if (!_stopDrivingTokenSource.IsCancellationRequested)
             {
-                _stepperMotorControl.SetPosition(_driveSetting.ReferencePosition);
+                _stepperMotorControl.SetPosition(DriveSetting.ReferencePosition);
                 Status = Status.Ready;
             }
         }
@@ -118,8 +128,8 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         private bool CheckLimitSwitches(Length distance)
         {
             var endPosition = _stepperMotorControl.CurrentPosition + distance;
-            if ( endPosition < _driveSetting.SoftwareLimitMinus
-                || endPosition > _driveSetting.SoftwareLimitPlus)
+            if ( endPosition < DriveSetting.SoftwareLimitMinus
+                || endPosition > DriveSetting.SoftwareLimitPlus)
             {
                 return false;
             }
@@ -148,10 +158,10 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             if (!isDistanceOk)
                 return false;
 
-            var steps = distanceToGo.ToSteps(_driveSetting);
+            var steps = distanceToGo.ToSteps(DriveSetting);
             var numberOfSteps = Math.Abs(steps);
-            var maxSpeedinStepsPerSecond = _driveSetting.MaxSpeed.ToStepsPerSecond(_driveSetting);
-            var maxAccelerationInStepsPerSecondSquare = _driveSetting.Acceleration.ToAccelerationPerSecondSquare(_driveSetting);
+            var maxSpeedinStepsPerSecond = DriveSetting.MaxSpeed.ToStepsPerSecond(DriveSetting);
+            var maxAccelerationInStepsPerSecondSquare = DriveSetting.Acceleration.ToAccelerationPerSecondSquare(DriveSetting);
             var numberOfStepsForAcceleration = Convert.ToInt32(Math.Pow(maxSpeedinStepsPerSecond, 2) / maxAccelerationInStepsPerSecondSquare / 2);
             var numberOfStepsForDecceleration = numberOfStepsForAcceleration;
             var numberOfStepsWithMaxSpeed = 0;
@@ -182,8 +192,8 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         private (bool direction, Length distanceOfOneStep) GetDriveDirection(int steps)
         {
-            if (steps > 0 && !_driveSetting.ReverseDirection ||
-                steps < 0 && _driveSetting.ReverseDirection)
+            if (steps > 0 && !DriveSetting.ReverseDirection ||
+                steps < 0 && DriveSetting.ReverseDirection)
             {
                 return (FORWARD, _lengthOfOneStep);
             }
@@ -195,9 +205,9 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         private bool GetReferenceDirection()
         {
-            var direction = _driveSetting.ReferenceDrivingDirection == DrivingDirection.Positive ? FORWARD : BACKWARD;
+            var direction = DriveSetting.ReferenceDrivingDirection == DrivingDirection.Positive ? FORWARD : BACKWARD;
 
-            if (_driveSetting.ReverseDirection)
+            if (DriveSetting.ReverseDirection)
             {
                 direction = !direction;
             }

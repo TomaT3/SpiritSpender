@@ -30,9 +30,12 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 await spiritDispenserSettingRepository.Create(settings);
             }
 
-            return new SpiritDispenserControl(
+            var spiritDispenserControl = new SpiritDispenserControl(
                 new LinearMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: gpioControllerFacade),
                 spiritDispenserSettingRepository, emergencyStop, SPIRIT_DISPENSER_NAME);
+            await spiritDispenserControl.InitAsync();
+
+            return spiritDispenserControl;
            
         }
     }
