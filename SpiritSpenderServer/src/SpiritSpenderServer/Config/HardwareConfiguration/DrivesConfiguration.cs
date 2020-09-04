@@ -44,7 +44,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
             var stepperDrive = new Axis(DRIVE_NAME, driveSettingRepository,
                 new StepperMotorControl(drivePins, gpioControllerFacade), emergencyStop);
-            await stepperDrive.UpdateSettingsAsync();
+            await stepperDrive.InitAsync();
             return stepperDrive;
         }
 
@@ -82,7 +82,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 
             var stepperDrive = new Axis(DRIVE_NAME, driveSettingRepository,
                 new StepperMotorControl(drivePins, gpioControllerFacade), emergencyStop);
-            await stepperDrive.UpdateSettingsAsync();
+            await stepperDrive.InitAsync();
             return stepperDrive;
         }
     }

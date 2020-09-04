@@ -10,84 +10,74 @@ namespace SpiritSpenderServer.Controllers
     [ApiController]
     public class SpiritDispenserController : ControllerBase
     {
-        private ISpiritDispenserSettingRepository _spiritDispenserSettingRepository;
-        private IHardwareConfiguration _hardwareConfiguration;
-        private string _name;
-        public SpiritDispenserController(ISpiritDispenserSettingRepository spiritDispenserSettingRepository, IHardwareConfiguration hardwareConfiguration)
-            => (_spiritDispenserSettingRepository, _hardwareConfiguration, _name) = (spiritDispenserSettingRepository, hardwareConfiguration, hardwareConfiguration.SpiritDispenserControl.Name);
+        private ISpiritDispenserControl _spiritDispenserControl;
+
+        public SpiritDispenserController(IHardwareConfiguration hardwareConfiguration)
+            => (_spiritDispenserControl) = (hardwareConfiguration.SpiritDispenserControl);
 
         [HttpGet]
         public ActionResult<string> Get()
         {
-            return new ObjectResult(_name);
+            return new ObjectResult(_spiritDispenserControl.SpiritDispenserSetting.Name);
         }
 
         [HttpGet("setting")]
-        public async Task<ActionResult<SpiritDispenserSetting>> GetSetting()
+        public ActionResult<SpiritDispenserSetting> GetSetting()
         {
-            var spiritDispenserSetting = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
-            if (spiritDispenserSetting == null)
-                return new NotFoundResult();
-
-            return new ObjectResult(spiritDispenserSetting);
+            return new ObjectResult(_spiritDispenserControl.SpiritDispenserSetting);
         }
 
         [HttpPut("setting")]
         public async Task<ActionResult<SpiritDispenserSetting>> Put([FromBody] SpiritDispenserSetting spiritDispenserSetting)
         {
-            var sdsFromDb = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
-            if (sdsFromDb == null)
-                return new NotFoundResult();
-
-            await _spiritDispenserSettingRepository.Update(spiritDispenserSetting);
-            await _hardwareConfiguration.SpiritDispenserControl.UpdateSettingsAsync();
-            return new OkObjectResult(spiritDispenserSetting);
+            await _spiritDispenserControl.UpdateSettingsAsync(spiritDispenserSetting);
+            return new OkObjectResult(_spiritDispenserControl.SpiritDispenserSetting);
         }
 
         [HttpGet("status")]
         public ActionResult<SpiritDispenserPosition> Status()
         {
-            return new ObjectResult(_hardwareConfiguration.SpiritDispenserControl.Status);
+            return new ObjectResult(_spiritDispenserControl.Status);
         }
 
         [HttpGet("current-position")]
         public ActionResult<SpiritDispenserPosition> CurrentPosition()
         {
-            return new ObjectResult(_hardwareConfiguration.SpiritDispenserControl.CurrentPosition);
+            return new ObjectResult(_spiritDispenserControl.CurrentPosition);
         }
 
         [HttpPost("reference-drive")]
         public async Task<ActionResult> ReferenceDrive()
         {
-            await _hardwareConfiguration.SpiritDispenserControl.ReferenceDriveAsync();
+            await _spiritDispenserControl.ReferenceDriveAsync();
             return new OkObjectResult(new OkResult());
         }
 
         [HttpPost("goto-bottle-change")]
         public async Task<ActionResult> GoToBottleChange()
         {
-            await _hardwareConfiguration.SpiritDispenserControl.GoToBottleChangePosition();
+            await _spiritDispenserControl.GoToBottleChangePosition();
             return new OkObjectResult(new OkResult());
         }
 
         [HttpPost("fill-glas")]
         public async Task<ActionResult> FillGlas()
         {
-            await _hardwareConfiguration.SpiritDispenserControl.FillGlas();
+            await _spiritDispenserControl.FillGlas();
             return new OkObjectResult(new OkResult());
         }
 
         [HttpPost("goto-home-position")]
         public async Task<ActionResult> GoToHomePosition()
         {
-            await _hardwareConfiguration.SpiritDispenserControl.CloseSpiritSpender();
+            await _spiritDispenserControl.CloseSpiritSpender();
             return new OkObjectResult(new OkResult());
         }
 
         [HttpPost("goto-release-position")]
         public async Task<ActionResult> GoToReleasePosition()
         {
-            await _hardwareConfiguration.SpiritDispenserControl.ReleaseSpirit();
+            await _spiritDispenserControl.ReleaseSpirit();
             return new OkObjectResult(new OkResult());
         }
     }
