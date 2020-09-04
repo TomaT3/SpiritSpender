@@ -61,21 +61,21 @@ namespace SpiritSpenderServer.Controllers
             return new OkObjectResult(new OkResult());
         }
 
-        [HttpPost("gren-light/on")]
+        [HttpPost("green-light/on")]
         public ActionResult GreenLightOn()
         {
             _statusLamp.GreenLightOn();
             return new OkObjectResult(new OkResult());
         }
 
-        [HttpPost("gren-light/off")]
+        [HttpPost("green-light/off")]
         public ActionResult GreenLightOff()
         {
             _statusLamp.GreenLightOff();
             return new OkObjectResult(new OkResult());
         }
 
-        [HttpPost("gren-light/blink")]
+        [HttpPost("green-light/blink")]
         public ActionResult GreenLightBlink()
         {
             _statusLamp.RedLightBlink();

@@ -5,6 +5,9 @@
     <mat-tab label="Positions"> 
       <app-positions></app-positions>
     </mat-tab>
+    <mat-tab label="Status Lamp">
+      <app-status-lamp></app-status-lamp>
+    </mat-tab>
     <mat-tab *ngFor="let driveName of drives" label="{{driveName}}-Axis">
       <app-drive [driveName]="driveName"></app-drive>
     </mat-tab>
