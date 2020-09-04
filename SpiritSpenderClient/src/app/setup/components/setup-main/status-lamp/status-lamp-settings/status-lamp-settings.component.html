@@ -1,0 +1,15 @@
+<div *ngIf="this.serverSettingValue as StatusLampSetting; else loading" class="grid-container">
+    <div class="caption"><h1>Server value</h1></div>
+    <div class="caption"><h1>New value</h1></div>
+
+    <app-units class="grid-item" [title]="blinkTimeOff" [unitsParameter]="this.serverSettingValue.blinkTimeOff" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="blinkTimeOff" [(unitsParameter)]="this.newSettingValue.blinkTimeOff" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="blinkTimeOn" [unitsParameter]="this.serverSettingValue.blinkTimeOn" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="blinkTimeOn" [(unitsParameter)]="this.newSettingValue.blinkTimeOn" [editable]="true"></app-units>
+    
+    <div class="second-column caption">
+        <button mat-raised-button color="primary" (click)="this.updateSettingValues()">Save values to sever</button>
+    </div>
+</div>
+<ng-template #loading>Loading server data...</ng-template>

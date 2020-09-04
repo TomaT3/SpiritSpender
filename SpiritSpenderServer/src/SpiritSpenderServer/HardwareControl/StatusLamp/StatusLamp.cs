@@ -1,4 +1,6 @@
 ﻿using SpiritSpenderServer.HardwareControl.StatusLamp;
+using SpiritSpenderServer.Persistence.StatusLampSettings;
+using System.Threading.Tasks;
 using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.EmergencyStop
@@ -7,10 +9,26 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
     {
         private ILight _redLight;
         private ILight _greenLight;
+        private IStatusLampSettingRepository _statusLampSettingRepository;
+        private string _name;
 
 
-        public StatusLamp(ILight redLight, ILight greenLight)
-            => (_redLight, _greenLight) = (redLight, greenLight);
+        public StatusLamp(ILight redLight, ILight greenLight, IStatusLampSettingRepository statusLampSettingRepository, string name)
+            => (_redLight, _greenLight, _statusLampSettingRepository, _name) = (redLight, greenLight, statusLampSettingRepository, name);
+
+        public StatusLampSetting StatusLampSetting { get; private set; }
+
+
+        public async Task InitAsync()
+        {
+            StatusLampSetting = await _statusLampSettingRepository.GetStatusLampSetting(_name);
+        }
+
+        public async Task UpdateSettings(StatusLampSetting statusLampSetting)
+        {
+            await _statusLampSettingRepository.Update(statusLampSetting);
+            StatusLampSetting = await _statusLampSettingRepository.GetStatusLampSetting(_name);
+        }
 
         public void GreenLightOn()
         {
@@ -22,9 +40,9 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
             _greenLight.TurnOff();
         }
 
-        public void GreenLightBlink(Duration durationOn, Duration durationOff)
+        public void GreenLightBlink()
         {
-            _greenLight.Blink(durationOn, durationOff);
+            _greenLight.Blink(StatusLampSetting.BlinkTimeOn, StatusLampSetting.BlinkTimeOff);
         }
 
         public void RedLightOn()
@@ -37,9 +55,9 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
             _redLight.TurnOff();
         }
 
-        public void RedLightBlink(Duration durationOn, Duration durationOff)
+        public void RedLightBlink()
         {
-            _redLight.Blink(durationOn, durationOff);
+            _redLight.Blink(StatusLampSetting.BlinkTimeOn, StatusLampSetting.BlinkTimeOff);
         }
     }
 }

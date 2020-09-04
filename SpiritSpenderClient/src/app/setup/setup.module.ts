@@ -27,10 +27,13 @@ import { PositionsComponent } from './components/setup-main/positions/positions.
 import { PositionSettingsComponent } from './components/setup-main/positions/position-settings/position-settings.component';
 import { PositionSettingComponent } from './components/setup-main/positions/position-settings/position-setting/position-setting.component';
 import {AutoSizeInputModule} from 'ngx-autosize-input';
+import { StatusLampComponent } from './components/setup-main/status-lamp/status-lamp.component';
+import { StatusLampSettingsComponent } from './components/setup-main/status-lamp/status-lamp-settings/status-lamp-settings.component';
+import { StatusLampActionsComponent } from './components/setup-main/status-lamp/status-lamp-actions/status-lamp-actions.component';
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionSettingComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionSettingComponent, StatusLampComponent, StatusLampSettingsComponent, StatusLampActionsComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,

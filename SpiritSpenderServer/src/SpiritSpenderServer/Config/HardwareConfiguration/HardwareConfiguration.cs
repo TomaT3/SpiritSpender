@@ -5,6 +5,7 @@ using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
+using SpiritSpenderServer.Persistence.StatusLampSettings;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,12 +17,15 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
         private ISpiritDispenserSettingRepository _spiritDispenserSettingRepository;
         private IDriveSettingRepository _driveSettingRepository;
         private IShotGlassPositionSettingRepository _shotGlassPositionSettingRepository;
+        private IStatusLampSettingRepository _statusLampSettingRepository;
 
-        public HardwareConfiguration(ISpiritDispenserSettingRepository spiritDispenserSettingRepository, IDriveSettingRepository driveSettingRepository, IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IGpioControllerFacade gpioControllerFacade)
-            => (_spiritDispenserSettingRepository, _driveSettingRepository, _shotGlassPositionSettingRepository, _gpioControllerFacade) 
-             = (spiritDispenserSettingRepository, driveSettingRepository, shotGlassPositionSettingRepository, gpioControllerFacade);
+        public HardwareConfiguration(ISpiritDispenserSettingRepository spiritDispenserSettingRepository, IDriveSettingRepository driveSettingRepository, IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IStatusLampSettingRepository statusLampSettingRepository, IGpioControllerFacade gpioControllerFacade)
+            => (_spiritDispenserSettingRepository, _driveSettingRepository, _shotGlassPositionSettingRepository, _statusLampSettingRepository, _gpioControllerFacade) 
+             = (spiritDispenserSettingRepository, driveSettingRepository, shotGlassPositionSettingRepository, statusLampSettingRepository, gpioControllerFacade);
 
         public IEmergencyStop EmergencyStop { get; private set; }
+
+        public IStatusLamp StatusLamp { get; private set; }
 
         public ISpiritDispenserControl SpiritDispenserControl { get; private set; }
 
@@ -30,6 +34,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
         public async Task LoadHardwareConfiguration()
         {
             AddEmergencyStop();
+            await AddStatusLamp();
             await AddSpiritDispenserControl();
             await AddDrives();
             await CreateShotGlassPositionsAsync();
@@ -38,6 +43,11 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
         private void AddEmergencyStop()
         {
             EmergencyStop = new EmergencyStop(12, _gpioControllerFacade);
+        }
+
+        private async Task AddStatusLamp()
+        {
+            StatusLamp = await StatusLampConfiguration.GetStatusLamp(_statusLampSettingRepository, _gpioControllerFacade);
         }
 
         private async Task AddSpiritDispenserControl()
