@@ -15,6 +15,7 @@ using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.Serialization;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
+using SpiritSpenderServer.Persistence.StatusLampSettings;
 using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer
@@ -46,6 +47,7 @@ namespace SpiritSpenderServer
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
             services.AddSingleton<IShotGlassPositionSettingRepository, ShotGlassPositionSettingRepository>();
+            services.AddSingleton<IStatusLampSettingRepository, StatusLampSettingRepository>();
             services.AddSingleton<IAutomaticMode, AutomaticMode>();
             services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
 
@@ -107,6 +109,7 @@ namespace SpiritSpenderServer
 
             var hardwareConfiguration = app.ApplicationServices.GetService<IHardwareConfiguration>();
             hardwareConfiguration.LoadHardwareConfiguration().Wait();
+            hardwareConfiguration.StatusLamp.GreenLightOn();
         }
     }
 }

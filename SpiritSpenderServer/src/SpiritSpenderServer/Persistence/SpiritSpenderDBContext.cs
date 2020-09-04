@@ -2,6 +2,7 @@
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.DriveSettings;
+using SpiritSpenderServer.Persistence.StatusLampSettings;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 
 namespace SpiritSpenderServer.Persistence
@@ -20,5 +21,7 @@ namespace SpiritSpenderServer.Persistence
         public IMongoCollection<SpiritDispenserSetting> SpiritDispenserSettings => _db.GetCollection<SpiritDispenserSetting>("SpiritDispenserSettings");
 
         public IMongoCollection<ShotGlassPositionSetting> ShotGlassPositionSettings => _db.GetCollection<ShotGlassPositionSetting>("ShotGlassPositionSettings");
+
+        public IMongoCollection<StatusLampSetting> StatusLampSettings => _db.GetCollection<StatusLampSetting>("StatusLampSettings");
     }
 }
