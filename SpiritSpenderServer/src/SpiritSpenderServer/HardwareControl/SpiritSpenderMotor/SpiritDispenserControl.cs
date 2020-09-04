@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.HardwareControl.EmergencyStop;
+using SpiritSpenderServer.Helper;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
 using System.Threading;
@@ -22,16 +23,35 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         {
             (_spiritSpenderMotor, _spiritDispenserSettingRepository, _emergencyStop, _name) =
                 (spiritSpenderMotor, dispenserSettingRepository, emergencyStop, name);
-
+            
+            Status = Status.NotReady;
+            CurrentPosition = SpiritDispenserPosition.Undefined;
             _cancelMovementTokensource = new CancellationTokenSource();
             emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
         }
 
         public string Name => _name;
 
+        public Status Status { get; private set; }
+
+        public SpiritDispenserPosition CurrentPosition { get; private set; }
+
         public async Task UpdateSettingsAsync()
         {
             _spiritDispenserSetting = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
+        }
+
+        public async Task ReferenceDriveAsync()
+        {
+            if (_emergencyStop.EmergencyStopPressed)
+                return;
+
+            CurrentPosition = SpiritDispenserPosition.Undefined;
+            Status = Status.NotReady;
+
+            var timeToMoveMotorCompletelyUp = _spiritDispenserSetting.DriveTimeFromReleaseToHomePosition + _spiritDispenserSetting.DriveTimeFromHomePosToBottleChange;
+            var drivingSuccessfully = await _spiritSpenderMotor.DriveForwardAsync(timeToMoveMotorCompletelyUp, _cancelMovementTokensource.Token);
+            CheckDrivingResult(drivingSuccessfully, SpiritDispenserPosition.BottleChange);
         }
 
         public async Task FillGlas()
@@ -42,18 +62,34 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             _waitHandleSpiritDispenserRefilled.WaitOne();
 
             await ReleaseSpirit();
-            await Task.Delay(Convert.ToInt32(_spiritDispenserSetting.WaitTimeUntilSpiritIsReleased.Milliseconds), _cancelMovementTokensource.Token);
+            await Convert.ToInt32(_spiritDispenserSetting.WaitTimeUntilSpiritIsReleased.Milliseconds).DelayExceptionFree(_cancelMovementTokensource.Token);
             await CloseSpiritSpender();
 
             StartRefillTimer(_spiritDispenserSetting.WaitTimeUntilSpiritIsRefilled);
+        }
+
+        public async Task GoToBottleChangePosition()
+        {
+            if (_emergencyStop.EmergencyStopPressed)
+                return;
+
+            if (CurrentPosition == SpiritDispenserPosition.ReleaseSpirit)
+                await FromReleaseToHomePosition();
+
+            if (CurrentPosition == SpiritDispenserPosition.Home)
+                await FromHomeToBottleChangePosition();
         }
 
         public async Task ReleaseSpirit()
         {
             if (_emergencyStop.EmergencyStopPressed)
                 return;
+            
+            if (CurrentPosition == SpiritDispenserPosition.BottleChange)
+                await FromBottleChangeToHomePosition();
 
-            await _spiritSpenderMotor.DriveBackwardAsync(_spiritDispenserSetting.DriveTimeToReleaseTheSpirit, _cancelMovementTokensource.Token);
+            if(CurrentPosition== SpiritDispenserPosition.Home)
+                await FromHomeToReleasePosition();
         }
 
         public async Task CloseSpiritSpender()
@@ -61,7 +97,49 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             if (_emergencyStop.EmergencyStopPressed)
                 return;
 
-            await _spiritSpenderMotor.DriveForwardAsync(_spiritDispenserSetting.DriveTimeToCloseTheSpiritSpender, _cancelMovementTokensource.Token);
+            if(CurrentPosition == SpiritDispenserPosition.ReleaseSpirit)
+                await FromReleaseToHomePosition();
+
+            if (CurrentPosition == SpiritDispenserPosition.BottleChange)
+                await FromBottleChangeToHomePosition();
+        }
+
+        private async Task FromHomeToReleasePosition()
+        {
+            var drivingSuccessfully = await _spiritSpenderMotor.DriveBackwardAsync(_spiritDispenserSetting.DriveTimeFromHomeToReleasePosition, _cancelMovementTokensource.Token);
+            CheckDrivingResult(drivingSuccessfully, SpiritDispenserPosition.ReleaseSpirit);
+        }
+
+        private async Task FromReleaseToHomePosition()
+        {
+            var drivingSuccessfully = await _spiritSpenderMotor.DriveForwardAsync(_spiritDispenserSetting.DriveTimeFromReleaseToHomePosition, _cancelMovementTokensource.Token);
+            CheckDrivingResult(drivingSuccessfully, SpiritDispenserPosition.Home);
+        }
+
+        private async Task FromHomeToBottleChangePosition()
+        {
+            var drivingSuccessfully = await _spiritSpenderMotor.DriveForwardAsync(_spiritDispenserSetting.DriveTimeFromHomePosToBottleChange, _cancelMovementTokensource.Token);
+            CheckDrivingResult(drivingSuccessfully, SpiritDispenserPosition.BottleChange);
+        }
+
+        private async Task FromBottleChangeToHomePosition()
+        {
+            var drivingSuccessfully = await _spiritSpenderMotor.DriveBackwardAsync(_spiritDispenserSetting.DriveTimeFromBottleChangeToHomePos, _cancelMovementTokensource.Token);
+            CheckDrivingResult(drivingSuccessfully, SpiritDispenserPosition.Home);
+        }
+
+        private void CheckDrivingResult(bool drivingResult, SpiritDispenserPosition newPosition)
+        {
+            if(drivingResult)
+            {
+                Status = Status.Ready;
+                CurrentPosition = newPosition;
+            }
+            else
+            {
+                Status = Status.NotReady;
+                CurrentPosition = SpiritDispenserPosition.Undefined;
+            }
         }
 
         private void EmergencyStopPressedChanged(bool emergencyStopPressed)

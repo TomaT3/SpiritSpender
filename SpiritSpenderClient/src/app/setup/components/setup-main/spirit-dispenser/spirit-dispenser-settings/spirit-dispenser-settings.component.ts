@@ -12,8 +12,10 @@ export class SpiritDispenserSettingsComponent implements OnInit {
   serverSettingValue: SpiritDispenserSetting;
   newSettingValue: SpiritDispenserSetting;
 
-  public readonly driveTimeToCloseTheSpiritSpender = SpiritDispenserTexts.driveTimeToCloseTheSpiritSpender;
-  public readonly driveTimeToReleaseTheSpirit = SpiritDispenserTexts.driveTimeToReleaseTheSpirit;
+  public readonly driveTimeFromBottleChangeToHomePos = SpiritDispenserTexts.driveTimeFromBottleChangeToHomePos;
+  public readonly driveTimeFromHomePosToBottleChange = SpiritDispenserTexts.driveTimeFromHomePosToBottleChange;
+  public readonly driveTimeFromReleaseToHomePosition = SpiritDispenserTexts.driveTimeFromReleaseToHomePosition;
+  public readonly driveTimeFromHomeToReleasePosition = SpiritDispenserTexts.driveTimeFromHomeToReleasePosition;
   public readonly waitTimeUntilSpiritIsReleased = SpiritDispenserTexts.waitTimeUntilSpiritIsReleased;
   public readonly waitTimeUntilSpiritIsRefilled = SpiritDispenserTexts.waitTimeUntilSpiritIsRefilled;
 

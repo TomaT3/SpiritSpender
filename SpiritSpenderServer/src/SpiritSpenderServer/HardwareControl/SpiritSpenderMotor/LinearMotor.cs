@@ -23,18 +23,20 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             StopMotor();
         }
 
-        public async Task DriveForwardAsync(Duration drivingTime, CancellationToken token)
+        public async Task<bool> DriveForwardAsync(Duration drivingTime, CancellationToken token)
         {
             DriveForward();
-            await Convert.ToInt32(drivingTime.Milliseconds).DelayExceptionFree(token);
+            var drivingSuccesfull = await Convert.ToInt32(drivingTime.Milliseconds).DelayExceptionFree(token);
             StopMotor();
+            return drivingSuccesfull;
         }
 
-        public async Task DriveBackwardAsync(Duration drivingTime, CancellationToken token)
+        public async Task<bool> DriveBackwardAsync(Duration drivingTime, CancellationToken token)
         {
             DriveBackward();
-            await Convert.ToInt32(drivingTime.Milliseconds).DelayExceptionFree(token);
+            var drivingSuccesfull = await Convert.ToInt32(drivingTime.Milliseconds).DelayExceptionFree(token);
             StopMotor();
+            return drivingSuccesfull;
         }
 
         private void DriveForward()

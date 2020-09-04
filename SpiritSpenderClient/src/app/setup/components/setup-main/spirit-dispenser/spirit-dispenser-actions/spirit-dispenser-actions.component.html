@@ -1,14 +1,17 @@
 <div class="container">
     <div class="flexitem">
-        <button mat-raised-button color="primary" (click)="this.toggleBottleChangeMode()" [disabled]="isDispenserActive">{{isBottleChangeModeActive ? "Stop" : "Start"}} bottle change</button>
+        <button mat-raised-button color="primary" (click)="this.referenceDrive()">Reference drive</button>
     </div>
     <div class="flexitem">
-        <button mat-raised-button color="primary" (click)="this.fillGlas()" [disabled]="isDispenserActive">Fill glas</button>
+        <button mat-raised-button color="primary" (click)="this.goToBottleChangePosition()">GoTo bottle change position</button>
     </div>
     <div class="flexitem">
-        <button mat-raised-button (click)="this.closeSpiritSpender()" [disabled]="isDispenserActive">Close spirit dispenser (Motor up)</button>
+        <button mat-raised-button color="primary" (click)="this.goToHomePosition()">GoTo home position</button>
     </div>
     <div class="flexitem">
-        <button mat-raised-button (click)="this.openSpiritSpender()" [disabled]="isDispenserActive">Open spirit dispenser (Motor down)</button>
+        <button mat-raised-button color="primary" (click)="this.goToReleasePosition()">GoTo release position</button>
+    </div>
+    <div class="flexitem">
+        <button mat-raised-button color="primary" (click)="this.fillGlas()">Fill glas</button>
     </div>
 </div>

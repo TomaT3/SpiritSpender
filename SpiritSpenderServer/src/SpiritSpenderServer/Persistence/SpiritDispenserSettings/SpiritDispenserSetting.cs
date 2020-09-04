@@ -11,10 +11,16 @@ namespace SpiritSpenderServer.Persistence.SpiritDispenserSettings
         public string Name { get; set; }
 
         [JsonProperty]
-        public Duration DriveTimeToReleaseTheSpirit { get; set; }
+        public Duration DriveTimeFromBottleChangeToHomePos { get; set; }
 
         [JsonProperty]
-        public Duration DriveTimeToCloseTheSpiritSpender { get; set; }
+        public Duration DriveTimeFromHomePosToBottleChange { get; set; }
+
+        [JsonProperty]
+        public Duration DriveTimeFromHomeToReleasePosition { get; set; }
+
+        [JsonProperty]
+        public Duration DriveTimeFromReleaseToHomePosition { get; set; }
 
         [JsonProperty]
         public Duration WaitTimeUntilSpiritIsReleased { get; set; }

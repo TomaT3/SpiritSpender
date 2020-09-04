@@ -19,8 +19,10 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 settings = new SpiritDispenserSetting
                 {
                     Name = SPIRIT_DISPENSER_NAME,
-                    DriveTimeToCloseTheSpiritSpender = new Duration(1, DurationUnit.Second),
-                    DriveTimeToReleaseTheSpirit = new Duration(1.5, DurationUnit.Second),
+                    DriveTimeFromBottleChangeToHomePos = new Duration(1.4, DurationUnit.Second),
+                    DriveTimeFromHomePosToBottleChange = new Duration(2, DurationUnit.Second),
+                    DriveTimeFromReleaseToHomePosition = new Duration(1, DurationUnit.Second),
+                    DriveTimeFromHomeToReleasePosition = new Duration(1.5, DurationUnit.Second),
                     WaitTimeUntilSpiritIsReleased = new Duration(1.8, DurationUnit.Second),
                     WaitTimeUntilSpiritIsRefilled = new Duration(1.5, DurationUnit.Second)
                 };

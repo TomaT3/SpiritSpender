@@ -2,11 +2,17 @@
     <div class="caption"><h1>Server value</h1></div>
     <div class="caption"><h1>New value</h1></div>
 
-    <app-units class="grid-item" [title]="driveTimeToReleaseTheSpirit" [unitsParameter]="this.serverSettingValue.driveTimeToReleaseTheSpirit" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="driveTimeToReleaseTheSpirit" [(unitsParameter)]="this.newSettingValue.driveTimeToReleaseTheSpirit" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="driveTimeFromBottleChangeToHomePos" [unitsParameter]="this.serverSettingValue.driveTimeFromBottleChangeToHomePos" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="driveTimeFromBottleChangeToHomePos" [(unitsParameter)]="this.newSettingValue.driveTimeFromBottleChangeToHomePos" [editable]="true"></app-units>
 
-    <app-units class="grid-item" [title]="driveTimeToCloseTheSpiritSpender" [unitsParameter]="this.serverSettingValue.driveTimeToCloseTheSpiritSpender" [editable]="false"></app-units>
-    <app-units class="grid-item" [title]="driveTimeToCloseTheSpiritSpender" [(unitsParameter)]="this.newSettingValue.driveTimeToCloseTheSpiritSpender" [editable]="true"></app-units>
+    <app-units class="grid-item" [title]="driveTimeFromHomePosToBottleChange" [unitsParameter]="this.serverSettingValue.driveTimeFromHomePosToBottleChange" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="driveTimeFromHomePosToBottleChange" [(unitsParameter)]="this.newSettingValue.driveTimeFromHomePosToBottleChange" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="driveTimeFromHomeToReleasePosition" [unitsParameter]="this.serverSettingValue.driveTimeFromHomeToReleasePosition" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="driveTimeFromHomeToReleasePosition" [(unitsParameter)]="this.newSettingValue.driveTimeFromHomeToReleasePosition" [editable]="true"></app-units>
+
+    <app-units class="grid-item" [title]="driveTimeFromReleaseToHomePosition" [unitsParameter]="this.serverSettingValue.driveTimeFromReleaseToHomePosition" [editable]="false"></app-units>
+    <app-units class="grid-item" [title]="driveTimeFromReleaseToHomePosition" [(unitsParameter)]="this.newSettingValue.driveTimeFromReleaseToHomePosition" [editable]="true"></app-units>
 
     <app-units class="grid-item" [title]="waitTimeUntilSpiritIsReleased" [unitsParameter]="this.serverSettingValue.waitTimeUntilSpiritIsReleased" [editable]="false"></app-units>
     <app-units class="grid-item" [title]="waitTimeUntilSpiritIsReleased" [(unitsParameter)]="this.newSettingValue.waitTimeUntilSpiritIsReleased" [editable]="true"></app-units>
