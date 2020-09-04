@@ -23,18 +23,28 @@ export class SpiritDispenserApiService {
     const result = await this.http.put(url, setting).toPromise();
   }
 
+  public async referenceDrive(): Promise<void>{
+    const url = `${API_URL}/reference-drive`;
+    const result = await this.http.post(url, null).toPromise();
+  }
+
   public async fillGlas(): Promise<void>{
     const url = `${API_URL}/fill-glas`;
     const result = await this.http.post(url, null).toPromise();
   }
 
-  public async closeSpiritSpender(): Promise<void>{
-    const url = `${API_URL}/close-spirit-spender`;
+  public async goToBottleChangePosition(): Promise<void>{
+    const url = `${API_URL}/goto-bottle-change`;
     const result = await this.http.post(url, null).toPromise();
   }
 
-  public async openSpiritSpender(): Promise<void>{
-    const url = `${API_URL}/release-spirit`;
+  public async goToHomeposition(): Promise<void>{
+    const url = `${API_URL}/goto-home-position`;
+    const result = await this.http.post(url, null).toPromise();
+  }
+
+  public async goToReleasePosition(): Promise<void>{
+    const url = `${API_URL}/goto-release-position`;
     const result = await this.http.post(url, null).toPromise();
   }
 }

@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.Config.HardwareConfiguration;
+using SpiritSpenderServer.HardwareControl;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.HardwareControl.StepperDrive;
@@ -34,7 +35,7 @@ namespace SpiritSpenderServer.Automatic
 
             foreach (var positionSetting in orderedPositionSettings)
             {
-                if (_emergencyStop.EmergencyStopPressed)
+                if (!IsStartPossible())
                 {
                     break;
                 }
@@ -64,6 +65,16 @@ namespace SpiritSpenderServer.Automatic
             
             await taskX;
             await taskY;
+        }
+
+        private bool IsStartPossible()
+        {
+            var startPossible = !_emergencyStop.EmergencyStopPressed &&
+                                _spiritDispenserControl.Status == Status.Ready &&
+                                _X_Axis.Status == Status.Ready &&
+                                _Y_Axis.Status == Status.Ready;
+
+            return startPossible;
         }
     }
 }

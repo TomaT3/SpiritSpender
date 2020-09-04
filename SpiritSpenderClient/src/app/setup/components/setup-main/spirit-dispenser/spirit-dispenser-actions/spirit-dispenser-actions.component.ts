@@ -8,34 +8,25 @@ import { SpiritDispenserApiService } from 'src/app/setup/services/spirit-dispens
 })
 export class SpiritDispenserActionsComponent {
 
-  public isBottleChangeModeActive = false;
-  public isDispenserActive = false;
-
   constructor(private spiritDispenserApi: SpiritDispenserApiService) { }
 
-  public async toggleBottleChangeMode(): Promise<void> {
-    this.isDispenserActive = true;
-    if (this.isBottleChangeModeActive) {
-      await this.spiritDispenserApi.openSpiritSpender();
-    } else {
-      await this.spiritDispenserApi.closeSpiritSpender();
-    }
-
-    this.isBottleChangeModeActive = !this.isBottleChangeModeActive;
-    this.isDispenserActive = false;
+  public async referenceDrive(): Promise<void> {
+    await this.spiritDispenserApi.referenceDrive();
   }
 
-  public async closeSpiritSpender(): Promise<void> {
-    await this.spiritDispenserApi.closeSpiritSpender();
+  public async goToBottleChangePosition(): Promise<void> {
+    await this.spiritDispenserApi.goToBottleChangePosition();
   }
 
-  public async openSpiritSpender(): Promise<void> {
-    await this.spiritDispenserApi.openSpiritSpender();
+  public async goToHomePosition(): Promise<void> {
+    await this.spiritDispenserApi.goToHomeposition();
+  }
+
+  public async goToReleasePosition(): Promise<void> {
+    await this.spiritDispenserApi.goToReleasePosition();
   }
 
   public async fillGlas(): Promise<void> {
-    this.isDispenserActive = true;
     await this.spiritDispenserApi.fillGlas();
-    this.isDispenserActive = false;
   }
 }

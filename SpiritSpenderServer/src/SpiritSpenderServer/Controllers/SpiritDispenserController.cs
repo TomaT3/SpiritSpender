@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpiritSpenderServer.Config.HardwareConfiguration;
+using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 
 namespace SpiritSpenderServer.Controllers
@@ -43,6 +44,32 @@ namespace SpiritSpenderServer.Controllers
             return new OkObjectResult(spiritDispenserSetting);
         }
 
+        [HttpGet("status")]
+        public ActionResult<SpiritDispenserPosition> Status()
+        {
+            return new ObjectResult(_hardwareConfiguration.SpiritDispenserControl.Status);
+        }
+
+        [HttpGet("current-position")]
+        public ActionResult<SpiritDispenserPosition> CurrentPosition()
+        {
+            return new ObjectResult(_hardwareConfiguration.SpiritDispenserControl.CurrentPosition);
+        }
+
+        [HttpPost("reference-drive")]
+        public async Task<ActionResult> ReferenceDrive()
+        {
+            await _hardwareConfiguration.SpiritDispenserControl.ReferenceDriveAsync();
+            return new OkObjectResult(new OkResult());
+        }
+
+        [HttpPost("goto-bottle-change")]
+        public async Task<ActionResult> GoToBottleChange()
+        {
+            await _hardwareConfiguration.SpiritDispenserControl.GoToBottleChangePosition();
+            return new OkObjectResult(new OkResult());
+        }
+
         [HttpPost("fill-glas")]
         public async Task<ActionResult> FillGlas()
         {
@@ -50,15 +77,15 @@ namespace SpiritSpenderServer.Controllers
             return new OkObjectResult(new OkResult());
         }
 
-        [HttpPost("close-spirit-spender")]
-        public async Task<ActionResult> CloseSpiritSpender()
+        [HttpPost("goto-home-position")]
+        public async Task<ActionResult> GoToHomePosition()
         {
             await _hardwareConfiguration.SpiritDispenserControl.CloseSpiritSpender();
             return new OkObjectResult(new OkResult());
         }
 
-        [HttpPost("release-spirit")]
-        public async Task<ActionResult> ReleaseSpirit()
+        [HttpPost("goto-release-position")]
+        public async Task<ActionResult> GoToReleasePosition()
         {
             await _hardwareConfiguration.SpiritDispenserControl.ReleaseSpirit();
             return new OkObjectResult(new OkResult());
