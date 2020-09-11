@@ -19,6 +19,7 @@ jobs:
     #  id: tagName
      # Drafts your next Release notes as Pull Requests are merged into "master"
     - uses: release-drafter/release-drafter@v5
+      id: releasedraft
       with:
         # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
         config-name: release-drafter.yml
@@ -26,7 +27,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
     - name: echo verison
-      run: echo will be $RESOLVED_VERSION
+      run: echo will be {{ steps.releasedraft.outputs.resolved_version }} $RESOLVED_VERSION
       # run: echo will build ${{ steps.tagName.outputs.tag }}
     
     # - name: Push tag
