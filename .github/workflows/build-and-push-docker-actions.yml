@@ -27,7 +27,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
     - name: echo verison
-      run: echo will be ${{ steps.releasedraft.outputs.resolved_version }} $RESOLVED_VERSION
+      run: echo will be ${{ steps.releasedraft.outputs.tag_name }} $RESOLVED_VERSION
       # run: echo will build ${{ steps.tagName.outputs.tag }}
     
     # - name: Push tag
