@@ -9,16 +9,29 @@ env:
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
 jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+     
+        
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
     steps:
 
-    - uses: olegtarasov/get-tag@v2
-      id: tagName
-    
+    # - uses: olegtarasov/get-tag@v2
+    #  id: tagName
+     # Drafts your next Release notes as Pull Requests are merged into "master"
+    - uses: release-drafter/release-drafter@v5
+      with:
+        # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
+        config-name: release-drafter.yml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
     - name: echo verison
-      run: echo will build ${{ steps.tagName.outputs.tag }}
+      run: echo will be $RESOLVED_VERSION
+      # run: echo will build ${{ steps.tagName.outputs.tag }}
         
     - name: Checkout
       uses: actions/checkout@v2
@@ -29,7 +42,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         repository: tomat3/spiritspender
-        tags: client-${{ steps.tagName.outputs.tag }}
+        tags: client-$RESOLVED_VERSION
         dockerfile: ./SpiritSpenderClient/pi.client.Dockerfile
         path: ./SpiritSpenderClient
 
@@ -39,6 +52,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         repository: tomat3/spiritspender
-        tags: server-${{ steps.tagName.outputs.tag }}
+        tags: server-$RESOLVED_VERSION
         dockerfile: ./SpiritSpenderServer/src/SpiritSpenderServer/pi.dockerfile
         path: ./SpiritSpenderServer/src/SpiritSpenderServer
