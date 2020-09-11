@@ -1,8 +1,9 @@
 name: Build and Deploy to DockerHub
 on:
-  push:
-    tags:
-      - v**
+  workflow_dispatch:
+  # push:
+  #  tags:
+  #    - v**
 
 env:
   DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
@@ -22,11 +23,17 @@ jobs:
         # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
         config-name: release-drafter.yml
       env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_DRAFTER }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
     - name: echo verison
       run: echo will be $RESOLVED_VERSION
       # run: echo will build ${{ steps.tagName.outputs.tag }}
+    
+    - name: Push tag
+      uses: mathieudutour/github-tag-action@v4.5
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        custom_tag: $RESOLVED_VERSION
         
     - name: Checkout
       uses: actions/checkout@v2
