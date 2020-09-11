@@ -9,11 +9,6 @@ env:
   DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
 jobs:
-  update_release_draft:
-    runs-on: ubuntu-latest
-    steps:
-     
-        
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
     runs-on: ubuntu-latest
