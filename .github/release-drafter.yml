@@ -1,4 +1,4 @@
-name-template: 'SpiritSpender v$RESOLVED_VERSION ⛽:tumbler_glass::metal:'
+name-template: 'SpiritSpender v$RESOLVED_VERSION ⛽🥃🤘'
 tag-template: 'v$RESOLVED_VERSION'
 change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
