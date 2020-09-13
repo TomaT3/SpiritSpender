@@ -2,7 +2,9 @@ name: Build and Deploy to DockerHub
 on:
   push:
     tags: 
-      - '**'
+      - 'v**'
+  release:
+    types: [published]
 
 jobs:
   setup-build-publish-deploy:
