@@ -159,7 +159,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                         Number = 11,
                         Position = new Position
                         {
-                            X = new Length(162, LengthUnit.Millimeter),
+                            X = new Length(160, LengthUnit.Millimeter),
                             Y = new Length(138, LengthUnit.Millimeter)
                         },
                         Quantity = Persistence.Positions.Quantity.Empty
