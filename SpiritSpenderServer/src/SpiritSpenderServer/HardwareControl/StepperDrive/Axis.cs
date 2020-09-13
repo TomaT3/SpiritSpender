@@ -30,6 +30,10 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             (_driveName, _driveSettingRepository, _stepperMotorControl, _emergencyStop) = (driveName, driveSettingRepository, stepperMotorControl, emergencyStop);
             _stopDrivingTokenSource = new CancellationTokenSource();
             Status = Status.NotReady;
+            _drivingTask = new Task(() =>
+            {
+                // just to intialize the member so no exception is thrwon when emergency stop is pressed
+            });
             _emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
         }
 
