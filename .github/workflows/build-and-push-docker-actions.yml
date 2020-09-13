@@ -1,8 +1,8 @@
 name: Build and Deploy to DockerHub
 on:
-  push:
-    tags:
-      - v**
+  release:
+    # Only use the types keyword to narrow down the activity types that will trigger your workflow.
+    types: [published, created, edited]
 
 env:
   DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
