@@ -4,6 +4,9 @@ name: build-and-test
 # events but only for the master branch
 on:
   push:
+    paths-ignore: 
+      - 'Doc/**'
+      - '.github/workflows/build-and-push-docker-actions.yml'
     branches: 
      - '**'
     tags-ignore:
