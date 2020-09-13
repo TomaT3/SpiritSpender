@@ -4,10 +4,6 @@ on:
     # Only use the types keyword to narrow down the activity types that will trigger your workflow.
     types: [published, created, edited]
 
-env:
-  DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
-  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
