@@ -1,7 +1,7 @@
 name-template: 'SpiritSpender v$RESOLVED_VERSION ⛽🥃🤘'
 tag-template: 'v$RESOLVED_VERSION'
 change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks
 template: |
   ## What's Changed
 
