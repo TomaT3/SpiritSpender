@@ -19,8 +19,8 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 driveSetting = new DriveSetting
                 {
                     DriveName = DRIVE_NAME,
-                    Acceleration = new Acceleration(80, AccelerationUnit.MillimeterPerSecondSquared),
-                    MaxSpeed = new Speed(60, SpeedUnit.MillimeterPerSecond),
+                    MaxSpeed = new Speed(50, SpeedUnit.MillimeterPerSecond),
+                    Acceleration = new Acceleration(40, AccelerationUnit.MillimeterPerSecondSquared),
                     SpindlePitch = new Length(4, LengthUnit.Millimeter),
                     StepsPerRevolution = 400,
                     SoftwareLimitMinus = new Length(0.1, LengthUnit.Millimeter),
@@ -57,8 +57,8 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
                 driveSetting = new DriveSetting
                 {
                     DriveName = DRIVE_NAME,
-                    Acceleration = new Acceleration(100, AccelerationUnit.MillimeterPerSecondSquared),
                     MaxSpeed = new Speed(80, SpeedUnit.MillimeterPerSecond),
+                    Acceleration = new Acceleration(80, AccelerationUnit.MillimeterPerSecondSquared),
                     SpindlePitch = new Length(8, LengthUnit.Millimeter),
                     StepsPerRevolution = 400,
                     SoftwareLimitMinus = new Length(0.1, LengthUnit.Millimeter),
