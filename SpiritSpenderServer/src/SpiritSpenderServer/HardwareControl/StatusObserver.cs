@@ -1,4 +1,5 @@
-﻿using SpiritSpenderServer.Config.HardwareConfiguration;
+﻿using SpiritSpenderServer.Automatic;
+using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,15 @@ namespace SpiritSpenderServer.HardwareControl
 
         private IStatusLamp _statusLamp;
 
-        public StatusObserver(IEnumerable<IStatus> components, IHardwareConfiguration hardwareConfiguration)
+        public StatusObserver(IHardwareConfiguration hardwareConfiguration, IAutomaticMode automatic)
         {
+            var statusObservables = new List<IObservable<Status>>();
+            statusObservables.Add(hardwareConfiguration.SpiritDispenserControl.GetStatusObservable());
+            statusObservables.Add(hardwareConfiguration.StepperDrives["X"].GetStatusObservable());
+            statusObservables.Add(hardwareConfiguration.StepperDrives["Y"].GetStatusObservable());
+            statusObservables.Add(automatic.GetStatusObservable());
+            
             _statusLamp = hardwareConfiguration.StatusLamp;
-            var statusObservables = components.Select(x => x.GetStatusObservable()).ToList();
-
-            // CombineLatest is used to get an observable that orchestrates multiple other observables.
-            // It fires when any of the underlying observables fire (and the predicate is satisfied as well).
-
-            // DistinctUntilChanged filters out observed values that are equal to their predecessors.
 
             statusObservables.CombineLatest(
                 (lastStates) =>

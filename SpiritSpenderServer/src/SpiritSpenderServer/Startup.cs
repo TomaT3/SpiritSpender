@@ -48,8 +48,14 @@ namespace SpiritSpenderServer
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
             services.AddSingleton<IShotGlassPositionSettingRepository, ShotGlassPositionSettingRepository>();
             services.AddSingleton<IStatusLampSettingRepository, StatusLampSettingRepository>();
+            services.AddSingleton<StatusObserver>();
             services.AddSingleton<IAutomaticMode, AutomaticMode>();
             services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
+            //services.AddSingleton<IStatus>(x => x.GetRequiredService<IHardwareConfiguration>().SpiritDispenserControl);
+            //services.AddSingleton<IStatus>(x => x.GetRequiredService<IHardwareConfiguration>().StepperDrives["X"]);
+            //services.AddSingleton<IStatus>(x => x.GetRequiredService<IHardwareConfiguration>().StepperDrives["Y"]);
+            //services.AddSingleton<IStatus>(x => x.GetRequiredService<IAutomaticMode>());
+            services.AddSingleton<App>();
 
             services.AddCors(options =>
             {
@@ -106,10 +112,6 @@ namespace SpiritSpenderServer
             {
                 endpoints.MapControllers();
             });
-
-            var hardwareConfiguration = app.ApplicationServices.GetService<IHardwareConfiguration>();
-            hardwareConfiguration.LoadHardwareConfiguration().Wait();
-            hardwareConfiguration.StatusLamp.GreenLightOn();
         }
     }
 }
