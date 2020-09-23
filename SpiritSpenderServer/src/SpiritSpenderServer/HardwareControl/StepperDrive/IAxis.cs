@@ -4,11 +4,10 @@ using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
-    public interface IAxis
+    public interface IAxis : IStatus
     {
         DriveSetting DriveSetting { get; }
         Length CurrentPosition { get; }
-        Status Status { get; }
         Task InitAsync();
         Task UpdateSettingsAsync(DriveSetting setting);
         void SetPosition(Length position);

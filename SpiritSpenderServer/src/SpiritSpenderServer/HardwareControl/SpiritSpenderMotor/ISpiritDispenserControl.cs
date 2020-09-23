@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 
 namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
-    public interface ISpiritDispenserControl
+    public interface ISpiritDispenserControl : IStatus
     {
-        Status Status { get; }
         SpiritDispenserSetting SpiritDispenserSetting { get; }
         SpiritDispenserPosition CurrentPosition { get; }
         Task InitAsync();

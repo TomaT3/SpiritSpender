@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using UnitsNet.Units;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using System.Threading;
+using System.Reactive.Subjects;
+using System.Reactive.Linq;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
@@ -15,12 +17,12 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         private static bool BACKWARD = false;
 
         private string _driveName;
+        private readonly BehaviorSubject<Status> _currentStatus;
         private IStepperMotorControl _stepperMotorControl;
         private IDriveSettingRepository _driveSettingRepository;
         private Length _lengthOfOneStep;
         private Task _drivingTask;
         private IEmergencyStop _emergencyStop;
-        private object _lockObject = new Object();
         private CancellationTokenSource _stopDrivingTokenSource;
 
 
@@ -29,7 +31,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         {
             (_driveName, _driveSettingRepository, _stepperMotorControl, _emergencyStop) = (driveName, driveSettingRepository, stepperMotorControl, emergencyStop);
             _stopDrivingTokenSource = new CancellationTokenSource();
-            Status = Status.NotReady;
+            _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
             _drivingTask = Task.Run(() =>
             {
                 // just to intialize the member, so no exception is thrown when emergency stop is pressed
@@ -37,7 +39,6 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             _emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
         }
 
-        public Status Status { get; private set; }
         public DriveSetting DriveSetting { get; private set; }
 
         public Length CurrentPosition => _stepperMotorControl.CurrentPosition.ToUnit(LengthUnit.Millimeter);
@@ -49,6 +50,8 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             await GetDriveSettings();
         }
 
+        public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();
+
         public async Task UpdateSettingsAsync(DriveSetting setting)
         {
             await _driveSettingRepository.Update(setting);
@@ -57,7 +60,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         public async Task ReferenceDriveAsync()
         {
-            Status = Status.NotReady;
+            _currentStatus.OnNext(Status.NotReady);
             var referenceSpeedInStepsPerSecond = DriveSetting.ReferenceDrivingSpeed.ToStepsPerSecond(DriveSetting);
             var waitTimeBetweenSteps = new Duration(1 / referenceSpeedInStepsPerSecond / 2.0, DurationUnit.Second);
             var direction = GetReferenceDirection();
@@ -94,11 +97,11 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             if (emergencyStopPressed)
             {
                 StopMovement().Wait();
-                Status = Status.Error;
+                _currentStatus.OnNext(Status.Error);
             }
             else
             {
-                Status = Status.NotReady;
+                _currentStatus.OnNext(Status.NotReady);
             }
         }
 
@@ -125,7 +128,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             if (!_stopDrivingTokenSource.IsCancellationRequested)
             {
                 _stepperMotorControl.SetPosition(DriveSetting.ReferencePosition);
-                Status = Status.Ready;
+                _currentStatus.OnNext(Status.Ready);
             }
         }
 
@@ -145,7 +148,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         private async Task DriveStepsAsync(Length distanceToGo)
         {
-            Status = Status.Running;
+            _currentStatus.OnNext(Status.Running);
             _drivingTask = Task.Run(() =>
             {
                 DriveSteps(distanceToGo);
@@ -153,7 +156,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             await _drivingTask;
             _drivingTask = Task.CompletedTask;
-            Status = Status.Ready;
+            _currentStatus.OnNext(Status.Ready);
         }
 
         private bool DriveSteps(Length distanceToGo)
