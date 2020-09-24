@@ -4,7 +4,11 @@ using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.Positions;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 
 namespace SpiritSpenderServer.Automatic
@@ -13,20 +17,39 @@ namespace SpiritSpenderServer.Automatic
     {
         const string X_AXIS_NAME = "X";
         const string Y_AXIS_NAME = "Y";
+        private readonly BehaviorSubject<Status> _currentStatus;
         private readonly IShotGlassPositionSettingRepository _shotGlassPositionSettingRepository;
         private readonly IEmergencyStop _emergencyStop;
         private readonly ISpiritDispenserControl _spiritDispenserControl;
         private readonly IAxis _X_Axis;
         private readonly IAxis _Y_Axis;
+        private bool _areComponentsReady;
 
         public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration)
         {
+            _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
             _shotGlassPositionSettingRepository = shotGlassPositionSettingRepository;
             _X_Axis = hardwareConfiguration.StepperDrives[X_AXIS_NAME];
             _Y_Axis = hardwareConfiguration.StepperDrives[Y_AXIS_NAME];
             _spiritDispenserControl = hardwareConfiguration.SpiritDispenserControl;
             _emergencyStop = hardwareConfiguration.EmergencyStop;
+            _emergencyStop.EmergencyStopPressedChanged += (estop) => CalculateStatuts();
+
+            var components = new List<IObservable<Status>>();
+            components.Add(_X_Axis.GetStatusObservable());
+            components.Add(_Y_Axis.GetStatusObservable());
+            components.Add(_spiritDispenserControl.GetStatusObservable());
+
+
+            components.CombineLatest(lastStates => lastStates.All(state => state == Status.Ready))
+                .Subscribe(areComponentsReady =>
+                { 
+                    _areComponentsReady = areComponentsReady;
+                    CalculateStatuts();
+                });
         }
+
+        public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();
 
         public async Task ReleaseTheSpiritAsync()
         {
@@ -35,10 +58,12 @@ namespace SpiritSpenderServer.Automatic
 
             foreach (var positionSetting in orderedPositionSettings)
             {
-                if (!IsStartPossible())
+                if (_currentStatus.Value != Status.Ready)
                 {
                     break;
                 }
+
+                _currentStatus.OnNext(Status.Running);
 
                 switch (positionSetting.Quantity)
                 {
@@ -56,6 +81,8 @@ namespace SpiritSpenderServer.Automatic
                         break;
                 }
             }
+
+            CalculateStatuts(true);
         }
 
         public async Task DriveToPositionAsync(Position position)
@@ -67,12 +94,24 @@ namespace SpiritSpenderServer.Automatic
             await taskY;
         }
 
+        private void CalculateStatuts(bool resetState = false)
+        {
+            if (_currentStatus.Value != Status.Running || resetState)
+            {
+                if (_emergencyStop.EmergencyStopPressed)
+                    _currentStatus.OnNext(Status.Error);
+
+                if (IsStartPossible())
+                    _currentStatus.OnNext(Status.Ready);
+                else
+                    _currentStatus.OnNext(Status.NotReady);
+            }
+        }
+
         private bool IsStartPossible()
         {
             var startPossible = !_emergencyStop.EmergencyStopPressed &&
-                                _spiritDispenserControl.Status == Status.Ready &&
-                                _X_Axis.Status == Status.Ready &&
-                                _Y_Axis.Status == Status.Ready;
+                                _areComponentsReady;
 
             return startPossible;
         }

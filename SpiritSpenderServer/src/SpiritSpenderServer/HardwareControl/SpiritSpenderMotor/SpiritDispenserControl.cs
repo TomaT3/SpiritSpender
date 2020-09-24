@@ -2,6 +2,8 @@
 using SpiritSpenderServer.Helper;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
     public class SpiritDispenserControl : ISpiritDispenserControl
     {
         private string _name;
+        private readonly BehaviorSubject<Status> _currentStatus;
         private ISpiritDispenserSettingRepository _spiritDispenserSettingRepository;
         private ILinearMotor _spiritSpenderMotor;
         private IEmergencyStop _emergencyStop;
@@ -23,8 +26,8 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         {
             (_spiritSpenderMotor, _spiritDispenserSettingRepository, _emergencyStop, _name) =
                 (spiritSpenderMotor, dispenserSettingRepository, emergencyStop, name);
-            
-            Status = Status.NotReady;
+
+            _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
             CurrentPosition = SpiritDispenserPosition.Undefined;
             _cancelMovementTokensource = new CancellationTokenSource();
             emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
@@ -32,14 +35,14 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 
         public SpiritDispenserSetting SpiritDispenserSetting { get; private set; }
         
-        public Status Status { get; private set; }
-
         public SpiritDispenserPosition CurrentPosition { get; private set; }
 
         public async Task InitAsync()
         {
             SpiritDispenserSetting = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
         }
+
+        public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();
 
         public async Task UpdateSettingsAsync(SpiritDispenserSetting setting)
         {
@@ -53,7 +56,7 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
                 return;
 
             CurrentPosition = SpiritDispenserPosition.Undefined;
-            Status = Status.NotReady;
+            _currentStatus.OnNext(Status.NotReady);
 
             var timeToMoveMotorCompletelyUp = SpiritDispenserSetting.DriveTimeFromReleaseToHomePosition + SpiritDispenserSetting.DriveTimeFromHomePosToBottleChange;
             var drivingSuccessfully = await _spiritSpenderMotor.DriveForwardAsync(timeToMoveMotorCompletelyUp, _cancelMovementTokensource.Token);
@@ -138,12 +141,12 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         {
             if(drivingResult)
             {
-                Status = Status.Ready;
+                _currentStatus.OnNext(Status.Ready);
                 CurrentPosition = newPosition;
             }
             else
             {
-                Status = Status.NotReady;
+                _currentStatus.OnNext(Status.NotReady);
                 CurrentPosition = SpiritDispenserPosition.Undefined;
             }
         }

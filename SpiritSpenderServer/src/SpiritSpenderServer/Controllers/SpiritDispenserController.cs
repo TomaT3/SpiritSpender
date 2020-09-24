@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
@@ -35,9 +36,9 @@ namespace SpiritSpenderServer.Controllers
         }
 
         [HttpGet("status")]
-        public ActionResult<SpiritDispenserPosition> Status()
+        public async Task<ActionResult<SpiritDispenserPosition>> Status()
         {
-            return new ObjectResult(_spiritDispenserControl.Status);
+            return new ObjectResult(await _spiritDispenserControl.GetStatusObservable().LastAsync());
         }
 
         [HttpGet("current-position")]

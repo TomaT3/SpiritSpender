@@ -78,7 +78,7 @@ namespace SpiritSpenderServer.Controllers
         [HttpPost("green-light/blink")]
         public ActionResult GreenLightBlink()
         {
-            _statusLamp.RedLightBlink();
+            _statusLamp.GreenLightBlink();
             return new OkObjectResult(new OkResult());
         }
     }

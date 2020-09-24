@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-
-namespace SpiritSpenderServer.HardwareControl
+﻿namespace SpiritSpenderServer.HardwareControl
 {
     public enum Status
     {
