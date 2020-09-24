@@ -40,6 +40,23 @@ namespace SpiritSpenderServer.Controllers
             return new OkObjectResult(setting);
         }
 
+        [HttpGet("enabled")]
+        public ActionResult<bool> Enabled()
+        {
+            return new OkObjectResult(_statusLamp.Enabled);
+        }
+
+        [HttpPost("enabled")]
+        public ActionResult<bool> Enabled([FromBody] bool enable)
+        {
+            if (enable)
+                _statusLamp.EnableStatusLamp();
+            else
+                _statusLamp.DisableStatusLamp();
+
+            return new OkObjectResult(_statusLamp.Enabled);
+        }
+
         [HttpPost("red-light/on")]
         public ActionResult RedLightOn()
         {

@@ -7,6 +7,9 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
     public interface IStatusLamp
     {
         public StatusLampSetting StatusLampSetting { get; }
+        public bool Enabled { get; }
+        void EnableStatusLamp();
+        void DisableStatusLamp();
         Task InitAsync();
         Task UpdateSettings(StatusLampSetting statusLampSetting);
         void GreenLightBlink();
