@@ -2,7 +2,7 @@
 
 namespace SpiritSpenderServer.HardwareControl
 {
-    public interface IStatus
+    public interface IComponentWithStatus
     {
         IObservable<Status> GetStatusObservable();
     }

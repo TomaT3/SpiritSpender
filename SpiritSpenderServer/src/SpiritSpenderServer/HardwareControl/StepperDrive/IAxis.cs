@@ -4,7 +4,7 @@ using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.StepperDrive
 {
-    public interface IAxis : IStatus
+    public interface IAxis : IComponentWithStatus
     {
         DriveSetting DriveSetting { get; }
         Length CurrentPosition { get; }

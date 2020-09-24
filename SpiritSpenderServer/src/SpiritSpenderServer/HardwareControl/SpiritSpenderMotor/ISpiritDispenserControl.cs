@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
-    public interface ISpiritDispenserControl : IStatus
+    public interface ISpiritDispenserControl : IComponentWithStatus
     {
         SpiritDispenserSetting SpiritDispenserSetting { get; }
         SpiritDispenserPosition CurrentPosition { get; }

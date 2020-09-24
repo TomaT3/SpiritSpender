@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SpiritSpenderServer.Automatic
 {
-    public interface IAutomaticMode : IStatus
+    public interface IAutomaticMode : IComponentWithStatus
     {
         Task DriveToPositionAsync(Position position);
         Task ReleaseTheSpiritAsync();

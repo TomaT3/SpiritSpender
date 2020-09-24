@@ -5,6 +5,7 @@ using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.Positions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -22,6 +23,7 @@ namespace SpiritSpenderServer.Automatic
         private readonly ISpiritDispenserControl _spiritDispenserControl;
         private readonly IAxis _X_Axis;
         private readonly IAxis _Y_Axis;
+        private bool _areComponentsReady;
 
         public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration)
         {
@@ -33,10 +35,18 @@ namespace SpiritSpenderServer.Automatic
             _emergencyStop = hardwareConfiguration.EmergencyStop;
             _emergencyStop.EmergencyStopPressedChanged += (estop) => CalculateStatuts();
 
-            _X_Axis.GetStatusObservable()
-                .Merge(_Y_Axis.GetStatusObservable())
-                .Merge(_spiritDispenserControl.GetStatusObservable())
-                .Do(_ => CalculateStatuts());
+            var components = new List<IObservable<Status>>();
+            components.Add(_X_Axis.GetStatusObservable());
+            components.Add(_Y_Axis.GetStatusObservable());
+            components.Add(_spiritDispenserControl.GetStatusObservable());
+
+
+            components.CombineLatest(lastStates => lastStates.All(state => state == Status.Ready))
+                .Subscribe(areComponentsReady =>
+                { 
+                    _areComponentsReady = areComponentsReady;
+                    CalculateStatuts();
+                });
         }
 
         public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();
@@ -101,9 +111,7 @@ namespace SpiritSpenderServer.Automatic
         private bool IsStartPossible()
         {
             var startPossible = !_emergencyStop.EmergencyStopPressed &&
-                                _spiritDispenserControl.GetStatusObservable().LastAsync().Wait() == Status.Ready &&
-                                _X_Axis.GetStatusObservable().LastAsync().Wait() == Status.Ready &&
-                                _Y_Axis.GetStatusObservable().LastAsync().Wait() == Status.Ready;
+                                _areComponentsReady;
 
             return startPossible;
         }
