@@ -1,11 +1,12 @@
 ﻿using SpiritSpenderServer.Persistence.StatusLampSettings;
+using System;
 using System.Threading.Tasks;
-using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.EmergencyStop
 {
     public interface IStatusLamp
     {
+        event Action<bool> EnabledChanged;
         public StatusLampSetting StatusLampSetting { get; }
         public bool Enabled { get; }
         void EnableStatusLamp();

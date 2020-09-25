@@ -43,8 +43,6 @@ namespace SpiritSpenderServer.HardwareControl.StatusLamp
             if (_blinkingTask != null)
             {
                 _blinkingTokensource.Cancel();
-                _blinkingTask.Wait();
-                _blinkingTask.Dispose();
                 _blinkingTokensource = new CancellationTokenSource();
             }
         }
