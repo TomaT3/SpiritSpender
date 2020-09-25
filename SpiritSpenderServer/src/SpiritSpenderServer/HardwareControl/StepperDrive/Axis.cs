@@ -31,7 +31,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         {
             (_driveName, _driveSettingRepository, _stepperMotorControl, _emergencyStop) = (driveName, driveSettingRepository, stepperMotorControl, emergencyStop);
             _stopDrivingTokenSource = new CancellationTokenSource();
-            _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
+            _currentStatus = new BehaviorSubject<Status>(emergencyStop.EmergencyStopPressed ? Status.Error : Status.NotReady);
             _drivingTask = Task.Run(() =>
             {
                 // just to intialize the member, so no exception is thrown when emergency stop is pressed

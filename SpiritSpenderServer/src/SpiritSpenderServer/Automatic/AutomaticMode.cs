@@ -53,17 +53,22 @@ namespace SpiritSpenderServer.Automatic
 
         public async Task ReleaseTheSpiritAsync()
         {
+            if (_currentStatus.Value != Status.Ready)
+            {
+                return;
+            }
+
+            _currentStatus.OnNext(Status.Running);
+
             var positionSettings = await _shotGlassPositionSettingRepository.GetAllSettingsAsync();
             var orderedPositionSettings = positionSettings.ToList().OrderBy(ps => ps.Number);
 
             foreach (var positionSetting in orderedPositionSettings)
             {
-                if (_currentStatus.Value != Status.Ready)
+                if (_emergencyStop.EmergencyStopPressed)
                 {
                     break;
                 }
-
-                _currentStatus.OnNext(Status.Running);
 
                 switch (positionSetting.Quantity)
                 {

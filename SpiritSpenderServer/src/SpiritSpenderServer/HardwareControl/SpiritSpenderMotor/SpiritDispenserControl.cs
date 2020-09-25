@@ -27,7 +27,7 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             (_spiritSpenderMotor, _spiritDispenserSettingRepository, _emergencyStop, _name) =
                 (spiritSpenderMotor, dispenserSettingRepository, emergencyStop, name);
 
-            _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
+            _currentStatus = new BehaviorSubject<Status>(emergencyStop.EmergencyStopPressed ? Status.Error : Status.NotReady);
             CurrentPosition = SpiritDispenserPosition.Undefined;
             _cancelMovementTokensource = new CancellationTokenSource();
             emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
