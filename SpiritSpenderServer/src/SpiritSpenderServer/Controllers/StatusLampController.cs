@@ -12,9 +12,9 @@ namespace SpiritSpenderServer.Controllers
     {
         private IStatusLamp _statusLamp;
 
-        public StatusLampController(IHardwareConfiguration hardwareConfiguration)
+        public StatusLampController(IStatusLamp statusLamp)
         {
-            _statusLamp = hardwareConfiguration.StatusLamp;
+            _statusLamp = statusLamp;
         }
 
         [HttpGet]

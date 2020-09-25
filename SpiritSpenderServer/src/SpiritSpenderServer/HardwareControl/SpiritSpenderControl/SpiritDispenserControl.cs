@@ -4,10 +4,10 @@ using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using UnitsNet;
+using UnitsNet.Units;
 
 namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
@@ -22,10 +22,12 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         private System.Timers.Timer _spiritDispenserRefilledTimer;
         private CancellationTokenSource _cancelMovementTokensource;
 
-        public SpiritDispenserControl(ILinearMotor spiritSpenderMotor, ISpiritDispenserSettingRepository dispenserSettingRepository, IEmergencyStop emergencyStop, string name)
+        public SpiritDispenserControl(ISpiritDispenserSettingRepository dispenserSettingRepository, IEmergencyStop emergencyStop, IGpioControllerFacade gpioControllerFacade)
         {
-            (_spiritSpenderMotor, _spiritDispenserSettingRepository, _emergencyStop, _name) =
-                (spiritSpenderMotor, dispenserSettingRepository, emergencyStop, name);
+            _name = "SpiritDispenser";
+            (_spiritDispenserSettingRepository, _emergencyStop) = (dispenserSettingRepository, emergencyStop);
+            
+            _spiritSpenderMotor = new LinearMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: gpioControllerFacade);
 
             _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
             CurrentPosition = SpiritDispenserPosition.Undefined;
@@ -40,6 +42,21 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         public async Task InitAsync()
         {
             SpiritDispenserSetting = await _spiritDispenserSettingRepository.GetSpiritDispenserSetting(_name);
+            if (SpiritDispenserSetting == null)
+            {
+                SpiritDispenserSetting = new SpiritDispenserSetting
+                {
+                    Name = _name,
+                    DriveTimeFromBottleChangeToHomePos = new Duration(1.4, DurationUnit.Second),
+                    DriveTimeFromHomePosToBottleChange = new Duration(2, DurationUnit.Second),
+                    DriveTimeFromReleaseToHomePosition = new Duration(1, DurationUnit.Second),
+                    DriveTimeFromHomeToReleasePosition = new Duration(1.5, DurationUnit.Second),
+                    WaitTimeUntilSpiritIsReleased = new Duration(1.8, DurationUnit.Second),
+                    WaitTimeUntilSpiritIsRefilled = new Duration(1.5, DurationUnit.Second)
+                };
+
+                await _spiritDispenserSettingRepository.Create(SpiritDispenserSetting);
+            }
         }
 
         public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();

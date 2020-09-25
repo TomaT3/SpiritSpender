@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using UnitsNet;
 
-namespace SpiritSpenderServer.HardwareControl.StepperDrive
+namespace SpiritSpenderServer.HardwareControl.Axis
 {
     public interface IAxis : IComponentWithStatus
     {
+        public string Name { get; }
         DriveSetting DriveSetting { get; }
         Length CurrentPosition { get; }
         Task InitAsync();

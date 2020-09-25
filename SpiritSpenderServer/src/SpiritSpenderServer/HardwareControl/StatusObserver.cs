@@ -1,6 +1,8 @@
 ﻿using SpiritSpenderServer.Automatic;
 using SpiritSpenderServer.Config.HardwareConfiguration;
+using SpiritSpenderServer.HardwareControl.Axis;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
+using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +22,27 @@ namespace SpiritSpenderServer.HardwareControl
         private IStatusLamp _statusLamp;
         private LampStatus _greenLampLastStatus;
         private LampStatus _redLampLastStatus;
+        private List<IObservable<Status>> _statusObservables;
 
-        public StatusObserver(IHardwareConfiguration hardwareConfiguration, IAutomaticMode automatic)
+        public StatusObserver(
+            IAutomaticMode automatic,
+            IXAxis xAxis,
+            IYAxis yAxis,
+            ISpiritDispenserControl spiritDispenserControl,
+            IStatusLamp statusLamp)
         {
-            var statusObservables = new List<IObservable<Status>>();
-            statusObservables.Add(hardwareConfiguration.SpiritDispenserControl.GetStatusObservable());
-            statusObservables.Add(hardwareConfiguration.StepperDrives["X"].GetStatusObservable());
-            statusObservables.Add(hardwareConfiguration.StepperDrives["Y"].GetStatusObservable());
-            statusObservables.Add(automatic.GetStatusObservable());
+            _statusObservables = new List<IObservable<Status>>();
+            _statusObservables.Add(spiritDispenserControl.GetStatusObservable());
+            _statusObservables.Add(xAxis.GetStatusObservable());
+            _statusObservables.Add(yAxis.GetStatusObservable());
+            _statusObservables.Add(automatic.GetStatusObservable());
             
-            _statusLamp = hardwareConfiguration.StatusLamp;
+            _statusLamp = statusLamp;
+        }
 
-            statusObservables.CombineLatest(
+        public void Init()
+        {
+            _statusObservables.CombineLatest(
                 (lastStates) =>
                     lastStates switch
                     {
@@ -42,7 +53,7 @@ namespace SpiritSpenderServer.HardwareControl
                 ).DistinctUntilChanged()
                 .Subscribe(lampState => GreenStatusLamp(lampState));
 
-            statusObservables.CombineLatest(
+            _statusObservables.CombineLatest(
                 (lastStates) =>
                     lastStates switch
                     {

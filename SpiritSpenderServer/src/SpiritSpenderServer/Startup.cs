@@ -10,6 +10,9 @@ using SpiritSpenderServer.Automatic;
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.HardwareControl;
+using SpiritSpenderServer.HardwareControl.Axis;
+using SpiritSpenderServer.HardwareControl.EmergencyStop;
+using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
 using SpiritSpenderServer.Persistence;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Positions;
@@ -50,11 +53,13 @@ namespace SpiritSpenderServer
             services.AddSingleton<IStatusLampSettingRepository, StatusLampSettingRepository>();
             services.AddSingleton<StatusObserver>();
             services.AddSingleton<IAutomaticMode, AutomaticMode>();
-            services.AddSingleton<IHardwareConfiguration, HardwareConfiguration>();
-            //services.AddSingleton<IStatus>(x => x.GetRequiredService<IHardwareConfiguration>().SpiritDispenserControl);
-            //services.AddSingleton<IStatus>(x => x.GetRequiredService<IHardwareConfiguration>().StepperDrives["X"]);
-            //services.AddSingleton<IStatus>(x => x.GetRequiredService<IHardwareConfiguration>().StepperDrives["Y"]);
-            //services.AddSingleton<IStatus>(x => x.GetRequiredService<IAutomaticMode>());
+
+            services.AddSingleton<IXAxis, XAxis>();
+            services.AddSingleton<IYAxis, YAxis>();
+            services.AddSingleton<ISpiritDispenserControl, SpiritDispenserControl>();
+            services.AddSingleton<IStatusLamp, StatusLamp>();
+            services.AddSingleton<IEmergencyStop, EmergencyStop>();
+            services.AddSingleton<IShotGlassPositionSettingsConfiguration, ShotGlassPositionSettingsConfiguration>();
             services.AddSingleton<App>();
 
             services.AddCors(options =>

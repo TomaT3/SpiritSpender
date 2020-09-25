@@ -13,8 +13,8 @@ namespace SpiritSpenderServer.Controllers
     {
         private ISpiritDispenserControl _spiritDispenserControl;
 
-        public SpiritDispenserController(IHardwareConfiguration hardwareConfiguration)
-            => (_spiritDispenserControl) = (hardwareConfiguration.SpiritDispenserControl);
+        public SpiritDispenserController(ISpiritDispenserControl spiritDispenserControl)
+            => (_spiritDispenserControl) = (spiritDispenserControl);
 
         [HttpGet]
         public ActionResult<string> Get()

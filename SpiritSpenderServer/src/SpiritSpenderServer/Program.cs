@@ -12,8 +12,6 @@ namespace SpiritSpenderServer
         {
             var host = CreateHostBuilder(args).Build();
 
-            var hardwareConfiguration = host.Services.GetService<IHardwareConfiguration>();
-            hardwareConfiguration.LoadHardwareConfiguration().Wait();
             _ = host.Services.GetService<App>();
             
             host.Run();

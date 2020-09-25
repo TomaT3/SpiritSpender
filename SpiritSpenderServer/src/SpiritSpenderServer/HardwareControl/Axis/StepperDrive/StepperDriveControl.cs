@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Device.Gpio;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
 using UnitsNet;
 
-namespace SpiritSpenderServer.HardwareControl.StepperDrive
+namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
 {
-    public class StepperMotorControl : IStepperMotorControl
+    public class StepperDriveControl : IStepperDriveControl
     {
         private static PinValue FORWARD = PinValue.High;
         private static PinValue BACKWARD = PinValue.Low;
@@ -20,7 +18,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         GpioPin _stepPin;
         GpioPin _referenceSwitchPin;
 
-        public StepperMotorControl(DrivePins drivePins, IGpioControllerFacade gpioControllerFacade)
+        public StepperDriveControl(DrivePins drivePins, IGpioControllerFacade gpioControllerFacade)
         {
             _enablePin = new GpioPin(gpioControllerFacade, drivePins.EnablePin, PinMode.Output);
             _enablePin.Write(ENA_RELEASED);
@@ -48,7 +46,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             for (int i = 0; i < ticksToWaitBetweenSteps.Length; i++)
             {
-                if (token.IsCancellationRequested) 
+                if (token.IsCancellationRequested)
                     break;
 
                 DoOneStep(ticksToWaitBetweenSteps[i]);
@@ -87,7 +85,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
         {
             _enablePin.Write(ENA_LOCKED);
         }
-        
+
         private void ReleaseDrive()
         {
             _enablePin.Write(ENA_RELEASED);
