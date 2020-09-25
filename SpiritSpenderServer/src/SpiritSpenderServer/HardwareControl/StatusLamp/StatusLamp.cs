@@ -51,8 +51,8 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
         public void DisableStatusLamp()
         {
             Enabled = false;
-            RedLightOff();
-            GreenLightOff();
+            _redLight.TurnOff();
+            _greenLight.TurnOff();
         }
 
         public void GreenLightOn()
