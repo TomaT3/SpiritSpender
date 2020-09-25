@@ -18,6 +18,8 @@ namespace SpiritSpenderServer.HardwareControl
         }
 
         private IStatusLamp _statusLamp;
+        private LampStatus _greenLampLastStatus;
+        private LampStatus _redLampLastStatus;
 
         public StatusObserver(IHardwareConfiguration hardwareConfiguration, IAutomaticMode automatic)
         {
@@ -50,10 +52,22 @@ namespace SpiritSpenderServer.HardwareControl
                     }
                 ).DistinctUntilChanged()
                 .Subscribe(lampState => RedStatusLamp(lampState));
+
+            _statusLamp.EnabledChanged += StatusLampEnabledChanged;
+        }
+
+        private void StatusLampEnabledChanged(bool enabledStatus)
+        {
+            if(enabledStatus)
+            {
+                GreenStatusLamp(_greenLampLastStatus);
+                RedStatusLamp(_redLampLastStatus);
+            }
         }
 
         private void GreenStatusLamp(LampStatus lampStatus)
         {
+            _greenLampLastStatus = lampStatus;
             switch (lampStatus)
             {
                 case LampStatus.On:
@@ -70,6 +84,7 @@ namespace SpiritSpenderServer.HardwareControl
 
         private void RedStatusLamp(LampStatus lampStatus)
         {
+            _redLampLastStatus = lampStatus;
             switch (lampStatus)
             {
                 case LampStatus.On:

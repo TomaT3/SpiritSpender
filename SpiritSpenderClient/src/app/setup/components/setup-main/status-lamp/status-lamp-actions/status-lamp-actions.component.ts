@@ -10,6 +10,14 @@ export class StatusLampActionsComponent {
 
   constructor(private statusLampApi: StatusLampApiService) { }
 
+  public async enableStatusLamp(): Promise<void> {
+    await this.statusLampApi.enableStatusLamp();
+  }
+
+  public async disableStatusLamp(): Promise<void> {
+    await this.statusLampApi.disableStatusLamp();
+  }
+
   public async redLightOff(): Promise<void> {
     await this.statusLampApi.redLightOff();
   }

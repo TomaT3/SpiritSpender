@@ -1,5 +1,9 @@
 <div class="container">
     <div class="flexitem">
+        <button mat-fab color="warn" (click)="this.enableStatusLamp()">Enable</button>
+        <button style="margin-left: 5px" mat-fab color="warn" (click)="this.disableStatusLamp()">Disable</button>
+    </div>
+    <div class="flexitem">
         <button mat-raised-button color="primary" (click)="this.redLightOff()">Red light off</button>
     </div>
     <div class="flexitem">

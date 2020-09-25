@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { StatusLampSetting } from '../types/status-lamp-setting';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const API_URL = environment.baseUrl + 'statuslamp'
 
@@ -23,6 +23,20 @@ export class StatusLampApiService {
     const result = await this.http.put(url, setting).toPromise();
   }
 
+  public async enableStatusLamp(): Promise<void>{
+    const url = `${API_URL}/enabled`;
+
+    // HttpClient uses wrong content type for boolean. See: https://github.com/angular/angular/issues/38924
+    const result = await this.http.post(url, true, {headers : new HttpHeaders({ 'Content-Type': 'application/json' })}).toPromise();
+  }
+
+  public async disableStatusLamp(): Promise<void>{
+    const url = `${API_URL}/enabled`;
+
+    // HttpClient uses wrong content type for boolean. See: https://github.com/angular/angular/issues/38924
+    const result = await this.http.post(url, false, {headers : new HttpHeaders({ 'Content-Type': 'application/json' })}).toPromise();
+  }
+  
   public async redLightOff(): Promise<void>{
     const url = `${API_URL}/red-light/off`;
     const result = await this.http.post(url, null).toPromise();
