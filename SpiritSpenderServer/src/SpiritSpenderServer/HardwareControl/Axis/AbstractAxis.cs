@@ -30,7 +30,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis
         {
             (_driveSettingRepository, _emergencyStop) = (driveSettingRepository, emergencyStop);
             _stopDrivingTokenSource = new CancellationTokenSource();
-            _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
+            _currentStatus = new BehaviorSubject<Status>(emergencyStop.EmergencyStopPressed ? Status.Error : Status.NotReady);
             _drivingTask = Task.Run(() =>
             {
                 // just to intialize the member, so no exception is thrown when emergency stop is pressed

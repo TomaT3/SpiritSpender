@@ -29,7 +29,7 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             
             _spiritSpenderMotor = new LinearMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: gpioControllerFacade);
 
-            _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
+            _currentStatus = new BehaviorSubject<Status>(emergencyStop.EmergencyStopPressed ? Status.Error : Status.NotReady);
             CurrentPosition = SpiritDispenserPosition.Undefined;
             _cancelMovementTokensource = new CancellationTokenSource();
             emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;

@@ -12,6 +12,7 @@ namespace SpiritSpenderServer.HardwareControl.StatusLamp
         private GpioPin _gpio;
         private CancellationTokenSource _blinkingTokensource;
         private Task _blinkingTask;
+        private object _lockObject = new object();
 
         public Light(int gpioPin, IGpioControllerFacade gpioControllerFacade)
         {
@@ -22,20 +23,29 @@ namespace SpiritSpenderServer.HardwareControl.StatusLamp
 
         public void TurnOn()
         {
-            CheckAndStopBlinkingTask();
-            TurnLightOn();
+            lock (_lockObject)
+            {
+                CheckAndStopBlinkingTask();
+                TurnLightOn();
+            }
         }
 
         public void TurnOff()
         {
-            CheckAndStopBlinkingTask();
-            TurnLightOff();
+            lock (_lockObject)
+            {
+                CheckAndStopBlinkingTask();
+                TurnLightOff();
+            }
         }
 
         public void Blink(Duration durationOn, Duration durationOff)
         {
-            CheckAndStopBlinkingTask();
-            _blinkingTask = Task.Run(() => Blinking(Convert.ToInt32(durationOn.Milliseconds), Convert.ToInt32(durationOff.Milliseconds), _blinkingTokensource.Token), _blinkingTokensource.Token);
+            lock (_lockObject)
+            {
+                CheckAndStopBlinkingTask();
+                _blinkingTask = Task.Run(() => Blinking(Convert.ToInt32(durationOn.Milliseconds), Convert.ToInt32(durationOff.Milliseconds), _blinkingTokensource.Token), _blinkingTokensource.Token);
+            }
         }
 
         private void CheckAndStopBlinkingTask()
