@@ -8,17 +8,16 @@ using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using System.Threading;
 using System.Reactive.Subjects;
 using System.Reactive.Linq;
+using SpiritSpenderServer.HardwareControl.Axis.StepperDrive;
 
-namespace SpiritSpenderServer.HardwareControl.StepperDrive
+namespace SpiritSpenderServer.HardwareControl.Axis
 {
-    public class Axis : IAxis
+    public abstract class AbstractAxis : IAxis
     {
         private static bool FORWARD = true;
         private static bool BACKWARD = false;
 
-        private string _driveName;
         private readonly BehaviorSubject<Status> _currentStatus;
-        private IStepperMotorControl _stepperMotorControl;
         private IDriveSettingRepository _driveSettingRepository;
         private Length _lengthOfOneStep;
         private Task _drivingTask;
@@ -27,9 +26,9 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
 
 
-        public Axis(string driveName, IDriveSettingRepository driveSettingRepository, IStepperMotorControl stepperMotorControl, IEmergencyStop emergencyStop)
+        public AbstractAxis(IDriveSettingRepository driveSettingRepository, IEmergencyStop emergencyStop)
         {
-            (_driveName, _driveSettingRepository, _stepperMotorControl, _emergencyStop) = (driveName, driveSettingRepository, stepperMotorControl, emergencyStop);
+            (_driveSettingRepository, _emergencyStop) = (driveSettingRepository, emergencyStop);
             _stopDrivingTokenSource = new CancellationTokenSource();
             _currentStatus = new BehaviorSubject<Status>(emergencyStop.EmergencyStopPressed ? Status.Error : Status.NotReady);
             _drivingTask = Task.Run(() =>
@@ -39,11 +38,17 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             _emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
         }
 
+        public abstract string Name { get; }
+
+        internal abstract IStepperDriveControl StepperDriveControl { get; }
+
+        internal abstract DriveSetting DefaultDriveSetting { get; }
+
         public DriveSetting DriveSetting { get; private set; }
 
-        public Length CurrentPosition => _stepperMotorControl.CurrentPosition.ToUnit(LengthUnit.Millimeter);
+        public Length CurrentPosition => StepperDriveControl.CurrentPosition.ToUnit(LengthUnit.Millimeter);
 
-        public void SetPosition(Length position) => _stepperMotorControl.SetPosition(position);
+        public void SetPosition(Length position) => StepperDriveControl.SetPosition(position);
 
         public async Task InitAsync()
         {
@@ -76,7 +81,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         public async Task DriveToPositionAsync(Length position)
         {
-            var distanceToGo = _stepperMotorControl.CurrentPosition - position;
+            var distanceToGo = StepperDriveControl.CurrentPosition - position;
             distanceToGo = distanceToGo * -1;
             await DriveStepsAsync(distanceToGo);
         }
@@ -88,7 +93,13 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         private async Task GetDriveSettings()
         {
-            DriveSetting = await _driveSettingRepository.GetDriveSetting(_driveName);
+            DriveSetting = await _driveSettingRepository.GetDriveSetting(Name);
+            if (DriveSetting == null)
+            {
+                await _driveSettingRepository.Create(DefaultDriveSetting);
+                DriveSetting = DefaultDriveSetting;
+            }
+
             _lengthOfOneStep = 1.ToDistance(DriveSetting);
         }
 
@@ -123,19 +134,19 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
         private void ReferenceDrive(Duration waitTimeBetweenSteps, bool direction)
         {
-            _stepperMotorControl.DriveToReferenceSwitch(waitTimeBetweenSteps, direction, _stopDrivingTokenSource.Token);
+            StepperDriveControl.DriveToReferenceSwitch(waitTimeBetweenSteps, direction, _stopDrivingTokenSource.Token);
 
             if (!_stopDrivingTokenSource.IsCancellationRequested)
             {
-                _stepperMotorControl.SetPosition(DriveSetting.ReferencePosition);
+                StepperDriveControl.SetPosition(DriveSetting.ReferencePosition);
                 _currentStatus.OnNext(Status.Ready);
             }
         }
 
         private bool CheckLimitSwitches(Length distance)
         {
-            var endPosition = _stepperMotorControl.CurrentPosition + distance;
-            if ( endPosition < DriveSetting.SoftwareLimitMinus
+            var endPosition = StepperDriveControl.CurrentPosition + distance;
+            if (endPosition < DriveSetting.SoftwareLimitMinus
                 || endPosition > DriveSetting.SoftwareLimitPlus)
             {
                 return false;
@@ -173,7 +184,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
             var numberOfStepsForDecceleration = numberOfStepsForAcceleration;
             var numberOfStepsWithMaxSpeed = 0;
 
-            if ((2 * numberOfStepsForAcceleration) < numberOfSteps)
+            if (2 * numberOfStepsForAcceleration < numberOfSteps)
             {
                 numberOfStepsForDecceleration = numberOfStepsForAcceleration;
                 numberOfStepsWithMaxSpeed = numberOfSteps - numberOfStepsForAcceleration - numberOfStepsForDecceleration;
@@ -193,7 +204,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             var drive = GetDriveDirection(steps);
 
-            _stepperMotorControl.SetOutput(waitTimeBetweenSteps, drive.direction, drive.distanceOfOneStep, _stopDrivingTokenSource.Token);
+            StepperDriveControl.SetOutput(waitTimeBetweenSteps, drive.direction, drive.distanceOfOneStep, _stopDrivingTokenSource.Token);
             return true;
         }
 
@@ -221,7 +232,7 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
 
             return direction;
         }
-       
+
         private Duration[] CalculateWaitTimeBetweenSteps(
             int numberOfStepsForAcceleration,
             int numberOfStepsWithMaxSpeed,
@@ -255,9 +266,9 @@ namespace SpiritSpenderServer.HardwareControl.StepperDrive
                 j++;
             }
 
-            var waitTimeBetweenSteps = waitTimeBetweenAccelerationSteps.ToList<Duration>()
-                .Concat<Duration>(waitTimeBetweenMaxSpeedSteps.ToList<Duration>())
-                .Concat<Duration>(waitTimeBetweenDeccelerationSteps.ToList<Duration>())
+            var waitTimeBetweenSteps = waitTimeBetweenAccelerationSteps.ToList()
+                .Concat(waitTimeBetweenMaxSpeedSteps.ToList())
+                .Concat(waitTimeBetweenDeccelerationSteps.ToList())
                 .ToArray();
 
             return waitTimeBetweenSteps;

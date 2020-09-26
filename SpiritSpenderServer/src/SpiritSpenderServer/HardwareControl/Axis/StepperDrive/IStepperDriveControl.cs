@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using UnitsNet;
 
-namespace SpiritSpenderServer.HardwareControl.StepperDrive
+namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
 {
-    public interface IStepperMotorControl
+    public interface IStepperDriveControl
     {
         Length CurrentPosition { get; }
         void SetPosition(Length position);

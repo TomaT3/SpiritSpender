@@ -1,4 +1,4 @@
-﻿namespace SpiritSpenderServer.HardwareControl.StepperDrive
+﻿namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
 {
     public class DrivePins
     {

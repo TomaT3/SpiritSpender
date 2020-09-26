@@ -7,19 +7,26 @@ using UnitsNet.Units;
 
 namespace SpiritSpenderServer.Config.HardwareConfiguration
 {
-    public class ShotGlassPositionSettingsConfiguration
+    public class ShotGlassPositionSettingsConfiguration : IShotGlassPositionSettingsConfiguration
     {
-        public static async Task CreateShotGlassPositionSettings(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository)
+        private IShotGlassPositionSettingRepository _shotGlassPositionSettingRepository;
+
+        public ShotGlassPositionSettingsConfiguration(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository)
+        {
+            _shotGlassPositionSettingRepository = shotGlassPositionSettingRepository;
+        }
+
+        public async Task CreateShotGlassPositionSettings()
         {
             const int NUMBER_OF_SHOT_GLASS_POSITIONS = 12;
-            var settings = await shotGlassPositionSettingRepository.GetAllSettingsAsync();
-            
+            var settings = await _shotGlassPositionSettingRepository.GetAllSettingsAsync();
+
             if (settings != null && settings.Count() > 0)
                 return;
 
             for (int i = 1; i <= NUMBER_OF_SHOT_GLASS_POSITIONS; i++)
             {
-                await AddShotGlassPositionSettingAsync(i, shotGlassPositionSettingRepository);
+                await AddShotGlassPositionSettingAsync(i, _shotGlassPositionSettingRepository);
             }
         }
 

@@ -2,6 +2,8 @@
 using SpiritSpenderServer.Persistence.StatusLampSettings;
 using System;
 using System.Threading.Tasks;
+using UnitsNet;
+using UnitsNet.Units;
 
 namespace SpiritSpenderServer.HardwareControl.EmergencyStop
 {
@@ -15,8 +17,13 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
 
         public event Action<bool> EnabledChanged;
 
-        public StatusLamp(ILight redLight, ILight greenLight, IStatusLampSettingRepository statusLampSettingRepository, string name)
-            => (_redLight, _greenLight, _statusLampSettingRepository, _name) = (redLight, greenLight, statusLampSettingRepository, name);
+        public StatusLamp(IStatusLampSettingRepository statusLampSettingRepository, IGpioControllerFacade gpioControllerFacade)
+        {
+            _name = "StatusLamp";
+            _statusLampSettingRepository = statusLampSettingRepository;
+            _redLight = new Light(gpioPin: 19, gpioControllerFacade: gpioControllerFacade);
+            _greenLight = new Light(gpioPin: 13, gpioControllerFacade: gpioControllerFacade);
+        }
 
         public StatusLampSetting StatusLampSetting { get; private set; }
 
@@ -35,6 +42,17 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
         public async Task InitAsync()
         {
             StatusLampSetting = await _statusLampSettingRepository.GetStatusLampSetting(_name);
+            if (StatusLampSetting == null)
+            {
+                StatusLampSetting = new StatusLampSetting
+                {
+                    Name = _name,
+                    BlinkTimeOff = new Duration(0.5, DurationUnit.Second),
+                    BlinkTimeOn = new Duration(0.5, DurationUnit.Second),
+                };
+
+                await _statusLampSettingRepository.Create(StatusLampSetting);
+            }
         }
 
         public async Task UpdateSettings(StatusLampSetting statusLampSetting)

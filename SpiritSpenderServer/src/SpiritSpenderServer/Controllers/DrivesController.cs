@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SpiritSpenderServer.Config.HardwareConfiguration;
-using SpiritSpenderServer.HardwareControl.StepperDrive;
+using SpiritSpenderServer.HardwareControl.Axis;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using UnitsNet;
 
@@ -14,9 +14,15 @@ namespace SpiritSpenderServer.Controllers
     {
         private readonly Dictionary<string, IAxis> _axis;
 
-        public DrivesController(IHardwareConfiguration hardwareConfiguration)
-            => (_axis) = (hardwareConfiguration.StepperDrives);
-       
+        public DrivesController(IXAxis xAxis, IYAxis yAxis)
+        {
+            _axis = new Dictionary<string, IAxis>()
+            {
+                { xAxis.Name, xAxis },
+                { yAxis.Name, yAxis }
+            };
+            
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

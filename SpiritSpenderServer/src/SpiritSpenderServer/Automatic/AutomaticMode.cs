@@ -1,8 +1,7 @@
-﻿using SpiritSpenderServer.Config.HardwareConfiguration;
-using SpiritSpenderServer.HardwareControl;
+﻿using SpiritSpenderServer.HardwareControl;
+using SpiritSpenderServer.HardwareControl.Axis;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
-using SpiritSpenderServer.HardwareControl.StepperDrive;
 using SpiritSpenderServer.Persistence.Positions;
 using System;
 using System.Collections.Generic;
@@ -15,8 +14,6 @@ namespace SpiritSpenderServer.Automatic
 {
     public class AutomaticMode : IAutomaticMode
     {
-        const string X_AXIS_NAME = "X";
-        const string Y_AXIS_NAME = "Y";
         private readonly BehaviorSubject<Status> _currentStatus;
         private readonly IShotGlassPositionSettingRepository _shotGlassPositionSettingRepository;
         private readonly IEmergencyStop _emergencyStop;
@@ -25,14 +22,18 @@ namespace SpiritSpenderServer.Automatic
         private readonly IAxis _Y_Axis;
         private bool _areComponentsReady;
 
-        public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository, IHardwareConfiguration hardwareConfiguration)
+        public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository,
+                             IXAxis xAxis,
+                             IYAxis yAxis,
+                             ISpiritDispenserControl spiritDispenserControl,
+                             IEmergencyStop emergencyStop)
         {
             _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
             _shotGlassPositionSettingRepository = shotGlassPositionSettingRepository;
-            _X_Axis = hardwareConfiguration.StepperDrives[X_AXIS_NAME];
-            _Y_Axis = hardwareConfiguration.StepperDrives[Y_AXIS_NAME];
-            _spiritDispenserControl = hardwareConfiguration.SpiritDispenserControl;
-            _emergencyStop = hardwareConfiguration.EmergencyStop;
+            _X_Axis = xAxis;
+            _Y_Axis = yAxis;
+            _spiritDispenserControl = spiritDispenserControl;
+            _emergencyStop = emergencyStop;
             _emergencyStop.EmergencyStopPressedChanged += (estop) => CalculateStatuts();
 
             var components = new List<IObservable<Status>>();

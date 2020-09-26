@@ -16,10 +16,10 @@ namespace SpiritSpenderServer.Controllers
         private readonly IDriveSettingRepository _driveSettingsRepo;
         private IEmergencyStop _emergencyStop;
 
-        public TestingController(IDriveSettingRepository driveSettingRepository, IHardwareConfiguration hardwareConfiguration)
+        public TestingController(IDriveSettingRepository driveSettingRepository, IEmergencyStop emergencyStop)
         {
             _driveSettingsRepo = driveSettingRepository;
-            _emergencyStop = hardwareConfiguration.EmergencyStop;
+            _emergencyStop = emergencyStop;
         }
 
         // GET: api/DriveSettings

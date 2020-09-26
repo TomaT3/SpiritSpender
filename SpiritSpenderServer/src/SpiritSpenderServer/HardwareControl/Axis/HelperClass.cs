@@ -3,15 +3,13 @@ using System;
 using UnitsNet;
 using UnitsNet.Units;
 
-namespace SpiritSpenderServer.HardwareControl.StepperDrive
+namespace SpiritSpenderServer.HardwareControl.Axis
 {
     public static class HelperClass
     {
-        
-
         public static int ToSteps(this Length distance, DriveSetting driveSetting)
         {
-            var steps =distance.Millimeters * driveSetting.StepsPerRevolution / driveSetting.SpindlePitch.Millimeters;
+            var steps = distance.Millimeters * driveSetting.StepsPerRevolution / driveSetting.SpindlePitch.Millimeters;
             return Convert.ToInt32(steps);
         }
 
