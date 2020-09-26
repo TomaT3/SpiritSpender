@@ -52,6 +52,13 @@ namespace SpiritSpenderServer.Controllers
             return new OkResult();
         }
 
+        [HttpPost("EmergencyStop/debounce-time")]
+        public ActionResult EmergencyStopDebounceTime([FromBody] int debounceTime)
+        {
+            _emergencyStop.SetDebounceTime(debounceTime);
+            return new OkResult();
+        }
+
         // POST: api/DriveSettings
         [HttpPost]
         public async Task<ActionResult<DriveSetting>> Post([FromBody] DriveSetting driveSetting)
