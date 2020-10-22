@@ -6,4 +6,5 @@
 | latest version  | ![version](https://img.shields.io/github/v/tag/tomat3/SpiritSpender)        |
 
 
-![SpiritSpender](Doc/pictures/IMG_20200702_135323.jpg)
+![SpiritSpenderFront](Doc/pictures/IMG_20200702_135323.jpg)
+![SpiritSpenderElectricControlBox](Doc/pictures/IMG_20200702_135011.jpg)
