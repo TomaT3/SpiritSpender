@@ -40,5 +40,9 @@ export class AppComponent {
     this.matIconRegistry.addSvgIcon(
       `oneShotIcon`,
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/oneShotIcon.svg"));
+
+      this.matIconRegistry.addSvgIcon(
+        `emptyPositionIcon`,
+        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/emptyPositionIcon.svg"));
   }
 }
