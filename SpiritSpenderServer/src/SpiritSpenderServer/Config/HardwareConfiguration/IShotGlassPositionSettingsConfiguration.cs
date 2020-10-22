@@ -4,6 +4,6 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
 {
     public interface IShotGlassPositionSettingsConfiguration
     {
-        Task CreateShotGlassPositionSettings();
+        Task InitShotGlassPositionSettingsAsync();
     }
 }
