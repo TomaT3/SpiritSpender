@@ -16,7 +16,7 @@ namespace SpiritSpenderServer.Config.HardwareConfiguration
             _shotGlassPositionSettingRepository = shotGlassPositionSettingRepository;
         }
 
-        public async Task CreateShotGlassPositionSettings()
+        public async Task InitShotGlassPositionSettingsAsync()
         {
             const int NUMBER_OF_SHOT_GLASS_POSITIONS = 12;
             var settings = await _shotGlassPositionSettingRepository.GetAllSettingsAsync();

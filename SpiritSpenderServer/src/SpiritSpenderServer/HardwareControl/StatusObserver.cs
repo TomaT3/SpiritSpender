@@ -1,5 +1,4 @@
 ﻿using SpiritSpenderServer.Automatic;
-using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.HardwareControl.Axis;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;

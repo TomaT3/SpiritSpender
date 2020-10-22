@@ -13,6 +13,7 @@ using SpiritSpenderServer.HardwareControl;
 using SpiritSpenderServer.HardwareControl.Axis;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderMotor;
+using SpiritSpenderServer.HostedServices;
 using SpiritSpenderServer.Persistence;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Positions;
@@ -60,7 +61,8 @@ namespace SpiritSpenderServer
             services.AddSingleton<IStatusLamp, StatusLamp>();
             services.AddSingleton<IEmergencyStop, EmergencyStop>();
             services.AddSingleton<IShotGlassPositionSettingsConfiguration, ShotGlassPositionSettingsConfiguration>();
-            services.AddSingleton<App>();
+            
+            RegisterHostedServices(services);
 
             services.AddCors(options =>
             {
@@ -81,7 +83,7 @@ namespace SpiritSpenderServer
             {
                 services.AddSingleton<IGpioControllerFacade, GpioControllerFacade>();
             }
-            
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -117,6 +119,12 @@ namespace SpiritSpenderServer
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static void RegisterHostedServices(IServiceCollection services)
+        {
+            services.AddHostedService<GpioComponentsStartup>();
+            services.AddHostedService<StausObserverStartup>();
         }
     }
 }

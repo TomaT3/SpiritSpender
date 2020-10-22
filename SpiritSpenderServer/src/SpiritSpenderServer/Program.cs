@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using SpiritSpenderServer.HardwareControl;
-using Microsoft.Extensions.DependencyInjection;
-using SpiritSpenderServer.Config.HardwareConfiguration;
 
 namespace SpiritSpenderServer
 {
@@ -11,9 +8,6 @@ namespace SpiritSpenderServer
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-
-            _ = host.Services.GetService<App>();
-            
             host.Run();
         }
 
