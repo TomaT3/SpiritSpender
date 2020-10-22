@@ -42,7 +42,7 @@ export class AppComponent {
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/oneShotIcon.svg"));
 
       this.matIconRegistry.addSvgIcon(
-        `not_interested`,
-        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/not_interested.svg"));
+        `emptyPositionIcon`,
+        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/emptyPositionIcon.svg"));
   }
 }
