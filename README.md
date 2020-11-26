@@ -12,9 +12,10 @@ At [SchleFaz](https://www.schlefaz.de/) evenings with friends, there has always 
 
 ## How it works
 The SpiritSpender can fill up to 12 shot glasses (single or double shot). Any bottle can be used that fits into a standard "Bar Liquor Dispenser". The SpiritSpender can be controlled from any device that has an Webbrowser.
-
-<img src="Doc/pictures/IMG_20200702_135323.jpg" alt="SpiritSpenderFront" width="40%" height="40%">
-<img src="Doc/pictures/IMG_20200702_135011.jpg" alt="SpiritSpenderElectricControlBox" width="40%" height="40%">
+<p float="left">
+  <img src="Doc/pictures/IMG_20200702_135323.jpg" alt="SpiritSpenderFront" width="40%" height="40%">
+  <img src="Doc/pictures/IMG_20200702_135011.jpg" alt="SpiritSpenderElectricControlBox" width="40%" height="40%">
+</p>
 <br><br>
 
 ## Hardware
