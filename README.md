@@ -1,4 +1,4 @@
-# SpiritSpender
+
 | Description      | Status |
 | ----------- | ----------- |
 | server build on master | ![build-and-test-server](https://github.com/TomaT3/SpiritSpender/workflows/build-and-test-server/badge.svg?branch=master) |
@@ -6,6 +6,7 @@
 | latest version  | ![version](https://img.shields.io/github/v/tag/tomat3/SpiritSpender)        |
 <br>
 
+# SpiritSpender
 ## History
 At [SchleFaz](https://www.schlefaz.de/) evenings with friends, there has always been this one poor guy who had to refill the shot glasses. The later the evening the more spirit was spilled and more uneven filling of the shot glasses. That's how the idea of an automatic SpiritSpender was born.
 
