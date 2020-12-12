@@ -62,10 +62,12 @@ namespace SpiritSpenderServer.Automatic
             _currentStatus.OnNext(Status.Running);
 
             var positionSettings = await _shotGlassPositionSettingRepository.GetAllSettingsAsync();
-            var orderedPositionSettings = positionSettings.ToList().OrderBy(ps => ps.Number);
+            var positionsWithGlasses = positionSettings.Where(p => p.Quantity != Quantity.Empty).ToList();
+            var optimizedRoute = GetOptimizedRoute(positionsWithGlasses);
 
-            foreach (var positionSetting in orderedPositionSettings)
+            foreach (var position in optimizedRoute)
             {
+                var positionSetting = positionsWithGlasses.First(p => p.Position == position);
                 if (_emergencyStop.EmergencyStopPressed)
                 {
                     break;
@@ -89,6 +91,15 @@ namespace SpiritSpenderServer.Automatic
             }
 
             CalculateStatuts(true);
+        }
+
+        private List<Position> GetOptimizedRoute(List<ShotGlassPositionSetting> positionSettings)
+        {
+            var currentPosition = new Position() { X = _X_Axis.CurrentPosition, Y = _Y_Axis.CurrentPosition };
+            var positions = positionSettings.Select(posSetting => posSetting.Position).ToList();
+            var optimizedRoute = RouteOptimizer.RouteOptimizer.GetFastestWayToGetDrunk(currentPosition, positions, _X_Axis.DriveSetting, _Y_Axis.DriveSetting);
+
+            return optimizedRoute;
         }
 
         public async Task DriveToPositionAsync(Position position)
