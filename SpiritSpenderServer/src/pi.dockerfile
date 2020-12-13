@@ -3,7 +3,7 @@ WORKDIR /app
 EXPOSE 5000
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
-#WORKDIR /src
+WORKDIR /src
 #COPY ["SpiritSpenderServer/SpiritSpenderServer.csproj", "SpiritSpenderServer/"]
 #RUN dotnet restore "SpiritSpenderServer/SpiritSpenderServer.csproj"
 COPY . .
