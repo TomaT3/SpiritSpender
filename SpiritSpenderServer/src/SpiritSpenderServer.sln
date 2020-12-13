@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpiritSpenderServer", "Spir
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C2B796CA-B5B9-40B8-B700-EE5582FC0206}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotionCalculatorHelper", "MotionCalculatorHelper\MotionCalculatorHelper.csproj", "{EFBD2014-C723-4C4F-9956-9BCF093F2C24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotionCalc", "MotionCalc\MotionCalc.csproj", "{EFBD2014-C723-4C4F-9956-9BCF093F2C24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

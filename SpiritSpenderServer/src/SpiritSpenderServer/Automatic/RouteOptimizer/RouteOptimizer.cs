@@ -1,4 +1,5 @@
-﻿using SpiritSpenderServer.Persistence.DriveSettings;
+﻿using MotionCalc;
+using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.Positions;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,8 +34,8 @@ namespace SpiritSpenderServer.Automatic.RouteOptimizer
                 var xDistance = currentPosition.X - position.X;
                 var yDistance = currentPosition.Y - position.Y;
 
-                var timeX = MotionCalculatorHelper.MotionCalculatorHelper.GetTimeForDistance(xDistance.Millimeters, xAxis.Acceleration.MillimetersPerSecondSquared, xAxis.MaxSpeed.MillimetersPerSecond);
-                var timeY = MotionCalculatorHelper.MotionCalculatorHelper.GetTimeForDistance(yDistance.Millimeters, yAxis.Acceleration.MillimetersPerSecondSquared, yAxis.MaxSpeed.MillimetersPerSecond);
+                var timeX = MotionCalculatorHelper.GetTimeForDistance(xDistance.Millimeters, xAxis.Acceleration.MillimetersPerSecondSquared, xAxis.MaxSpeed.MillimetersPerSecond);
+                var timeY = MotionCalculatorHelper.GetTimeForDistance(yDistance.Millimeters, yAxis.Acceleration.MillimetersPerSecondSquared, yAxis.MaxSpeed.MillimetersPerSecond);
 
                 double timeForTravelinSeconds = timeX > timeY ? timeX : timeY;
                 var timeForTravel = new Duration(timeForTravelinSeconds, UnitsNet.Units.DurationUnit.Second);

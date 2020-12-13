@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MotionCalculatorHelper
+namespace MotionCalc
 {
     public static class MotionCalculatorHelper
     {
