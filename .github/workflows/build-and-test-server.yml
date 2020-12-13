@@ -20,5 +20,5 @@ jobs:
       uses: docker/build-push-action@v1
       with:
         repository: tomat3/spiritspender
-        dockerfile: ./SpiritSpenderServer/src/SpiritSpenderServer/pi.dockerfile
-        path: ./SpiritSpenderServer/src/SpiritSpenderServer
+        dockerfile: ./SpiritSpenderServer/src/pi.dockerfile
+        path: ./SpiritSpenderServer/src
