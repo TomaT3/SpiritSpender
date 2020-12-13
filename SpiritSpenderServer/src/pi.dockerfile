@@ -4,8 +4,6 @@ EXPOSE 5000
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-#COPY ["SpiritSpenderServer/SpiritSpenderServer.csproj", "SpiritSpenderServer/"]
-#RUN dotnet restore "SpiritSpenderServer/SpiritSpenderServer.csproj"
 COPY . .
 WORKDIR "/src"
 RUN dotnet build "SpiritSpenderServer/SpiritSpenderServer.csproj" -c Release -r linux-arm -o /app/build
