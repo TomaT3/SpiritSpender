@@ -38,5 +38,5 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         repository: tomat3/spiritspender
         tags: server-${{ steps.tagName.outputs.tag }}
-        dockerfile: ./SpiritSpenderServer/src/SpiritSpenderServer/pi.dockerfile
-        path: ./SpiritSpenderServer/src/SpiritSpenderServer
+        dockerfile: ./SpiritSpenderServer/src/pi.dockerfile
+        path: ./SpiritSpenderServer/src

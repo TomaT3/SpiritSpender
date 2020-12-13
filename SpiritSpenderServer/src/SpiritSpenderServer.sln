@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpiritSpenderServer", "Spir
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C2B796CA-B5B9-40B8-B700-EE5582FC0206}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MotionCalc", "MotionCalc\MotionCalc.csproj", "{EFBD2014-C723-4C4F-9956-9BCF093F2C24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C2B796CA-B5B9-40B8-B700-EE5582FC0206}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2B796CA-B5B9-40B8-B700-EE5582FC0206}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2B796CA-B5B9-40B8-B700-EE5582FC0206}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFBD2014-C723-4C4F-9956-9BCF093F2C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFBD2014-C723-4C4F-9956-9BCF093F2C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFBD2014-C723-4C4F-9956-9BCF093F2C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFBD2014-C723-4C4F-9956-9BCF093F2C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
