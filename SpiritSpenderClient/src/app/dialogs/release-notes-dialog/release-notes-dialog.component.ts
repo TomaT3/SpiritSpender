@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ReleaseNotesDialogData } from './release-notes-dialog-data';
 
 @Component({
   selector: 'app-release-notes-dialog',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReleaseNotesDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public dialogData: ReleaseNotesDialogData) { }
 
   ngOnInit(): void {
   }

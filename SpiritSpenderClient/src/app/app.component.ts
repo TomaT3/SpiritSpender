@@ -54,7 +54,11 @@ export class AppComponent {
   }
 
   openReleaseNotesDialog(): void {
-    this.dialog.open(ReleaseNotesDialogComponent);
+    this.dialog.open(ReleaseNotesDialogComponent,{
+      data: {
+        releaseNotesUrl: this.releaseNotesUrl
+      }
+    });
   }
 
   private registerIcons(): void {
