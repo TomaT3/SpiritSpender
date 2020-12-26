@@ -4,17 +4,19 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { UnitToStringPipe } from './pipes/unit-to-string.pipe';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { ShotGlassPositionsApiService } from './services/shot-glass-positions-api.service';
+import { SafePipe } from './pipes/safe.pipe';
 
 
 
 @NgModule({
-  declarations: [PageNotFoundComponent, UnitToStringPipe, EnumToArrayPipe],
+  declarations: [PageNotFoundComponent, UnitToStringPipe, EnumToArrayPipe, SafePipe],
   imports: [
     CommonModule
   ],
   exports: [
     UnitToStringPipe,
     EnumToArrayPipe,
+    SafePipe,
   ]
 })
 export class SharedModule { }
