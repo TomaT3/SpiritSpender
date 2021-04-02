@@ -8,5 +8,6 @@ namespace SpiritSpenderServer.Automatic
     {
         Task DriveToPositionAsync(Position position);
         Task ReleaseTheSpiritAsync();
+        Task ReferenceAllAxis();
     }
 }

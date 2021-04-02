@@ -52,6 +52,17 @@ namespace SpiritSpenderServer.Automatic
 
         public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();
 
+        public async Task ReferenceAllAxis()
+        {
+            var taskRefX = _X_Axis.ReferenceDriveAsync();
+            var taskRefY = _Y_Axis.ReferenceDriveAsync();
+            var taskRefDispenser = _spiritDispenserControl.ReferenceDriveAsync();
+
+            await taskRefX;
+            await taskRefY;
+            await taskRefDispenser;
+        }
+
         public async Task ReleaseTheSpiritAsync()
         {
             if (_currentStatus.Value != Status.Ready)

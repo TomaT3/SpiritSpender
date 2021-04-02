@@ -15,4 +15,9 @@ export class AutomaticApiService {
     const url = `${API_URL}/release-the-spirit`;
     const result = await this.http.post(url, null).toPromise();
   }
+
+  public async referenceAllAxis(): Promise<void> {
+    const url = `${API_URL}/reference-all-axis`;
+    const result = await this.http.post(url, null).toPromise();
+  }
 }
