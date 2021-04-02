@@ -26,5 +26,12 @@ namespace SpiritSpenderServer.Controllers
             await _automaticMode.ReferenceAllAxis();
             return new OkObjectResult(new OkResult());
         }
+
+        [HttpPost("go-to-bottle-change-position")]
+        public async Task<ActionResult> GoToBottleChangePosition()
+        {
+            await _automaticMode.GoToBottleChange();
+            return new OkObjectResult(new OkResult());
+        }
     }
 }
