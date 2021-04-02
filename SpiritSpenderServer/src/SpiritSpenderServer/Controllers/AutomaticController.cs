@@ -19,5 +19,12 @@ namespace SpiritSpenderServer.Controllers
             await _automaticMode.ReleaseTheSpiritAsync();
             return new OkObjectResult(new OkResult());
         }
+
+        [HttpPost("reference-all-axis")]
+        public async Task<ActionResult> ReferenceAllAxis()
+        {
+            await _automaticMode.ReferenceAllAxis();
+            return new OkObjectResult(new OkResult());
+        }
     }
 }

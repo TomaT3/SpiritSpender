@@ -69,5 +69,9 @@ export class AppComponent {
       this.matIconRegistry.addSvgIcon(
         `emptyPositionIcon`,
         this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/emptyPositionIcon.svg"));
+
+        this.matIconRegistry.addSvgIcon(
+          `referenceAllAxisIcon`,
+          this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/referenceAllAxisIcon.svg"));
   }
 }
