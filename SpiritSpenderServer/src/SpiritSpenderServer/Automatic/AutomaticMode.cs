@@ -63,6 +63,14 @@ namespace SpiritSpenderServer.Automatic
             await taskRefDispenser;
         }
 
+        public async Task GoToBottleChange()
+        {
+            const int BOTTLE_CHANGE_POSITION = 6;
+            var bottleChangePosition = await _shotGlassPositionSettingRepository.GetSettingAsync(BOTTLE_CHANGE_POSITION);
+            await DriveToPositionAsync(bottleChangePosition.Position);
+            await _spiritDispenserControl.GoToBottleChangePosition();
+        }
+
         public async Task ReleaseTheSpiritAsync()
         {
             if (_currentStatus.Value != Status.Ready)

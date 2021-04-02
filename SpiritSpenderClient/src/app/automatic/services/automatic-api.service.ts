@@ -20,4 +20,9 @@ export class AutomaticApiService {
     const url = `${API_URL}/reference-all-axis`;
     const result = await this.http.post(url, null).toPromise();
   }
+
+  public async goToBottleChangePosition(): Promise<void> {
+    const url = `${API_URL}/go-to-bottle-change-position`;
+    const result = await this.http.post(url, null).toPromise();
+  }
 }
