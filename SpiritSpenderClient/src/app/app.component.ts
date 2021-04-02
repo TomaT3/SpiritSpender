@@ -70,8 +70,12 @@ export class AppComponent {
         `emptyPositionIcon`,
         this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/emptyPositionIcon.svg"));
 
+      this.matIconRegistry.addSvgIcon(
+        `referenceAllAxisIcon`,
+        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/referenceAllAxisIcon.svg"));
+
         this.matIconRegistry.addSvgIcon(
-          `referenceAllAxisIcon`,
-          this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/referenceAllAxisIcon.svg"));
+          `bottleChangePositionIcon`,
+          this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/bottleChangePositionIcon.svg"));
   }
 }

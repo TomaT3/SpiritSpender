@@ -14,7 +14,11 @@ export class AutomaticActionsComponent implements OnInit {
   }
 
   public async referenceAllAxis(): Promise<void> {
-    this.automaticApiService.referenceAllAxis()
+    await this.automaticApiService.referenceAllAxis();
+  }
+
+    public async goToBottleChangePosition(): Promise<void> {
+      await this.automaticApiService.goToBottleChangePosition();
   }
 
 }

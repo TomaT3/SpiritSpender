@@ -12,3 +12,11 @@
 .flexitem{
     padding-left: 10px;
 }
+
+.rotate-180-scale{
+    transform: rotate(180deg) scale(1.5);
+}
+
+.scale{
+    transform: scale(1.5);
+}

@@ -1,7 +1,12 @@
 <div class="container">
     <div class="flexitem">
-        <button  mat-fab color="warn" (click)="this.referenceAllAxis()">
-            <mat-icon svgIcon="referenceAllAxisIcon"></mat-icon>
+        <button  mat-fab color="warn" (click)="this.goToBottleChangePosition()">
+            <mat-icon  class="rotate-180-scale" svgIcon="bottleChangePositionIcon"></mat-icon>
+        </button>
+    </div>
+    <div class="flexitem">
+        <button mat-fab color="warn" (click)="this.referenceAllAxis()">
+            <mat-icon class="scale" svgIcon="referenceAllAxisIcon"></mat-icon>
         </button>
     </div>
 </div>
