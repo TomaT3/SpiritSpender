@@ -12,22 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: olegtarasov/get-tag@v2
-      id: tagName
+    - id: get_version
+      uses: battila7/get-version-action@v2
           
     - name: echo verison
-      run: echo will build ${{ steps.tagName.outputs.tag }}
-    
-    - name: Get version number from version string
-      id: versionNumber
-      uses: frabert/replace-string-action@v1.2
-      with:
-        pattern: '(\d+.\d+.\d+)'
-        string: '${{ steps.tagName.outputs.tag }}'
-        replace-with: '$1'
-
-    - name: echo verison
-      run: version number ${{ steps.versionNumber.outputs.replaced }}
+      run: echo "will build ${{ steps.get_version.outputs.version }}"   
 
     - name: Checkout
       uses: actions/checkout@v2
@@ -47,7 +36,7 @@ jobs:
         context: ./SpiritSpenderClient
         file: ./SpiritSpenderClient/pi.client.Dockerfile
         push: true
-        tags: tomat3/spiritspender:client-${{ steps.tagName.outputs.tag }}
+        tags: tomat3/spiritspender:client-${{ steps.get_version.outputs.version }}
 
     - name: Build and push Server Docker image
       uses: docker/build-push-action@v2
@@ -56,5 +45,5 @@ jobs:
         file: ./SpiritSpenderServer/src/pi.dockerfile
         push: true
         build-args: |
-          versionString=${{ steps.versionNumber.outputs.replaced }}
-        tags: tomat3/spiritspender:server-${{ steps.tagName.outputs.tag }}
+          versionString=${{ steps.get_version.outputs.version-without-v }}
+        tags: tomat3/spiritspender:server-${{ steps.get_version.outputs.version }}
