@@ -7,7 +7,7 @@ ARG versionString
 WORKDIR /src
 COPY . .
 WORKDIR "/src"
-RUN dotnet publish "SpiritSpenderServer/SpiritSpenderServer.csproj" -c Release /p:Version=${versionString} -r linux-arm -o /app/publish
+RUN dotnet publish "SpiritSpenderServer/SpiritSpenderServer.csproj" -c Release /p:Version=${versionString} -r linux-arm64 -o /app/publish
 
 FROM base AS final
 WORKDIR /app
