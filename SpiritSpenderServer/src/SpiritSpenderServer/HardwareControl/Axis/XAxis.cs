@@ -8,8 +8,8 @@ namespace SpiritSpenderServer.HardwareControl.Axis
 {
     public class XAxis : AbstractAxis, IXAxis
     {
-        private IStepperDriveControl _stepperDriveControl;
-        private DriveSetting _defaultDriveSetting;
+        private readonly IStepperDriveControl _stepperDriveControl;
+        private readonly DriveSetting _defaultDriveSetting;
 
         public override string Name => "X";
         internal override IStepperDriveControl StepperDriveControl => _stepperDriveControl;

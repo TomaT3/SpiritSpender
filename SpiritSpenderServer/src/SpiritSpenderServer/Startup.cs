@@ -24,6 +24,8 @@ using UnitsNet.Serialization.JsonNet;
 
 namespace SpiritSpenderServer
 {
+    using API.SignalR.Hubs;
+
     public class Startup
     {
         private readonly string _myAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -43,6 +45,7 @@ namespace SpiritSpenderServer
             var config = new ServerConfig();
             Configuration.Bind(config);
 
+            services.AddSignalR();
             services.AddControllers().AddNewtonsoftJson(action => action.SerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
 
             BsonSerializer.RegisterSerializationProvider(new UnitNetSerializationProvider());
@@ -118,6 +121,7 @@ namespace SpiritSpenderServer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<AxisHub>("/signal-r/axis");
             });
         }
 

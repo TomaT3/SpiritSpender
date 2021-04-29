@@ -6,6 +6,8 @@ using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
 {
+    using System.Threading.Tasks;
+
     public class StepperDriveControl : IStepperDriveControl
     {
         private static PinValue FORWARD = PinValue.High;
@@ -17,6 +19,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
         GpioPin _directionPin;
         GpioPin _stepPin;
         GpioPin _referenceSwitchPin;
+        private Length _currentPosition;
 
         public StepperDriveControl(DrivePins drivePins, IGpioControllerFacade gpioControllerFacade)
         {
@@ -32,7 +35,17 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
             _referenceSwitchPin = new GpioPin(gpioControllerFacade, drivePins.ReferenceSwitchPin, PinMode.Input);
         }
 
-        public Length CurrentPosition { get; private set; }
+        public event Action<Length> PositionChanged;
+
+        public Length CurrentPosition
+        {
+            get => _currentPosition;
+            private set
+            {
+                _currentPosition = value;
+                Task.Run(() => PositionChanged?.Invoke(CurrentPosition));
+            }
+        }
 
         public void SetPosition(Length position) => CurrentPosition = position;
 
@@ -51,6 +64,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
 
                 DoOneStep(ticksToWaitBetweenSteps[i]);
                 CurrentPosition += distanceToAddForOneStep;
+                
             }
 
             ReleaseDrive();

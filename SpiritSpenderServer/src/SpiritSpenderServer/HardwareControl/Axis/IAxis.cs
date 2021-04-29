@@ -4,8 +4,11 @@ using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.Axis
 {
+    using System;
+
     public interface IAxis : IComponentWithStatus
     {
+        event Action<string, Length> PositionChanged;
         public string Name { get; }
         DriveSetting DriveSetting { get; }
         Length CurrentPosition { get; }

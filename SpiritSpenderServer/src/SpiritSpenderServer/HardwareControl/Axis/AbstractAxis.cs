@@ -25,8 +25,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis
         private CancellationTokenSource _stopDrivingTokenSource;
 
 
-
-        public AbstractAxis(IDriveSettingRepository driveSettingRepository, IEmergencyStop emergencyStop)
+        protected AbstractAxis(IDriveSettingRepository driveSettingRepository, IEmergencyStop emergencyStop)
         {
             (_driveSettingRepository, _emergencyStop) = (driveSettingRepository, emergencyStop);
             _stopDrivingTokenSource = new CancellationTokenSource();
@@ -36,6 +35,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis
                 // just to intialize the member, so no exception is thrown when emergency stop is pressed
             });
             _emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
+            
         }
 
         public abstract string Name { get; }
@@ -43,6 +43,8 @@ namespace SpiritSpenderServer.HardwareControl.Axis
         internal abstract IStepperDriveControl StepperDriveControl { get; }
 
         internal abstract DriveSetting DefaultDriveSetting { get; }
+
+        public event Action<string, Length> PositionChanged;
 
         public DriveSetting DriveSetting { get; private set; }
 
@@ -53,6 +55,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis
         public async Task InitAsync()
         {
             await GetDriveSettings();
+            if (StepperDriveControl != null) StepperDriveControl.PositionChanged += PositionChangedHandler;
         }
 
         public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();
@@ -283,6 +286,11 @@ namespace SpiritSpenderServer.HardwareControl.Axis
             }
 
             return tempAccelerationArray;
+        }
+
+        private void PositionChangedHandler(Length position)
+        {
+            PositionChanged?.Invoke(Name, position);
         }
     }
 }
