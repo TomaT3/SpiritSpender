@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { VersionInformation } from '../types/versioin-information';
 
-const API_URL = environment.baseUrl + 'VersionInformation'
+const API_URL = environment.webApiBaseUrl + 'VersionInformation'
 
 @Injectable({
   providedIn: 'root'

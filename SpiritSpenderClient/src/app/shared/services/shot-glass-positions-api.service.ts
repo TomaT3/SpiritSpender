@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Quantity, Position, PositionSettting } from '../types/position-settings';
 
-const API_URL = environment.baseUrl + 'ShotGlassPositions'
+const API_URL = environment.webApiBaseUrl + 'ShotGlassPositions'
 
 @Injectable({
   providedIn: 'root'
