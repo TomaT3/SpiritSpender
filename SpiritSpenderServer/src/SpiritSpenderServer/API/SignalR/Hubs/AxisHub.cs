@@ -12,15 +12,6 @@ namespace SpiritSpenderServer.API.SignalR.Hubs
 
     public class AxisHub : Hub<IAxisHub>
     {
-        public AxisHub(IXAxis xAxis, IYAxis yAxis)
-        {
-            xAxis.PositionChanged += PositionChangedHandler;
-            yAxis.PositionChanged += PositionChangedHandler;
-        }
-
-        private async void PositionChangedHandler(string axisName, Length currentPosition)
-        {
-            await Clients.All.PositionChanged(new PositionDto() { AxisName = axisName, Positon = currentPosition });
-        }
+        
     }
 }

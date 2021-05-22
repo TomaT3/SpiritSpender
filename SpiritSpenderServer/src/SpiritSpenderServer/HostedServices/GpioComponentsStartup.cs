@@ -18,7 +18,6 @@ namespace SpiritSpenderServer.HostedServices
         private readonly IShotGlassPositionSettingsConfiguration _shotGlassPositionSettingsConfiguration;
 
         public GpioComponentsStartup(
-            
             IXAxis xAxis,
             IYAxis yAxis,
             ISpiritDispenserControl spiritDispenserControl,

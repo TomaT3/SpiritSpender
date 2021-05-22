@@ -45,7 +45,7 @@ namespace SpiritSpenderServer
             var config = new ServerConfig();
             Configuration.Bind(config);
 
-            services.AddSignalR();
+            services.AddSignalR().AddNewtonsoftJsonProtocol(action => action.PayloadSerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
             services.AddControllers().AddNewtonsoftJson(action => action.SerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
 
             BsonSerializer.RegisterSerializationProvider(new UnitNetSerializationProvider());
@@ -64,6 +64,8 @@ namespace SpiritSpenderServer
             services.AddSingleton<IStatusLamp, StatusLamp>();
             services.AddSingleton<IEmergencyStop, EmergencyStop>();
             services.AddSingleton<IShotGlassPositionSettingsConfiguration, ShotGlassPositionSettingsConfiguration>();
+
+            services.AddSingleton<AxisHubInformer>();
             
             RegisterHostedServices(services);
 
@@ -72,9 +74,10 @@ namespace SpiritSpenderServer
                 options.AddPolicy(_myAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
+                    builder.AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .WithOrigins("http://localhost:4200")
+                           .AllowCredentials();
                 });
             });
 
@@ -129,6 +132,7 @@ namespace SpiritSpenderServer
         {
             services.AddHostedService<GpioComponentsStartup>();
             services.AddHostedService<StausObserverStartup>();
+            services.AddHostedService<SignalRInformers>();
         }
     }
 }

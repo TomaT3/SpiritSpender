@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { SpiritDispenserSetting } from '../types/spirit-dispenser-setting';
 
-const API_URL = environment.baseUrl + 'spiritdispenser'
+const API_URL = environment.webApiBaseUrl + 'spiritdispenser'
 
 @Injectable({
   providedIn: 'root'

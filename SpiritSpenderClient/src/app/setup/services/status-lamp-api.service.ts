@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { StatusLampSetting } from '../types/status-lamp-setting';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const API_URL = environment.baseUrl + 'statuslamp'
+const API_URL = environment.webApiBaseUrl + 'statuslamp'
 
 @Injectable({
   providedIn: 'root'

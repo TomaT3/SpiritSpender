@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: "http://spiritspender:5000/api/"
+  webApiBaseUrl: "http://spiritspender:5000/api/",
+  signalRBaseUrl: "http://spiritspender:5000/signal-r/"
 };

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: "http://localhost:5000/api/"
+  webApiBaseUrl: "http://localhost:5000/api/",
+  signalRBaseUrl: "http://localhost:5000/signal-r/"
 };
 
 /*
