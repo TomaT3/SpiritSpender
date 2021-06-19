@@ -58,9 +58,12 @@ namespace SpiritSpenderServer.HostedServices
 
         private async Task AddOneShotAsync(string ioBrokerId)
         {
-            var currentNumber = await _ioBroker.GetStateAsync<int>(ioBrokerId, TimeSpan.FromSeconds(5));
-            currentNumber++;
-            await _ioBroker.SetStateAsync(ioBrokerId, currentNumber);
+            var result = await _ioBroker.GetStateAsync<int>(ioBrokerId, TimeSpan.FromSeconds(5));
+            if (result.Success)
+            {
+                var newCurrentShotsCount = result.Value + 1;
+                await _ioBroker.SetStateAsync(ioBrokerId, newCurrentShotsCount);
+            }
         }
     }
 }
