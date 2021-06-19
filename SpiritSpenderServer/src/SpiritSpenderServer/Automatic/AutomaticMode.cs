@@ -50,6 +50,8 @@ namespace SpiritSpenderServer.Automatic
                 });
         }
 
+        public event Action OneShotPoured;
+
         public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();
 
         public async Task ReferenceAllAxis()
@@ -97,11 +99,14 @@ namespace SpiritSpenderServer.Automatic
                     case Quantity.OneShot:
                         await DriveToPositionAsync(positionSetting.Position);
                         await _spiritDispenserControl.FillGlas();
+                        OneShotPoured?.Invoke();
                         break;
                     case Quantity.DoubleShot:
                         await DriveToPositionAsync(positionSetting.Position);
                         await _spiritDispenserControl.FillGlas();
+                        OneShotPoured?.Invoke();
                         await _spiritDispenserControl.FillGlas();
+                        OneShotPoured?.Invoke();
                         break;
                     case Quantity.Empty:
                         // do nothing

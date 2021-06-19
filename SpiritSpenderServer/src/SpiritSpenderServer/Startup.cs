@@ -1,3 +1,4 @@
+using ioBroker.net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -66,7 +67,10 @@ namespace SpiritSpenderServer
             services.AddSingleton<IShotGlassPositionSettingsConfiguration, ShotGlassPositionSettingsConfiguration>();
 
             services.AddSingleton<AxisHubInformer>();
-            
+
+            services.AddSingleton<IoBrokerConfig>(config.IoBroker);
+            services.AddSingleton<IIoBrokerDotNet, IoBrokerDotNet>(_ => new IoBrokerDotNet(config.IoBroker.ConnectionUrl));
+
             RegisterHostedServices(services);
 
             services.AddCors(options =>
@@ -133,6 +137,7 @@ namespace SpiritSpenderServer
             services.AddHostedService<GpioComponentsStartup>();
             services.AddHostedService<StausObserverStartup>();
             services.AddHostedService<SignalRInformers>();
+            services.AddHostedService<IoBrokerCommunicationService>();
         }
     }
 }

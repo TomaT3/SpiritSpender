@@ -8,6 +8,8 @@ services:
       dockerfile: SpiritSpenderServer/Dockerfile
     environment:
       MongoDB__Host: mongo
+      IoBroker__ConnectionUrl: http://iobrokertest:8084
+      IoBroker__ConnectionTimeout: 6
     ports:
      - 5000:80
 
