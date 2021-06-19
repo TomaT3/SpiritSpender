@@ -43,7 +43,8 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
             private set
             {
                 _currentPosition = value;
-                Task.Run(() => PositionChanged?.Invoke(CurrentPosition));
+                // M0.6: Check if signalR is causing problems while driving or mechanic issue
+                // Task.Run(() => PositionChanged?.Invoke(CurrentPosition));
             }
         }
 
@@ -64,7 +65,6 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
 
                 DoOneStep(ticksToWaitBetweenSteps[i]);
                 CurrentPosition += distanceToAddForOneStep;
-                
             }
 
             ReleaseDrive();
