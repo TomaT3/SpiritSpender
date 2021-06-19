@@ -80,7 +80,7 @@ namespace SpiritSpenderServer
                 {
                     builder.AllowAnyHeader()
                            .AllowAnyMethod()
-                           .WithOrigins("http://localhost:4200")
+                           .WithOrigins("http://localhost:4200", "http://spiritspender:4200")
                            .AllowCredentials();
                 });
             });
