@@ -92,6 +92,7 @@ namespace SpiritSpenderServer
             else
             {
                 services.AddSingleton<IGpioControllerFacade, GpioControllerFacade>();
+                services.AddSingleton<IGpioPinFactory, GpioPinFactory>();
             }
 
             // Register the Swagger generator, defining 1 or more Swagger documents

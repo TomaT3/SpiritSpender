@@ -15,24 +15,24 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
         private static PinValue ENA_RELEASED = PinValue.High;
         private static PinValue ENA_LOCKED = PinValue.Low;
 
-        GpioPin _enablePin;
-        GpioPin _directionPin;
-        GpioPin _stepPin;
-        GpioPin _referenceSwitchPin;
+        IGpioPin _enablePin;
+        IGpioPin _directionPin;
+        IGpioPin _stepPin;
+        IGpioPin _referenceSwitchPin;
         private Length _currentPosition;
 
-        public StepperDriveControl(DrivePins drivePins, IGpioControllerFacade gpioControllerFacade)
+        public StepperDriveControl(DrivePins drivePins, IGpioPinFactory gpioPinFactory)
         {
-            _enablePin = new GpioPin(gpioControllerFacade, drivePins.EnablePin, PinMode.Output);
+            _enablePin = gpioPinFactory.CreateGpioPin(drivePins.EnablePin, PinMode.Output);
             _enablePin.Write(ENA_RELEASED);
 
-            _directionPin = new GpioPin(gpioControllerFacade, drivePins.DirectionPin, PinMode.Output);
+            _directionPin = gpioPinFactory.CreateGpioPin(drivePins.DirectionPin, PinMode.Output);
             _directionPin.Write(BACKWARD);
 
-            _stepPin = new GpioPin(gpioControllerFacade, drivePins.StepPin, PinMode.Output);
+            _stepPin = gpioPinFactory.CreateGpioPin(drivePins.StepPin, PinMode.Output);
             _stepPin.Write(PinValue.Low);
 
-            _referenceSwitchPin = new GpioPin(gpioControllerFacade, drivePins.ReferenceSwitchPin, PinMode.Input);
+            _referenceSwitchPin = gpioPinFactory.CreateGpioPin(drivePins.ReferenceSwitchPin, PinMode.Input);
         }
 
         public event Action<Length> PositionChanged;

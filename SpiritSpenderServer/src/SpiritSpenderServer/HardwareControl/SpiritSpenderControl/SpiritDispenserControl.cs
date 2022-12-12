@@ -22,12 +22,12 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         private System.Timers.Timer _spiritDispenserRefilledTimer;
         private CancellationTokenSource _cancelMovementTokensource;
 
-        public SpiritDispenserControl(ISpiritDispenserSettingRepository dispenserSettingRepository, IEmergencyStop emergencyStop, IGpioControllerFacade gpioControllerFacade)
+        public SpiritDispenserControl(ISpiritDispenserSettingRepository dispenserSettingRepository, IEmergencyStop emergencyStop, IGpioPinFactory gpioPinFactory)
         {
             _name = "SpiritDispenser";
             (_spiritDispenserSettingRepository, _emergencyStop) = (dispenserSettingRepository, emergencyStop);
             
-            _spiritSpenderMotor = new LinearMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioControllerFacade: gpioControllerFacade);
+            _spiritSpenderMotor = new LinearMotor(forwardGpioPin: 18, backwardGpioPin: 23, gpioPinFactory: gpioPinFactory);
 
             _currentStatus = new BehaviorSubject<Status>(emergencyStop.EmergencyStopPressed ? Status.Error : Status.NotReady);
             CurrentPosition = SpiritDispenserPosition.Undefined;

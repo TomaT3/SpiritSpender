@@ -15,7 +15,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis
         internal override IStepperDriveControl StepperDriveControl => _stepperDriveControl;
         internal override DriveSetting DefaultDriveSetting => _defaultDriveSetting;
 
-        public XAxis(IDriveSettingRepository driveSettingRepository, IEmergencyStop emergencyStop, IGpioControllerFacade gpioControllerFacade)
+        public XAxis(IDriveSettingRepository driveSettingRepository, IEmergencyStop emergencyStop, IGpioPinFactory gpioPinFactory)
             : base(driveSettingRepository, emergencyStop)
         {
             var drivePins = new DrivePins
@@ -25,7 +25,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis
                 StepPin = 27,
                 ReferenceSwitchPin = 20
             };
-            _stepperDriveControl = new StepperDriveControl(drivePins, gpioControllerFacade);
+            _stepperDriveControl = new StepperDriveControl(drivePins, gpioPinFactory);
 
             _defaultDriveSetting = new DriveSetting
             {

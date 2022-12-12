@@ -17,12 +17,12 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
 
         public event Action<bool> EnabledChanged;
 
-        public StatusLamp(IStatusLampSettingRepository statusLampSettingRepository, IGpioControllerFacade gpioControllerFacade)
+        public StatusLamp(IStatusLampSettingRepository statusLampSettingRepository, IGpioPinFactory gpioPinFactory)
         {
             _name = "StatusLamp";
             _statusLampSettingRepository = statusLampSettingRepository;
-            _redLight = new Light(gpioPin: 19, gpioControllerFacade: gpioControllerFacade);
-            _greenLight = new Light(gpioPin: 13, gpioControllerFacade: gpioControllerFacade);
+            _redLight = new Light(gpioPin: 19, gpioPinFactory: gpioPinFactory);
+            _greenLight = new Light(gpioPin: 13, gpioPinFactory: gpioPinFactory);
         }
 
         public StatusLampSetting StatusLampSetting { get; private set; }
