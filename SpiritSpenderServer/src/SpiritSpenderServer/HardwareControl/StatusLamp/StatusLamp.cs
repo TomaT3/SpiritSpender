@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.HardwareControl.StatusLamp;
+using SpiritSpenderServer.Interface.HardwareControl;
 using SpiritSpenderServer.Persistence.StatusLampSettings;
 using System;
 using System.Threading.Tasks;

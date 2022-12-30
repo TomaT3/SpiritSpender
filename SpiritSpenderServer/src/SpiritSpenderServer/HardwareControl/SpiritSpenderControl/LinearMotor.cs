@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.Helper;
+using SpiritSpenderServer.Interface.HardwareControl;
 using System;
 using System.Device.Gpio;
 using System.Threading;

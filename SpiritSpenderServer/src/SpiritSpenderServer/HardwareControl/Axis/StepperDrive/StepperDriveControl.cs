@@ -6,6 +6,7 @@ using UnitsNet;
 
 namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
 {
+    using SpiritSpenderServer.Interface.HardwareControl;
     using System.Threading.Tasks;
 
     public class StepperDriveControl : IStepperDriveControl
@@ -44,7 +45,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
             {
                 _currentPosition = value;
                 // M0.6: Check if signalR is causing problems while driving or mechanic issue
-                // Task.Run(() => PositionChanged?.Invoke(CurrentPosition));
+                Task.Run(() => PositionChanged?.Invoke(CurrentPosition));
             }
         }
 

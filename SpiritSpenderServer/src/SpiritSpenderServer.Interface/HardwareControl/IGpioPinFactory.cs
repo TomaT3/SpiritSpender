@@ -1,6 +1,6 @@
 ﻿using System.Device.Gpio;
 
-namespace SpiritSpenderServer.HardwareControl
+namespace SpiritSpenderServer.Interface.HardwareControl
 {
     public interface IGpioPinFactory
     {

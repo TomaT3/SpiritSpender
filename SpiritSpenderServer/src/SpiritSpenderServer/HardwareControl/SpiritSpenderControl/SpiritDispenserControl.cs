@@ -1,5 +1,6 @@
 ﻿using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.Helper;
+using SpiritSpenderServer.Interface.HardwareControl;
 using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 using System;
 using System.Reactive.Linq;

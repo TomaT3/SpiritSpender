@@ -26,6 +26,8 @@ using UnitsNet.Serialization.JsonNet;
 namespace SpiritSpenderServer
 {
     using API.SignalR.Hubs;
+    using SpiritSpenderServer.Interface.HardwareControl;
+    using SpiritSpenderServer.Simulation;
 
     public class Startup
     {
@@ -87,7 +89,7 @@ namespace SpiritSpenderServer
 
             if (_env.IsDevelopment())
             {
-                services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
+                SimulationStartup.StartSimulation(services);
             }
             else
             {

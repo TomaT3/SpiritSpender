@@ -1,5 +1,6 @@
 ﻿using SpiritSpenderServer.HardwareControl.Axis.StepperDrive;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
+using SpiritSpenderServer.Interface.HardwareControl;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using UnitsNet;
 using UnitsNet.Units;

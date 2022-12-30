@@ -1,3 +1,4 @@
+using SpiritSpenderServer.Interface.HardwareControl;
 using System.Device.Gpio;
 
 namespace SpiritSpenderServer.HardwareControl
