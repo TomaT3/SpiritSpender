@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SpiritSpenderServer.Interface.HardwareControl;
+using System;
 using System.Device.Gpio;
 
 namespace SpiritSpenderServer.HardwareControl
 {
-    public class GpioPin
+    public class GpioPin : IGpioPin
     {
         private readonly IGpioControllerFacade _controller;
         private readonly int _pinNumber;

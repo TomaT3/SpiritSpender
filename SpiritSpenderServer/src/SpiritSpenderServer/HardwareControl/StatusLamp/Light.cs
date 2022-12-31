@@ -1,4 +1,5 @@
 ﻿using SpiritSpenderServer.Helper;
+using SpiritSpenderServer.Interface.HardwareControl;
 using System;
 using System.Device.Gpio;
 using System.Threading;
@@ -9,15 +10,15 @@ namespace SpiritSpenderServer.HardwareControl.StatusLamp
 {
     public class Light : ILight
     {
-        private GpioPin _gpio;
+        private IGpioPin _gpio;
         private CancellationTokenSource _blinkingTokensource;
         private Task _blinkingTask;
         private object _lockObject = new object();
 
-        public Light(int gpioPin, IGpioControllerFacade gpioControllerFacade)
+        public Light(int gpioPin, IGpioPinFactory gpioPinFactory)
         {
             _blinkingTokensource = new CancellationTokenSource();
-            _gpio = new GpioPin(gpioControllerFacade, gpioPin, PinMode.Output);
+            _gpio = gpioPinFactory.CreateGpioPin(gpioPin, PinMode.Output);
             TurnLightOff();
         }
 

@@ -26,6 +26,10 @@ using UnitsNet.Serialization.JsonNet;
 namespace SpiritSpenderServer
 {
     using API.SignalR.Hubs;
+    using Microsoft.Extensions.Options;
+    using SpiritSpenderServer.Config.Extensions;
+    using SpiritSpenderServer.Interface.HardwareControl;
+    using SpiritSpenderServer.Simulation;
 
     public class Startup
     {
@@ -43,14 +47,12 @@ namespace SpiritSpenderServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var config = new ServerConfig();
-            Configuration.Bind(config);
+            services.MapSettings(Configuration);
 
             services.AddSignalR().AddNewtonsoftJsonProtocol(action => action.PayloadSerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
             services.AddControllers().AddNewtonsoftJson(action => action.SerializerSettings.Converters.Add(new UnitsNetJsonConverter()));
 
             BsonSerializer.RegisterSerializationProvider(new UnitNetSerializationProvider());
-            services.AddSingleton<MongoDBConfig>(config.MongoDB);
             services.AddSingleton<ISpiritSpenderDBContext, SpiritSpenderDBContext>();
             services.AddSingleton<IDriveSettingRepository, DriveSettingRepository>();
             services.AddSingleton<ISpiritDispenserSettingRepository, SpiritDispenserSettingRepository>();
@@ -68,8 +70,12 @@ namespace SpiritSpenderServer
 
             services.AddSingleton<AxisHubInformer>();
 
-            services.AddSingleton<IoBrokerConfig>(config.IoBroker);
-            services.AddSingleton<IIoBrokerDotNet, IoBrokerDotNet>(_ => new IoBrokerDotNet(config.IoBroker.ConnectionUrl));
+            
+            services.AddSingleton<IIoBrokerDotNet, IoBrokerDotNet>(sp =>
+            { 
+                var ioBrokerSettings = sp.GetRequiredService<IOptions<IoBroker>>().Value;
+                return new IoBrokerDotNet(ioBrokerSettings.ConnectionUrl);
+            });
 
             RegisterHostedServices(services);
 
@@ -87,11 +93,12 @@ namespace SpiritSpenderServer
 
             if (_env.IsDevelopment())
             {
-                services.AddSingleton<IGpioControllerFacade>(_ => Substitute.For<IGpioControllerFacade>());
+                SimulationStartup.StartSimulation(services);
             }
             else
             {
                 services.AddSingleton<IGpioControllerFacade, GpioControllerFacade>();
+                services.AddSingleton<IGpioPinFactory, GpioPinFactory>();
             }
 
             // Register the Swagger generator, defining 1 or more Swagger documents

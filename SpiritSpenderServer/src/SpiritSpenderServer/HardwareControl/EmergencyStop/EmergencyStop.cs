@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpiritSpenderServer.Interface.HardwareControl;
+using System;
 using System.Device.Gpio;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -7,7 +8,7 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
 {
     public class EmergencyStop : IEmergencyStop
     {
-        private GpioPin _emergencyStopReleased;
+        private IGpioPin _emergencyStopReleased;
         private BehaviorSubject<PinValue> _emergencyStop;
         private TimeSpan _debounceTime;
         private IDisposable _emergencyStopSubscription;
@@ -16,8 +17,8 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
 
         public bool EmergencyStopPressed { get; private set; }
 
-        public EmergencyStop(IGpioControllerFacade gpioControllerFacade)
-            => InitGpio(emergencyStopGpioPin: 12, gpioControllerFacade);
+        public EmergencyStop(IGpioPinFactory gpioPinFactory)
+            => InitGpio(emergencyStopGpioPin: 12, gpioPinFactory);
 
         public void SetEmergencyStop(bool isEmergencyStopPressed)
         {
@@ -29,9 +30,9 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
             SubscribeToEmergencyStopChanges(debounceTime);           
         }
 
-        private void InitGpio(int emergencyStopGpioPin, IGpioControllerFacade gpioControllerFacade)
+        private void InitGpio(int emergencyStopGpioPin, IGpioPinFactory gpioPinFactory)
         {
-            _emergencyStopReleased = new GpioPin(gpioControllerFacade, emergencyStopGpioPin, PinMode.Input);
+            _emergencyStopReleased = gpioPinFactory.CreateGpioPin(emergencyStopGpioPin, PinMode.Input);
             _emergencyStop = new BehaviorSubject<PinValue>(_emergencyStopReleased.Read());
             SubscribeToEmergencyStopChanges(200);
 
