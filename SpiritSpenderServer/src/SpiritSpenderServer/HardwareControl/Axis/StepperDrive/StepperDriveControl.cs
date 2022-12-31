@@ -16,13 +16,15 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
         private static PinValue ENA_RELEASED = PinValue.High;
         private static PinValue ENA_LOCKED = PinValue.Low;
 
+        private bool _enableSignalR;
+
         IGpioPin _enablePin;
         IGpioPin _directionPin;
         IGpioPin _stepPin;
         IGpioPin _referenceSwitchPin;
         private Length _currentPosition;
 
-        public StepperDriveControl(DrivePins drivePins, IGpioPinFactory gpioPinFactory)
+        public StepperDriveControl(DrivePins drivePins, IGpioPinFactory gpioPinFactory, bool enableSignalR)
         {
             _enablePin = gpioPinFactory.CreateGpioPin(drivePins.EnablePin, PinMode.Output);
             _enablePin.Write(ENA_RELEASED);
@@ -34,6 +36,8 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
             _stepPin.Write(PinValue.Low);
 
             _referenceSwitchPin = gpioPinFactory.CreateGpioPin(drivePins.ReferenceSwitchPin, PinMode.Input);
+
+            _enableSignalR = enableSignalR;
         }
 
         public event Action<Length> PositionChanged;
@@ -44,8 +48,10 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
             private set
             {
                 _currentPosition = value;
-                // M0.6: Check if signalR is causing problems while driving or mechanic issue
-                Task.Run(() => PositionChanged?.Invoke(CurrentPosition));
+                if (_enableSignalR)
+                {
+                    Task.Run(() => PositionChanged?.Invoke(CurrentPosition));
+                }
             }
         }
 

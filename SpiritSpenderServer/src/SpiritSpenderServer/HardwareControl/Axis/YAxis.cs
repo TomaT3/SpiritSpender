@@ -1,4 +1,6 @@
-﻿using SpiritSpenderServer.HardwareControl.Axis.StepperDrive;
+﻿using Microsoft.Extensions.Options;
+using SpiritSpenderServer.Config;
+using SpiritSpenderServer.HardwareControl.Axis.StepperDrive;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.Interface.HardwareControl;
 using SpiritSpenderServer.Persistence.DriveSettings;
@@ -17,7 +19,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis
         internal override DriveSetting DefaultDriveSetting => _defaultDriveSetting;
 
 
-        public YAxis(IDriveSettingRepository driveSettingRepository, IEmergencyStop emergencyStop, IGpioPinFactory gpioPinFactory)
+        public YAxis(IDriveSettingRepository driveSettingRepository, IEmergencyStop emergencyStop, IGpioPinFactory gpioPinFactory, IOptions<CommonServerSettings> commonServerSettings)
             : base(driveSettingRepository, emergencyStop)
         {
             var drivePins = new DrivePins
@@ -27,7 +29,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis
                 StepPin = 6,
                 ReferenceSwitchPin = 21
             };
-            _stepperDriveControl = new StepperDriveControl(drivePins, gpioPinFactory);
+            _stepperDriveControl = new StepperDriveControl(drivePins, gpioPinFactory, commonServerSettings.Value.EnableSignalR);
 
             _defaultDriveSetting = new DriveSetting
             {

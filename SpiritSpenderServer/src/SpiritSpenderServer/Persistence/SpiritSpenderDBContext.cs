@@ -3,17 +3,19 @@ using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Persistence.Positions;
 using SpiritSpenderServer.Persistence.DriveSettings;
 using SpiritSpenderServer.Persistence.StatusLampSettings;
-using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
-
 namespace SpiritSpenderServer.Persistence
 {
+    using SpiritSpenderServer.Config;
+    using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
+    using Microsoft.Extensions.Options;
+
     public class SpiritSpenderDBContext : ISpiritSpenderDBContext
     {
         private readonly IMongoDatabase _db;
-        public SpiritSpenderDBContext(MongoDBConfig config)
+        public SpiritSpenderDBContext(IOptions<MongoDB> config)
         {
-            var client = new MongoClient(config.ConnectionString);
-            _db = client.GetDatabase(config.Database);
+            var client = new MongoClient(config.Value.ConnectionString);
+            _db = client.GetDatabase(config.Value.Database);
         }
 
         public IMongoCollection<DriveSetting> DriveSettings => _db.GetCollection<DriveSetting>("DriveSettings");

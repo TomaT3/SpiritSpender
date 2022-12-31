@@ -5,25 +5,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using ioBroker.net;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using SpiritSpenderServer.Automatic;
 using SpiritSpenderServer.Config;
 using Exception = System.Exception;
 
 namespace SpiritSpenderServer.HostedServices
 {
-    public class IoBrokerCommunicationService :IHostedService
+    public class IoBrokerCommunicationService : IHostedService
     {
         private static string CURRENT_SHOT_COUNT_ID = "javascript.0.spiritspender.shots.count";
         private static string TOTAL_SHOT_COUNT_ID = "javascript.0.spiritspender.shots.totalcount";
 
         private readonly IIoBrokerDotNet _ioBroker;
-        private readonly IoBrokerConfig _ioBrokerConfig;
+        private readonly IoBroker _ioBrokerConfig;
         private readonly IAutomaticMode _automaticMode;
 
 
-        public IoBrokerCommunicationService(IIoBrokerDotNet ioBroker, IoBrokerConfig ioBrokerConfig, IAutomaticMode automaticMode)
+        public IoBrokerCommunicationService(IIoBrokerDotNet ioBroker, IOptions<IoBroker> ioBrokerConfig, IAutomaticMode automaticMode)
         {
-            _ioBrokerConfig = ioBrokerConfig;
+            _ioBrokerConfig = ioBrokerConfig.Value;
             _ioBroker = ioBroker;
             _automaticMode = automaticMode;
 

@@ -1,6 +1,6 @@
 ﻿namespace SpiritSpenderServer.Config
 {
-    public class MongoDBConfig
+    public class MongoDB
     {
         public string Database { get; set; }
         public string Host { get; set; }
