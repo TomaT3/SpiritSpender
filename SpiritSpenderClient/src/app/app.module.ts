@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { ReleaseNotesDialogComponent } from './dialogs/release-notes-dialog/release-notes-dialog.component';
+import {AutoSizeInputModule} from 'ngx-autosize-input';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import { ReleaseNotesDialogComponent } from './dialogs/release-notes-dialog/rele
         HttpClientModule,
         MatIconModule,
         MatButtonModule,
-        MatDialogModule
+        MatDialogModule,
+        AutoSizeInputModule
     ],
     providers: [],
     bootstrap: [AppComponent]
