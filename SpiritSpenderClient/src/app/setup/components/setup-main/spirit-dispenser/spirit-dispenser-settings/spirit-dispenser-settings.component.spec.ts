@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SpiritDispenserSettingsComponent } from './spirit-dispenser-settings.component';
 
@@ -6,7 +6,7 @@ describe('SpiritDispenserSettingsComponent', () => {
   let component: SpiritDispenserSettingsComponent;
   let fixture: ComponentFixture<SpiritDispenserSettingsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SpiritDispenserSettingsComponent ]
     })
