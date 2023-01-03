@@ -16,28 +16,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReleaseNotesDialogComponent } from './dialogs/release-notes-dialog/release-notes-dialog.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ReleaseNotesDialogComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    AutomaticModule,
-    SharedModule,
-    MatTabsModule,
-    MatToolbarModule,
-    SetupModule,
-    HttpClientModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule
-  ],
-  providers: [],
-  entryComponents: [
-    ReleaseNotesDialogComponent
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ReleaseNotesDialogComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        AutomaticModule,
+        SharedModule,
+        MatTabsModule,
+        MatToolbarModule,
+        SetupModule,
+        HttpClientModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
