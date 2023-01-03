@@ -14,30 +14,29 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { ReleaseNotesDialogComponent } from './dialogs/release-notes-dialog/release-notes-dialog.component';
+import {AutoSizeInputModule} from 'ngx-autosize-input';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ReleaseNotesDialogComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    AutomaticModule,
-    SharedModule,
-    MatTabsModule,
-    MatToolbarModule,
-    SetupModule,
-    HttpClientModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule
-  ],
-  providers: [],
-  entryComponents: [
-    ReleaseNotesDialogComponent
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ReleaseNotesDialogComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        AutomaticModule,
+        SharedModule,
+        MatTabsModule,
+        MatToolbarModule,
+        SetupModule,
+        HttpClientModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        AutoSizeInputModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

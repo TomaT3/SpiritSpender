@@ -1,5 +1,5 @@
 <mat-form-field appearance="outline">
     <mat-label>{{title}}</mat-label>
-    <input AutoSizeInput [setParentWidth]="this.autoSizeWidthToInput" [extraWidth]="10" matInput [value]="this.unitsParameter.Value | number: '1.2-2'" (change)="valueChanged($event)" [disabled]="!editable">
+    <input autoSizeInput [setParentWidth]="this.autoSizeWidthToInput" [extraWidth]="10" matInput [value]="this.unitsParameter.Value | number: '1.2-2'" (change)="valueChanged($event)" [disabled]="!editable">
     <span matSuffix [style.opacity]="opacity">{{this.unitsParameter.Unit | unitToString}} </span>
 </mat-form-field>

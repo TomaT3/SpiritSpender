@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StatusLampSettingsComponent } from './status-lamp-settings.component';
 
@@ -6,7 +6,7 @@ describe('StatusLampSettingsComponent', () => {
   let component: StatusLampSettingsComponent;
   let fixture: ComponentFixture<StatusLampSettingsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ StatusLampSettingsComponent ]
     })
