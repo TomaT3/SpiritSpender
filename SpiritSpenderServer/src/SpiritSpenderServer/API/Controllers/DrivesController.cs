@@ -33,7 +33,7 @@ namespace SpiritSpenderServer.Controllers
         [HttpGet("{driveName}/setting")]
         public ActionResult<DriveSetting> GetSetting(string driveName)
         {
-            if (!_axis.TryGetValue(driveName, out IAxis selectedAxis))
+            if (!_axis.TryGetValue(driveName, out var selectedAxis))
                 return new NotFoundResult();
 
             return new ObjectResult(selectedAxis.DriveSetting);
@@ -42,7 +42,7 @@ namespace SpiritSpenderServer.Controllers
         [HttpPut("{driveName}/setting")]
         public async Task<ActionResult<DriveSetting>> Put(string driveName, [FromBody] DriveSetting driveSetting)
         {
-            if (!_axis.TryGetValue(driveName, out IAxis selectedAxis))
+            if (!_axis.TryGetValue(driveName, out var selectedAxis))
                 return new NotFoundResult();
 
             await selectedAxis.UpdateSettingsAsync(driveSetting);

@@ -12,15 +12,15 @@ namespace SpiritSpenderServer.Controllers
         {
             const string releaseNotesUrl = "https://github.com/TomaT3/SpiritSpender/releases";
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            var versionString = version.ToString(3);
-            var versionInfo = new VersionInfo() { Version = versionString, ReleaseNotesUrl = releaseNotesUrl };
+            var versionString = version?.ToString(3);
+            var versionInfo = new VersionInfo() { Version = versionString ?? "no version detected", ReleaseNotesUrl = releaseNotesUrl };
             return new ObjectResult(versionInfo);
         }
     }
 
     public record VersionInfo
     {
-        public string Version { get; set; }
-        public string ReleaseNotesUrl { get; set; }
+        public string? Version { get; set; }
+        public string? ReleaseNotesUrl { get; set; }
     }
 }

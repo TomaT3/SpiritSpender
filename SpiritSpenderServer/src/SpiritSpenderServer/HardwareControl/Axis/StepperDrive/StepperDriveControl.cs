@@ -40,7 +40,7 @@ namespace SpiritSpenderServer.HardwareControl.Axis.StepperDrive
             _enableSignalR = enableSignalR;
         }
 
-        public event Action<Length> PositionChanged;
+        public event Action<Length>? PositionChanged;
 
         public Length CurrentPosition
         {

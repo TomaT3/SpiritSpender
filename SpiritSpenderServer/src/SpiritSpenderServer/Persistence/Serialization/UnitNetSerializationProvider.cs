@@ -6,7 +6,7 @@ namespace SpiritSpenderServer.Persistence.Serialization
 {
     public class UnitNetSerializationProvider : IBsonSerializationProvider
     {
-        public IBsonSerializer GetSerializer(Type type)
+        public IBsonSerializer? GetSerializer(Type type)
             => type switch
             {
                 Type _ when type == typeof(Length) => new LengthBsonSerializer(),

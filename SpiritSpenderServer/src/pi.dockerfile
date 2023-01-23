@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/dotnet/runtime:5.0.1-buster-slim-arm64v8 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0.2-bullseye-slim-arm64v8 AS base
 WORKDIR /app
 EXPOSE 5000
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG versionString
 WORKDIR /src
 COPY . .

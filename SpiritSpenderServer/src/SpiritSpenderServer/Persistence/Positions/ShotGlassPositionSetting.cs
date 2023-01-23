@@ -10,7 +10,7 @@ namespace SpiritSpenderServer.Persistence.Positions
         [JsonProperty]
         public int Number { get; set; }
         [JsonProperty]
-        public Position Position { get; set; }
+        public Position Position { get; set; } = null!;
         [JsonProperty]
         public Quantity Quantity { get; set; }
     }

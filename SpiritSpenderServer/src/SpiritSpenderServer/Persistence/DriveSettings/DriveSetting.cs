@@ -8,7 +8,7 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
     {
         [BsonId]
         [JsonProperty]
-        public string DriveName { get; set; }
+        public string? DriveName { get; set; }
         [JsonProperty]
         public int StepsPerRevolution { get; set; }
         [JsonProperty]

@@ -20,7 +20,7 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
                             .ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> GetAllDriveSettingNames()
+        public async Task<IEnumerable<string?>> GetAllDriveSettingNames()
         {
             return await _context
                             .DriveSettings

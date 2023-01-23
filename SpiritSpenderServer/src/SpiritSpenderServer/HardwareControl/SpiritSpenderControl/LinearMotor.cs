@@ -10,8 +10,8 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
 {
     public class LinearMotor : ILinearMotor
     {
-        IGpioPin _forwardPin;
-        IGpioPin _backwardPin;
+        IGpioPin _forwardPin = null!;
+        IGpioPin _backwardPin = null!;
 
         public LinearMotor(int forwardGpioPin, int backwardGpioPin, IGpioPinFactory gpioPinFactory)
             => InitGpio(forwardGpioPin, backwardGpioPin, gpioPinFactory);

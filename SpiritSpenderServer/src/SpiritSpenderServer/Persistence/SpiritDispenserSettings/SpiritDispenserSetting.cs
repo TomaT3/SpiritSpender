@@ -8,7 +8,7 @@ namespace SpiritSpenderServer.Persistence.SpiritDispenserSettings
     {
         [BsonId]
         [JsonProperty]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonProperty]
         public Duration DriveTimeFromBottleChangeToHomePos { get; set; }

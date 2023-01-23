@@ -8,12 +8,12 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
 {
     public class EmergencyStop : IEmergencyStop
     {
-        private IGpioPin _emergencyStopReleased;
-        private BehaviorSubject<PinValue> _emergencyStop;
+        private IGpioPin _emergencyStopReleased = null!;
+        private BehaviorSubject<PinValue> _emergencyStop = null!;
         private TimeSpan _debounceTime;
-        private IDisposable _emergencyStopSubscription;
+        private IDisposable? _emergencyStopSubscription;
 
-        public event Action<bool> EmergencyStopPressedChanged;
+        public event Action<bool>? EmergencyStopPressedChanged;
 
         public bool EmergencyStopPressed { get; private set; }
 

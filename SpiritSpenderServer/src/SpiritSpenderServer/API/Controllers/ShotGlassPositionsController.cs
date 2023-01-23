@@ -20,7 +20,8 @@ namespace SpiritSpenderServer.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShotGlassPositionSetting>>> Get()
         {
-            return new ObjectResult(await _shotGlassPositionSettingRepository.GetAllSettingsAsync());
+            var result = await _shotGlassPositionSettingRepository.GetAllSettingsAsync();
+            return new ObjectResult(result);
         }
 
         [HttpGet("count")]
@@ -95,6 +96,9 @@ namespace SpiritSpenderServer.Controllers
         public async Task<ActionResult> DriveToPosition(int positionNumber)
         {
             var positionSetting = await _shotGlassPositionSettingRepository.GetSettingAsync(positionNumber);
+
+            if(positionSetting == null || positionSetting.Position == null)
+                return new NotFoundResult(); 
 
             await _automaticMode.DriveToPositionAsync(positionSetting.Position);
 

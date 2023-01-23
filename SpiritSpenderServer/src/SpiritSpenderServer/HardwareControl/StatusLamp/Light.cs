@@ -12,7 +12,7 @@ namespace SpiritSpenderServer.HardwareControl.StatusLamp
     {
         private IGpioPin _gpio;
         private CancellationTokenSource _blinkingTokensource;
-        private Task _blinkingTask;
+        private Task? _blinkingTask;
         private object _lockObject = new object();
 
         public Light(int gpioPin, IGpioPinFactory gpioPinFactory)

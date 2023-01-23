@@ -44,9 +44,9 @@ namespace SpiritSpenderServer.HardwareControl.Axis
 
         internal abstract DriveSetting DefaultDriveSetting { get; }
 
-        public event Action<string, Length> PositionChanged;
+        public event Action<string, Length>? PositionChanged;
 
-        public DriveSetting DriveSetting { get; private set; }
+        public DriveSetting DriveSetting { get; private set; } = null!;
 
         public Length CurrentPosition => StepperDriveControl.CurrentPosition.ToUnit(LengthUnit.Millimeter);
 

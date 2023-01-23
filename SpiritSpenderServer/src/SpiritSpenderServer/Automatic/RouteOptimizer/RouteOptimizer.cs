@@ -28,7 +28,8 @@ namespace SpiritSpenderServer.Automatic.RouteOptimizer
         {
             bool firstIteration = true;
             Duration fastestWay = default(Duration);
-            Position nextPosition = null;
+            var nextPosition = positionsToTravelTo.First();
+
             foreach (var position in positionsToTravelTo)
             {
                 var xDistance = currentPosition.X - position.X;

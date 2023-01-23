@@ -20,7 +20,7 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
         private ILinearMotor _spiritSpenderMotor;
         private IEmergencyStop _emergencyStop;
         private AutoResetEvent _waitHandleSpiritDispenserRefilled = new AutoResetEvent(true);
-        private System.Timers.Timer _spiritDispenserRefilledTimer;
+        private System.Timers.Timer? _spiritDispenserRefilledTimer;
         private CancellationTokenSource _cancelMovementTokensource;
 
         public SpiritDispenserControl(ISpiritDispenserSettingRepository dispenserSettingRepository, IEmergencyStop emergencyStop, IGpioPinFactory gpioPinFactory)
@@ -36,7 +36,7 @@ namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
             emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
         }
 
-        public SpiritDispenserSetting SpiritDispenserSetting { get; private set; }
+        public SpiritDispenserSetting SpiritDispenserSetting { get; private set; } = null!;
         
         public SpiritDispenserPosition CurrentPosition { get; private set; }
 

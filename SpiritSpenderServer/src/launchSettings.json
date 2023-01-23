@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "mongo": "StartWithoutDebugging",
+        "mongo-express": "StartWithoutDebugging",
+        "spiritspenderserver": "StartDebugging"
+      }
+    }
+  }
+}

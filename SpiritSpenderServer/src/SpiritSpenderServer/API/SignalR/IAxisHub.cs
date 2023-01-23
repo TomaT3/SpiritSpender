@@ -15,7 +15,7 @@ namespace SpiritSpenderServer.API.SignalR
 
     public class PositionDto
     {
-        public string AxisName { get; set; }
+        public string? AxisName { get; set; }
         public Length Positon { get; set; }
     }
 }

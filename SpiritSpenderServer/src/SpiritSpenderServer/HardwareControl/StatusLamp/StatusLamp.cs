@@ -16,7 +16,7 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
         private string _name;
         private bool _enabled = true;
 
-        public event Action<bool> EnabledChanged;
+        public event Action<bool>? EnabledChanged;
 
         public StatusLamp(IStatusLampSettingRepository statusLampSettingRepository, IGpioPinFactory gpioPinFactory)
         {
@@ -26,7 +26,7 @@ namespace SpiritSpenderServer.HardwareControl.EmergencyStop
             _greenLight = new Light(gpioPin: 13, gpioPinFactory: gpioPinFactory);
         }
 
-        public StatusLampSetting StatusLampSetting { get; private set; }
+        public StatusLampSetting StatusLampSetting { get; private set; } = null!;
 
         public bool Enabled { 
             get => _enabled;

@@ -36,10 +36,12 @@ namespace SpiritSpenderServer.Automatic
             _emergencyStop = emergencyStop;
             _emergencyStop.EmergencyStopPressedChanged += (estop) => CalculateStatuts();
 
-            var components = new List<IObservable<Status>>();
-            components.Add(_X_Axis.GetStatusObservable());
-            components.Add(_Y_Axis.GetStatusObservable());
-            components.Add(_spiritDispenserControl.GetStatusObservable());
+            var components = new List<IObservable<Status>>
+            {
+                _X_Axis.GetStatusObservable(),
+                _Y_Axis.GetStatusObservable(),
+                _spiritDispenserControl.GetStatusObservable()
+            };
 
 
             components.CombineLatest(lastStates => lastStates.All(state => state == Status.Ready))
@@ -50,7 +52,7 @@ namespace SpiritSpenderServer.Automatic
                 });
         }
 
-        public event Action OneShotPoured;
+        public event Action? OneShotPoured;
 
         public IObservable<Status> GetStatusObservable() => _currentStatus.AsObservable();
 
@@ -126,13 +128,16 @@ namespace SpiritSpenderServer.Automatic
             return optimizedRoute;
         }
 
-        public async Task DriveToPositionAsync(Position position)
+        public async Task DriveToPositionAsync(Position? position)
         {
-            var taskX = _X_Axis.DriveToPositionAsync(position.X);
-            var taskY = _Y_Axis.DriveToPositionAsync(position.Y);
-            
-            await taskX;
-            await taskY;
+            if (position != null)
+            {
+                var taskX = _X_Axis.DriveToPositionAsync(position.X);
+                var taskY = _Y_Axis.DriveToPositionAsync(position.Y);
+
+                await taskX;
+                await taskY;
+            }
         }
 
         private void CalculateStatuts(bool resetState = false)

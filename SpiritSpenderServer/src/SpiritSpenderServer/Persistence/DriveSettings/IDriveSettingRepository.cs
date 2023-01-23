@@ -5,7 +5,7 @@ namespace SpiritSpenderServer.Persistence.DriveSettings
 {
     public interface IDriveSettingRepository
     {
-        Task<IEnumerable<string>> GetAllDriveSettingNames();
+        Task<IEnumerable<string?>> GetAllDriveSettingNames();
         Task<IEnumerable<DriveSetting>> GetAllDriveSettings();
         Task<DriveSetting> GetDriveSetting(string driveName);
         Task Create(DriveSetting driveSetting);

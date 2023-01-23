@@ -8,7 +8,7 @@ namespace SpiritSpenderServer.Persistence.StatusLampSettings
     {
         [BsonId]
         [JsonProperty]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [JsonProperty]
         public Duration BlinkTimeOn { get; set; }

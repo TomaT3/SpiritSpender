@@ -9,7 +9,7 @@ namespace SpiritSpenderServer.HardwareControl
         private readonly IGpioControllerFacade _controller;
         private readonly int _pinNumber;
 
-        public event Action<PinValue> ValueChanged;
+        public event Action<PinValue>? ValueChanged;
 
         public GpioPin(IGpioControllerFacade controller, int pinNumber, PinMode pinMode)
         {

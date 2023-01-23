@@ -28,18 +28,24 @@ namespace SpiritSpenderServer.HostedServices
             _ioBroker = ioBroker;
             _automaticMode = automaticMode;
 
-            _automaticMode.OneShotPoured += OneShotPouredHandler;
+            if (_ioBrokerConfig.Enabled)
+            {
+                _automaticMode.OneShotPoured += OneShotPouredHandler;
+            }
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            try
+            if (_ioBrokerConfig.Enabled)
             {
-                await _ioBroker.ConnectAsync(TimeSpan.FromSeconds(_ioBrokerConfig.ConnectionTimeout));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                try
+                {
+                    await _ioBroker.ConnectAsync(TimeSpan.FromSeconds(_ioBrokerConfig.ConnectionTimeout));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
 
@@ -59,11 +65,11 @@ namespace SpiritSpenderServer.HostedServices
 
         private async Task AddOneShotAsync(string ioBrokerId)
         {
-            var result = await _ioBroker.GetStateAsync<int>(ioBrokerId, TimeSpan.FromSeconds(5));
+            var result = await _ioBroker.TryGetStateAsync<int>(ioBrokerId, TimeSpan.FromSeconds(5));
             if (result.Success)
             {
                 var newCurrentShotsCount = result.Value + 1;
-                await _ioBroker.SetStateAsync(ioBrokerId, newCurrentShotsCount);
+                await _ioBroker.TrySetStateAsync(ioBrokerId, newCurrentShotsCount);
             }
         }
     }
