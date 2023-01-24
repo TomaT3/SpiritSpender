@@ -1,7 +1,6 @@
-﻿using System;
+﻿namespace SpiritSpenderServer.Interface.HardwareControl;
+using System;
 using System.Device.Gpio;
-
-namespace SpiritSpenderServer.Interface.HardwareControl;
 
 public interface IGpioPin
 {

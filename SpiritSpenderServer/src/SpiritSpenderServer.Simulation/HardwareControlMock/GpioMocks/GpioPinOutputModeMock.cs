@@ -1,12 +1,7 @@
-﻿using SpiritSpenderServer.Interface.HardwareControl;
+﻿namespace SpiritSpenderServer.Simulation.HardwareControlMock.GpioMocks;
+using SpiritSpenderServer.Interface.HardwareControl;
 using System;
-using System.Collections.Generic;
 using System.Device.Gpio;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SpiritSpenderServer.Simulation.HardwareControlMock.GpioMocks;
 
 public class GpioPinOutputModeMock : IGpioPin
 {

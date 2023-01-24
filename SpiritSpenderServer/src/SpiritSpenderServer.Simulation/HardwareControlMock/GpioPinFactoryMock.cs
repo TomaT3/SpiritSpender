@@ -1,13 +1,7 @@
-﻿using SpiritSpenderServer.Interface.HardwareControl;
+﻿namespace SpiritSpenderServer.Simulation.HardwareControlMock;
+using SpiritSpenderServer.Interface.HardwareControl;
 using SpiritSpenderServer.Simulation.HardwareControlMock.GpioMocks;
-using System;
-using System.Collections.Generic;
 using System.Device.Gpio;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SpiritSpenderServer.Simulation.HardwareControlMock;
 
 public class GpioPinFactoryMock : IGpioPinFactory
 {
@@ -20,5 +14,5 @@ public class GpioPinFactoryMock : IGpioPinFactory
         (_, PinMode.Input) => new GpioPinInputModeMock(PinValue.Low),
         _ => null
     };
-    
+
 }
