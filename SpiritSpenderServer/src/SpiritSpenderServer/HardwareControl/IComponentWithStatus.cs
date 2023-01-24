@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace SpiritSpenderServer.HardwareControl;
 
-namespace SpiritSpenderServer.HardwareControl
+public interface IComponentWithStatus
 {
-    public interface IComponentWithStatus
-    {
-        IObservable<Status> GetStatusObservable();
-    }
+    IObservable<Status> GetStatusObservable();
 }

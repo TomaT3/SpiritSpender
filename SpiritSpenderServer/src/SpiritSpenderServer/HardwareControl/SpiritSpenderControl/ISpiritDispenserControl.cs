@@ -1,19 +1,17 @@
-﻿using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
-using System.Threading.Tasks;
+﻿namespace SpiritSpenderServer.HardwareControl.SpiritSpenderControl;
 
-namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
+using SpiritSpenderServer.Persistence.SpiritDispenserSettings;
+
+public interface ISpiritDispenserControl : IComponentWithStatus
 {
-    public interface ISpiritDispenserControl : IComponentWithStatus
-    {
-        SpiritDispenserSetting SpiritDispenserSetting { get; }
-        SpiritDispenserPosition CurrentPosition { get; }
-        Task InitAsync();
-        Task UpdateSettingsAsync(SpiritDispenserSetting setting);
-        Task ReferenceDriveAsync();
-        Task GoToBottleChangePosition();
-        Task FillGlas();
-        Task CloseSpiritSpender();
-        Task ReleaseSpirit();
-        
-    }
+    SpiritDispenserSetting SpiritDispenserSetting { get; }
+    SpiritDispenserPosition CurrentPosition { get; }
+    Task InitAsync();
+    Task UpdateSettingsAsync(SpiritDispenserSetting setting);
+    Task ReferenceDriveAsync();
+    Task GoToBottleChangePosition();
+    Task FillGlas();
+    Task CloseSpiritSpender();
+    Task ReleaseSpirit();
+
 }

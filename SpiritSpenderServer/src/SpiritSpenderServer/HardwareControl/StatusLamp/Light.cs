@@ -1,85 +1,81 @@
-﻿using SpiritSpenderServer.Helper;
+﻿namespace SpiritSpenderServer.HardwareControl.StatusLamp;
+
+using SpiritSpenderServer.Helper;
 using SpiritSpenderServer.Interface.HardwareControl;
-using System;
 using System.Device.Gpio;
-using System.Threading;
-using System.Threading.Tasks;
 using UnitsNet;
 
-namespace SpiritSpenderServer.HardwareControl.StatusLamp
+public class Light : ILight
 {
-    public class Light : ILight
-    {
-        private IGpioPin _gpio;
-        private CancellationTokenSource _blinkingTokensource;
-        private Task _blinkingTask;
-        private object _lockObject = new object();
+    private IGpioPin _gpio;
+    private CancellationTokenSource _blinkingTokensource;
+    private Task? _blinkingTask;
+    private object _lockObject = new object();
 
-        public Light(int gpioPin, IGpioPinFactory gpioPinFactory)
+    public Light(int gpioPin, IGpioPinFactory gpioPinFactory)
+    {
+        _blinkingTokensource = new CancellationTokenSource();
+        _gpio = gpioPinFactory.CreateGpioPin(gpioPin, PinMode.Output);
+        TurnLightOff();
+    }
+
+    public void TurnOn()
+    {
+        lock (_lockObject)
         {
-            _blinkingTokensource = new CancellationTokenSource();
-            _gpio = gpioPinFactory.CreateGpioPin(gpioPin, PinMode.Output);
+            CheckAndStopBlinkingTask();
+            TurnLightOn();
+        }
+    }
+
+    public void TurnOff()
+    {
+        lock (_lockObject)
+        {
+            CheckAndStopBlinkingTask();
             TurnLightOff();
         }
+    }
 
-        public void TurnOn()
+    public void Blink(Duration durationOn, Duration durationOff)
+    {
+        lock (_lockObject)
         {
-            lock (_lockObject)
-            {
-                CheckAndStopBlinkingTask();
-                TurnLightOn();
-            }
+            CheckAndStopBlinkingTask();
+            _blinkingTask = Task.Run(() => Blinking(Convert.ToInt32(durationOn.Milliseconds), Convert.ToInt32(durationOff.Milliseconds), _blinkingTokensource.Token), _blinkingTokensource.Token);
         }
+    }
 
-        public void TurnOff()
+    private void CheckAndStopBlinkingTask()
+    {
+        if (_blinkingTask != null)
         {
-            lock (_lockObject)
-            {
-                CheckAndStopBlinkingTask();
-                TurnLightOff();
-            }
+            _blinkingTokensource.Cancel();
+            _blinkingTokensource = new CancellationTokenSource();
         }
+    }
 
-        public void Blink(Duration durationOn, Duration durationOff)
+    private async Task Blinking(int durationOn, int durationOff, CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
         {
-            lock (_lockObject)
-            {
-                CheckAndStopBlinkingTask();
-                _blinkingTask = Task.Run(() => Blinking(Convert.ToInt32(durationOn.Milliseconds), Convert.ToInt32(durationOff.Milliseconds), _blinkingTokensource.Token), _blinkingTokensource.Token);
-            }
-        }
+            if (cancellationToken.IsCancellationRequested) return;
+            TurnLightOn();
+            await durationOn.DelayExceptionFree(cancellationToken);
 
-        private void CheckAndStopBlinkingTask()
-        {
-            if (_blinkingTask != null)
-            {
-                _blinkingTokensource.Cancel();
-                _blinkingTokensource = new CancellationTokenSource();
-            }
+            if (cancellationToken.IsCancellationRequested) return;
+            TurnLightOff();
+            await durationOff.DelayExceptionFree(cancellationToken);
         }
+    }
 
-        private async Task Blinking(int durationOn, int durationOff, CancellationToken cancellationToken)
-        {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                if (cancellationToken.IsCancellationRequested) return;
-                TurnLightOn();
-                await durationOn.DelayExceptionFree(cancellationToken);
+    private void TurnLightOn()
+    {
+        _gpio.Write(PinValue.High);
+    }
 
-                if (cancellationToken.IsCancellationRequested) return;
-                TurnLightOff();
-                await durationOff.DelayExceptionFree(cancellationToken);
-            }
-        }
-
-        private void TurnLightOn()
-        {
-            _gpio.Write(PinValue.High);
-        }
-
-        private void TurnLightOff()
-        {
-            _gpio.Write(PinValue.Low);
-        }
+    private void TurnLightOff()
+    {
+        _gpio.Write(PinValue.Low);
     }
 }

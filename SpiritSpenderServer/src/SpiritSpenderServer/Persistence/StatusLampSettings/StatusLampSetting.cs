@@ -1,18 +1,17 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿namespace SpiritSpenderServer.Persistence.StatusLampSettings;
+
+using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using UnitsNet;
 
-namespace SpiritSpenderServer.Persistence.StatusLampSettings
+public class StatusLampSetting
 {
-    public class StatusLampSetting
-    {
-        [BsonId]
-        [JsonProperty]
-        public string Name { get; set; }
+    [BsonId]
+    [JsonProperty]
+    public string? Name { get; set; }
 
-        [JsonProperty]
-        public Duration BlinkTimeOn { get; set; }
-        [JsonProperty]
-        public Duration BlinkTimeOff { get; set; }
-    }
+    [JsonProperty]
+    public Duration BlinkTimeOn { get; set; }
+    [JsonProperty]
+    public Duration BlinkTimeOff { get; set; }
 }

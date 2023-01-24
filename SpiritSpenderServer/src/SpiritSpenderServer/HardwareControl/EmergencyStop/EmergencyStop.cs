@@ -1,67 +1,65 @@
-﻿using SpiritSpenderServer.Interface.HardwareControl;
-using System;
+﻿namespace SpiritSpenderServer.HardwareControl.EmergencyStop;
+
+using SpiritSpenderServer.Interface.HardwareControl;
 using System.Device.Gpio;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace SpiritSpenderServer.HardwareControl.EmergencyStop
+public class EmergencyStop : IEmergencyStop
 {
-    public class EmergencyStop : IEmergencyStop
+    private IGpioPin _emergencyStopReleased = null!;
+    private BehaviorSubject<PinValue> _emergencyStop = null!;
+    private TimeSpan _debounceTime;
+    private IDisposable? _emergencyStopSubscription;
+
+    public event Action<bool>? EmergencyStopPressedChanged;
+
+    public bool EmergencyStopPressed { get; private set; }
+
+    public EmergencyStop(IGpioPinFactory gpioPinFactory)
+        => InitGpio(emergencyStopGpioPin: 12, gpioPinFactory);
+
+    public void SetEmergencyStop(bool isEmergencyStopPressed)
     {
-        private IGpioPin _emergencyStopReleased;
-        private BehaviorSubject<PinValue> _emergencyStop;
-        private TimeSpan _debounceTime;
-        private IDisposable _emergencyStopSubscription;
+        EmergencyStopReleased_ValueChanged(isEmergencyStopPressed ? PinValue.Low : PinValue.High);
+    }
 
-        public event Action<bool> EmergencyStopPressedChanged;
+    public void SetDebounceTime(int debounceTime)
+    {
+        SubscribeToEmergencyStopChanges(debounceTime);
+    }
 
-        public bool EmergencyStopPressed { get; private set; }
+    private void InitGpio(int emergencyStopGpioPin, IGpioPinFactory gpioPinFactory)
+    {
+        _emergencyStopReleased = gpioPinFactory.CreateGpioPin(emergencyStopGpioPin, PinMode.Input);
+        _emergencyStop = new BehaviorSubject<PinValue>(_emergencyStopReleased.Read());
+        SubscribeToEmergencyStopChanges(200);
 
-        public EmergencyStop(IGpioPinFactory gpioPinFactory)
-            => InitGpio(emergencyStopGpioPin: 12, gpioPinFactory);
+        _emergencyStopReleased.ValueChanged += EmergencyStopReleased_ValueChanged;
+    }
 
-        public void SetEmergencyStop(bool isEmergencyStopPressed)
+    private void SubscribeToEmergencyStopChanges(int debounceTime)
+    {
+        if (_emergencyStopSubscription != null)
         {
-            EmergencyStopReleased_ValueChanged(isEmergencyStopPressed ? PinValue.Low : PinValue.High);
+            _emergencyStopSubscription.Dispose();
         }
 
-        public void SetDebounceTime(int debounceTime)
-        {
-            SubscribeToEmergencyStopChanges(debounceTime);           
-        }
+        _debounceTime = TimeSpan.FromMilliseconds(debounceTime);
+        _emergencyStopSubscription = _emergencyStop
+            .Throttle(_debounceTime)
+            .DistinctUntilChanged()
+            .Subscribe(p => EmergencyStopReleased_DebouncedValueChanged(p));
+    }
 
-        private void InitGpio(int emergencyStopGpioPin, IGpioPinFactory gpioPinFactory)
-        {
-            _emergencyStopReleased = gpioPinFactory.CreateGpioPin(emergencyStopGpioPin, PinMode.Input);
-            _emergencyStop = new BehaviorSubject<PinValue>(_emergencyStopReleased.Read());
-            SubscribeToEmergencyStopChanges(200);
+    private void EmergencyStopReleased_ValueChanged(PinValue pinValue)
+    {
+        _emergencyStop.OnNext(pinValue);
+    }
 
-            _emergencyStopReleased.ValueChanged += EmergencyStopReleased_ValueChanged;
-        }
-
-        private void SubscribeToEmergencyStopChanges(int debounceTime)
-        {
-            if(_emergencyStopSubscription != null)
-            {
-                _emergencyStopSubscription.Dispose();
-            }
-
-            _debounceTime = TimeSpan.FromMilliseconds(debounceTime);
-            _emergencyStopSubscription = _emergencyStop
-                .Throttle(_debounceTime)
-                .DistinctUntilChanged()
-                .Subscribe(p => EmergencyStopReleased_DebouncedValueChanged(p));
-        }
-
-        private void EmergencyStopReleased_ValueChanged(PinValue pinValue)
-        {
-            _emergencyStop.OnNext(pinValue);
-        }
-
-        private void EmergencyStopReleased_DebouncedValueChanged(PinValue pinValue)
-        {
-            EmergencyStopPressed = pinValue == PinValue.Low;
-            EmergencyStopPressedChanged?.Invoke(EmergencyStopPressed);
-        }
+    private void EmergencyStopReleased_DebouncedValueChanged(PinValue pinValue)
+    {
+        EmergencyStopPressed = pinValue == PinValue.Low;
+        EmergencyStopPressedChanged?.Invoke(EmergencyStopPressed);
     }
 }

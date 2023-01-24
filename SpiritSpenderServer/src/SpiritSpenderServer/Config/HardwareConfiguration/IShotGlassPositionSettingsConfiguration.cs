@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿namespace SpiritSpenderServer.Config.HardwareConfiguration;
 
-namespace SpiritSpenderServer.Config.HardwareConfiguration
+public interface IShotGlassPositionSettingsConfiguration
 {
-    public interface IShotGlassPositionSettingsConfiguration
-    {
-        Task InitShotGlassPositionSettingsAsync();
-    }
+    Task InitShotGlassPositionSettingsAsync();
 }

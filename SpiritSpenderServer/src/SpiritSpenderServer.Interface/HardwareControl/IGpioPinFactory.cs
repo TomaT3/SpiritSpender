@@ -1,9 +1,7 @@
-﻿using System.Device.Gpio;
+﻿namespace SpiritSpenderServer.Interface.HardwareControl;
+using System.Device.Gpio;
 
-namespace SpiritSpenderServer.Interface.HardwareControl
+public interface IGpioPinFactory
 {
-    public interface IGpioPinFactory
-    {
-        IGpioPin CreateGpioPin(int pinNumber, PinMode pinMode);
-    }
+    IGpioPin CreateGpioPin(int pinNumber, PinMode pinMode);
 }

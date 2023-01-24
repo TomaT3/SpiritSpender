@@ -8,6 +8,7 @@ services:
       dockerfile: SpiritSpenderServer/Dockerfile
     environment:
       MongoDB__Host: mongo
+      IoBroker__Enabled: false
       IoBroker__ConnectionUrl: http://iobrokertest:8084
       IoBroker__ConnectionTimeout: 6
       CommonServerSettings__EnableSignalR: true

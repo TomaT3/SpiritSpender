@@ -1,11 +1,10 @@
-﻿using UnitsNet;
+﻿namespace SpiritSpenderServer.HardwareControl.StatusLamp;
 
-namespace SpiritSpenderServer.HardwareControl.StatusLamp
+using UnitsNet;
+
+public interface ILight
 {
-    public interface ILight
-    {
-        void Blink(Duration durationOn, Duration durationOff);
-        void TurnOff();
-        void TurnOn();
-    }
+    void Blink(Duration durationOn, Duration durationOff);
+    void TurnOff();
+    void TurnOn();
 }

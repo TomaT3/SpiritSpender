@@ -1,10 +1,9 @@
-﻿namespace SpiritSpenderServer.HardwareControl.SpiritSpenderMotor
+﻿namespace SpiritSpenderServer.HardwareControl.SpiritSpenderControl;
+
+public enum SpiritDispenserPosition
 {
-    public enum SpiritDispenserPosition
-    {
-        Undefined,
-        Home,
-        BottleChange,
-        ReleaseSpirit
-    }
+    Undefined,
+    Home,
+    BottleChange,
+    ReleaseSpirit
 }

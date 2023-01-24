@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace MotionCalc
+﻿namespace MotionCalc
 {
+    using System;
+
     public static class MotionCalculatorHelper
     {
         public static double GetTimeForDistance(double distance, double acceleration, double travelSpeed)

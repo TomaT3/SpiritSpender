@@ -1,13 +1,11 @@
-﻿using System;
+﻿namespace SpiritSpenderServer.Interface.HardwareControl;
+using System;
 using System.Device.Gpio;
 
-namespace SpiritSpenderServer.Interface.HardwareControl
+public interface IGpioPin
 {
-    public interface IGpioPin
-    {
-        event Action<PinValue> ValueChanged;
+    event Action<PinValue> ValueChanged;
 
-        PinValue Read();
-        void Write(PinValue pinValue);
-    }
+    PinValue Read();
+    void Write(PinValue pinValue);
 }

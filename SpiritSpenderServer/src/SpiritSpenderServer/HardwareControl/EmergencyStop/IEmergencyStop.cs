@@ -1,13 +1,10 @@
-﻿using System;
+﻿namespace SpiritSpenderServer.HardwareControl.EmergencyStop;
 
-namespace SpiritSpenderServer.HardwareControl.EmergencyStop
+public interface IEmergencyStop
 {
-    public interface IEmergencyStop
-    {
-        bool EmergencyStopPressed { get; }
+    bool EmergencyStopPressed { get; }
 
-        event Action<bool> EmergencyStopPressedChanged;
-        void SetDebounceTime(int debounceTime);
-        void SetEmergencyStop(bool isEmergencyStopPressed);
-    }
+    event Action<bool> EmergencyStopPressedChanged;
+    void SetDebounceTime(int debounceTime);
+    void SetEmergencyStop(bool isEmergencyStopPressed);
 }
