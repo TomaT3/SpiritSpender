@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace SpiritSpenderServer.Persistence.SpiritDispenserSettings;
 
-namespace SpiritSpenderServer.Persistence.SpiritDispenserSettings
+public interface ISpiritDispenserSettingRepository
 {
-    public interface ISpiritDispenserSettingRepository
-    {
-        Task<IEnumerable<SpiritDispenserSetting>> GetAllSpiritDispenserSettings();
-        Task<SpiritDispenserSetting> GetSpiritDispenserSetting(string name);
-        Task Create(SpiritDispenserSetting spiritDispenserSetting);
-        Task<bool> Update(SpiritDispenserSetting spiritDispenserSetting);
-        Task<bool> Delete(string name);
-    }
+    Task<IEnumerable<SpiritDispenserSetting>> GetAllSpiritDispenserSettings();
+    Task<SpiritDispenserSetting> GetSpiritDispenserSetting(string name);
+    Task Create(SpiritDispenserSetting spiritDispenserSetting);
+    Task<bool> Update(SpiritDispenserSetting spiritDispenserSetting);
+    Task<bool> Delete(string name);
 }

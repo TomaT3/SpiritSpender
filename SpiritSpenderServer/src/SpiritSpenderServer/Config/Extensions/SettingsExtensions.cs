@@ -1,16 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System.Runtime.CompilerServices;
+﻿namespace SpiritSpenderServer.Config.Extensions;
 
-namespace SpiritSpenderServer.Config.Extensions
+public static class SettingsExtensions
 {
-    public static class SettingsExtensions
+    public static void MapSettings(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void MapSettings(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.Configure<MongoDB>(configuration.GetSection(nameof(MongoDB)));
-            services.Configure<IoBroker>(configuration.GetSection(nameof(IoBroker)));
-            services.Configure<CommonServerSettings>(configuration.GetSection(nameof(CommonServerSettings)));
-        }
+        services.Configure<MongoDB>(configuration.GetSection(nameof(MongoDB)));
+        services.Configure<IoBroker>(configuration.GetSection(nameof(IoBroker)));
+        services.Configure<CommonServerSettings>(configuration.GetSection(nameof(CommonServerSettings)));
     }
 }

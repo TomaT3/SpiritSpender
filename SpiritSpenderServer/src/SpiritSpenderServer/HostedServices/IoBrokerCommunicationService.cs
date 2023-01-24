@@ -1,76 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿namespace SpiritSpenderServer.HostedServices;
+
 using ioBroker.net;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using SpiritSpenderServer.Automatic;
 using SpiritSpenderServer.Config;
 using Exception = System.Exception;
 
-namespace SpiritSpenderServer.HostedServices
+public class IoBrokerCommunicationService : IHostedService
 {
-    public class IoBrokerCommunicationService : IHostedService
+    private static string CURRENT_SHOT_COUNT_ID = "javascript.0.spiritspender.shots.count";
+    private static string TOTAL_SHOT_COUNT_ID = "javascript.0.spiritspender.shots.totalcount";
+
+    private readonly IIoBrokerDotNet _ioBroker;
+    private readonly IoBroker _ioBrokerConfig;
+    private readonly IAutomaticMode _automaticMode;
+
+
+    public IoBrokerCommunicationService(IIoBrokerDotNet ioBroker, IOptions<IoBroker> ioBrokerConfig, IAutomaticMode automaticMode)
     {
-        private static string CURRENT_SHOT_COUNT_ID = "javascript.0.spiritspender.shots.count";
-        private static string TOTAL_SHOT_COUNT_ID = "javascript.0.spiritspender.shots.totalcount";
+        _ioBrokerConfig = ioBrokerConfig.Value;
+        _ioBroker = ioBroker;
+        _automaticMode = automaticMode;
 
-        private readonly IIoBrokerDotNet _ioBroker;
-        private readonly IoBroker _ioBrokerConfig;
-        private readonly IAutomaticMode _automaticMode;
-
-
-        public IoBrokerCommunicationService(IIoBrokerDotNet ioBroker, IOptions<IoBroker> ioBrokerConfig, IAutomaticMode automaticMode)
+        if (_ioBrokerConfig.Enabled)
         {
-            _ioBrokerConfig = ioBrokerConfig.Value;
-            _ioBroker = ioBroker;
-            _automaticMode = automaticMode;
+            _automaticMode.OneShotPoured += OneShotPouredHandler;
+        }
+    }
 
-            if (_ioBrokerConfig.Enabled)
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        if (_ioBrokerConfig.Enabled)
+        {
+            try
             {
-                _automaticMode.OneShotPoured += OneShotPouredHandler;
+                await _ioBroker.ConnectAsync(TimeSpan.FromSeconds(_ioBrokerConfig.ConnectionTimeout));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
+    }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            if (_ioBrokerConfig.Enabled)
-            {
-                try
-                {
-                    await _ioBroker.ConnectAsync(TimeSpan.FromSeconds(_ioBrokerConfig.ConnectionTimeout));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
-        }
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
+    }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+    private void OneShotPouredHandler()
+    {
+        Task.Run(async () =>
         {
-            return Task.CompletedTask;
-        }
+            await AddOneShotAsync(CURRENT_SHOT_COUNT_ID);
+            await AddOneShotAsync(TOTAL_SHOT_COUNT_ID);
+        });
+    }
 
-        private void OneShotPouredHandler()
+    private async Task AddOneShotAsync(string ioBrokerId)
+    {
+        var result = await _ioBroker.TryGetStateAsync<int>(ioBrokerId, TimeSpan.FromSeconds(5));
+        if (result.Success)
         {
-            Task.Run(async () =>
-            {
-                await AddOneShotAsync(CURRENT_SHOT_COUNT_ID);
-                await AddOneShotAsync(TOTAL_SHOT_COUNT_ID);
-            });
-        }
-
-        private async Task AddOneShotAsync(string ioBrokerId)
-        {
-            var result = await _ioBroker.TryGetStateAsync<int>(ioBrokerId, TimeSpan.FromSeconds(5));
-            if (result.Success)
-            {
-                var newCurrentShotsCount = result.Value + 1;
-                await _ioBroker.TrySetStateAsync(ioBrokerId, newCurrentShotsCount);
-            }
+            var newCurrentShotsCount = result.Value + 1;
+            await _ioBroker.TrySetStateAsync(ioBrokerId, newCurrentShotsCount);
         }
     }
 }

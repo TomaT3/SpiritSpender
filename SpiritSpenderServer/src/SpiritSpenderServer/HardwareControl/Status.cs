@@ -1,10 +1,9 @@
-﻿namespace SpiritSpenderServer.HardwareControl
+﻿namespace SpiritSpenderServer.HardwareControl;
+
+public enum Status
 {
-    public enum Status
-    {
-        Error,
-        NotReady,
-        Ready,
-        Running
-    }
+    Error,
+    NotReady,
+    Ready,
+    Running
 }

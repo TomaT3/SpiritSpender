@@ -7,13 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpiritSpenderServer.Simulation
+namespace SpiritSpenderServer.Simulation;
+
+public static class SimulationStartup
 {
-    public static class SimulationStartup
+    public static void StartSimulation(IServiceCollection services)
     {
-        public static void StartSimulation(IServiceCollection services)
-        {
-            services.AddSingleton<IGpioPinFactory, GpioPinFactoryMock>();
-        }
+        services.AddSingleton<IGpioPinFactory, GpioPinFactoryMock>();
     }
 }

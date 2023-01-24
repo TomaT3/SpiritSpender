@@ -6,22 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpiritSpenderServer.Simulation.HardwareControlMock
+namespace SpiritSpenderServer.Simulation.HardwareControlMock.GpioMocks;
+
+public class GpioPinOutputModeMock : IGpioPin
 {
-    public class GpioPinOutputModeMock : IGpioPin
+    private PinValue _currentPinValue;
+    public event Action<PinValue> ValueChanged;
+
+    public PinValue Read()
     {
-        private PinValue _currentPinValue;
-        public event Action<PinValue> ValueChanged;
+        return _currentPinValue;
+    }
 
-        public PinValue Read()
-        {
-            return _currentPinValue;
-        }
-
-        public void Write(PinValue pinValue)
-        {
-            _currentPinValue = pinValue;
-            ValueChanged?.Invoke(_currentPinValue);
-        }
+    public void Write(PinValue pinValue)
+    {
+        _currentPinValue = pinValue;
+        ValueChanged?.Invoke(_currentPinValue);
     }
 }
