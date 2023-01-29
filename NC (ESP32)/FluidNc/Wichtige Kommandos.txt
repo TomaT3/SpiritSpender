@@ -1,0 +1,53 @@
+http://spiritspendernc.local
+
+$Report/Interval=50  // Rückmeldung
+$H  //HomeAll
+$HX  // Home X Axes
+$X  // Clear alarm
+^X  // Reset
+
+
+
+States:
+- Home
+- Idle
+- Run
+- Hold
+
+
+<State|Positions:x,y,z|Vorschub|Override? WCO:?>
+
+
+<Home|MPos:-16.271,0.000,0.000|FS:0,0>
+
+
+<Run|MPos:8.752,0.000,0.000|FS:307,0|WCO:0.000,0.000,0.000>
+<Run|MPos:9.116,0.000,0.000|FS:232,0|Ov:100,100,100>
+<Run|MPos:9.416,0.000,0.000|FS:172,0>
+
+<Idle|MPos:10.000,0.000,0.000|FS:0,0>
+
+
+
+
+[MSG:INFO: Reset to continue]
+<Alarm|MPos:900.000,0.000,0.000|FS:0,0>
+
+
+
+
+
+string input = "<Run|MPos:21.069,0.000,0.000|FS:2000,0>";
+
+if (input.StartsWith("<"))
+
+string[] parts = input.TrimStart('<').TrimEnd('>').Split('|');
+
+string status = parts[0];
+string[] position = parts[1].Substring(5).Split(',');
+double xPos = double.Parse(position[0]);
+double yPos = double.Parse(position[1]);
+double zPos = double.Parse(position[2]);
+string[] feedrate = parts[2].Substring(3).Split(',');
+int fRate = int.Parse(feedrate[0]);
+int fOverride = int.Parse(feedrate[1]);

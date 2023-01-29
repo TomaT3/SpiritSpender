@@ -1,0 +1,46 @@
+name: "ESP32 Dev Controller V4"
+board: "ESP32 Dev Controller V4"
+
+stepping:
+  engine: RMT
+  idle_ms: 250
+  dir_delay_us: 1
+  pulse_us: 2
+  disable_delay_us: 0
+
+axes:
+  # shared_stepper_disable_pin: gpio.13:low
+  
+  x:
+    steps_per_mm: 800
+    max_rate_mm_per_min: 2000
+    acceleration_mm_per_sec2: 25
+    max_travel_mm: 1000
+    homing:
+      cycle: 1
+      mpos_mm: 0
+      positive_direction: false
+    
+    motor0:
+      limit_neg_pin: gpio.17:high:pd
+      standard_stepper:
+        step_pin: gpio.14
+        direction_pin: gpio.15
+        disable_pin: gpio.16
+
+  # y:
+  #   steps_per_mm: 800
+  #   max_rate_mm_per_min: 2000
+  #   acceleration_mm_per_sec2: 25
+  #   max_travel_mm: 1000
+  #   homing:
+  #     cycle: 1
+  #     mpos_mm: 0
+  #     positive_direction: false
+
+  #   motor0:
+  #     limit_neg_pin: gpio.27:high:pd
+  #     standard_stepper:
+  #       step_pin: gpio.23
+  #       direction_pin: gpio.25
+  #       disable_pin: gpio.26
