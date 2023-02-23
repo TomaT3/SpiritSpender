@@ -4,13 +4,14 @@ using ioBroker.net;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using MongoDB.Bson.Serialization;
+using NC_Communication;
+using NC_Communication.AxisConfigurations;
 using SpiritSpenderServer.API.SignalR.Hubs;
 using SpiritSpenderServer.Automatic;
 using SpiritSpenderServer.Config;
 using SpiritSpenderServer.Config.Extensions;
 using SpiritSpenderServer.Config.HardwareConfiguration;
 using SpiritSpenderServer.HardwareControl;
-using SpiritSpenderServer.HardwareControl.Axis;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderControl;
 using SpiritSpenderServer.HardwareControl.StatusLamp;
@@ -55,15 +56,18 @@ public class Startup
         services.AddSingleton<StatusObserver>();
         services.AddSingleton<IAutomaticMode, AutomaticMode>();
 
-        services.AddSingleton<IXAxis, XAxis>();
-        services.AddSingleton<IYAxis, YAxis>();
         services.AddSingleton<ISpiritDispenserControl, SpiritDispenserControl>();
         services.AddSingleton<IStatusLamp, StatusLamp>();
         services.AddSingleton<IEmergencyStop, EmergencyStop>();
         services.AddSingleton<IShotGlassPositionSettingsConfiguration, ShotGlassPositionSettingsConfiguration>();
 
-        services.AddSingleton<AxisHubInformer>();
+        services.AddSingleton<INcCommunication, NcCommunication>();
+        services.AddSingleton<ISerialCommunication, SerialCommunication>();
+        services.AddSingleton<IXAxisConfiguration, XAxisConfiguration>();
+        services.AddSingleton<IYAxisConfiguration, YAxisConfiguration>();
 
+        services.AddSingleton<AxisHubInformer>();
+        
 
         services.AddSingleton<IIoBrokerDotNet, IoBrokerDotNet>(sp =>
         {
@@ -85,7 +89,8 @@ public class Startup
             });
         });
 
-        if (_env.IsDevelopment())
+        var serverConfig = Configuration.GetSection(nameof(CommonServerSettings)).Get<CommonServerSettings>();
+        if (serverConfig != null && serverConfig.UseSimulation)
         {
             SimulationStartup.StartSimulation(services);
         }
@@ -109,7 +114,7 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
         }
-
+        
         app.UseCors(_myAllowSpecificOrigins);
 
         // Enable middleware to serve generated Swagger as a JSON endpoint.

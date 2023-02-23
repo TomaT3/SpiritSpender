@@ -10,6 +10,6 @@ public interface IAxisHub
 
 public class PositionDto
 {
-    public string? AxisName { get; set; }
-    public Length Positon { get; set; }
+    public Length X { get; set; }
+    public Length Y { get; set; }
 }

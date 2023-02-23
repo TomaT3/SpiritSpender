@@ -2,34 +2,51 @@
 
 using System;
 using System.IO.Ports;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using Microsoft.Extensions.Options;
 
-public class SerialCommunication
+public interface ISerialCommunication
+{
+    IObservable<string> MessageReceived { get; }
+    public Task StartAsync();
+    void Write(string text);
+}
+
+public class SerialCommunication : ISerialCommunication
 {
     private SerialPort _serialPort;
+    private BehaviorSubject<string> _messageReceived;
 
-    public SerialCommunication()
+    public SerialCommunication(IOptions<SpiritSpenderServer.Config.SerialCommunicationConfig> serialCommunicationsOptions)
     {
-        //var port = @"/dev/ttyS0";
-        var port = @"/dev/ttyAMA0";
-        var baudrate = 115200;
+        _messageReceived = new BehaviorSubject<string>(string.Empty);
+        var options = serialCommunicationsOptions.Value;
+        var port = @$"{options.Port}";
+        var baudrate = options.BaudRate;
         _serialPort = new SerialPort(port, baudrate);
-        _serialPort.ReadTimeout = System.IO.Ports.SerialPort.InfiniteTimeout;
-        _serialPort.WriteTimeout = 1500;
-
+        _serialPort.ReadTimeout = options.ReadTimeout;
+        _serialPort.WriteTimeout = options.WriteTimeout;
+        
     }
 
-    public void OpenPort()
+    public IObservable<string> MessageReceived => _messageReceived.AsObservable();
+
+    public Task StartAsync()
     {
         _serialPort.Open();
+        StartListenToSerialPort();
+        return Task.CompletedTask;
     }
 
-    public void StartListenToSerialPort()
+    private void StartListenToSerialPort()
     {
         while (true)
         {
             try
             {
                 string message = _serialPort.ReadLine();
+                _messageReceived.OnNext(message);
                 Console.WriteLine($"Received: {message}");
             }
             catch (TimeoutException timeoutException)
@@ -42,6 +59,8 @@ public class SerialCommunication
             }
         }
     }
+
+    
 
     public void Write(string text)
     {

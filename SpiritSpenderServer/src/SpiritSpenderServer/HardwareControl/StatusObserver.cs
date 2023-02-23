@@ -1,10 +1,10 @@
 ﻿namespace SpiritSpenderServer.HardwareControl;
 
 using SpiritSpenderServer.Automatic;
-using SpiritSpenderServer.HardwareControl.Axis;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderControl;
 using SpiritSpenderServer.HardwareControl.StatusLamp;
 using System.Reactive.Linq;
+using NC_Communication;
 
 public class StatusObserver
 {
@@ -22,15 +22,13 @@ public class StatusObserver
 
     public StatusObserver(
         IAutomaticMode automatic,
-        IXAxis xAxis,
-        IYAxis yAxis,
         ISpiritDispenserControl spiritDispenserControl,
+        INcCommunication ncCommunication,
         IStatusLamp statusLamp)
     {
         _statusObservables = new List<IObservable<Status>>();
         _statusObservables.Add(spiritDispenserControl.GetStatusObservable());
-        _statusObservables.Add(xAxis.GetStatusObservable());
-        _statusObservables.Add(yAxis.GetStatusObservable());
+        _statusObservables.Add(ncCommunication.GetStatusObservable());
         _statusObservables.Add(automatic.GetStatusObservable());
 
         _statusLamp = statusLamp;

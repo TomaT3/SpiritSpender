@@ -1,41 +1,42 @@
 ﻿namespace SpiritSpenderServer.Automatic;
 
 using SpiritSpenderServer.HardwareControl;
-using SpiritSpenderServer.HardwareControl.Axis;
 using SpiritSpenderServer.HardwareControl.EmergencyStop;
 using SpiritSpenderServer.HardwareControl.SpiritSpenderControl;
 using SpiritSpenderServer.Persistence.Positions;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using NC_Communication;
+using SpiritSpenderServer.NC_Communication.AxisConfigurations;
 
 public class AutomaticMode : IAutomaticMode
 {
     private readonly BehaviorSubject<Status> _currentStatus;
     private readonly IShotGlassPositionSettingRepository _shotGlassPositionSettingRepository;
+    private readonly INcCommunication _ncCommunication;
     private readonly IEmergencyStop _emergencyStop;
     private readonly ISpiritDispenserControl _spiritDispenserControl;
-    private readonly IAxis _X_Axis;
-    private readonly IAxis _Y_Axis;
+    private readonly IAxisConfiguration _xAxisConfiguration;
+    private readonly IAxisConfiguration _yAxisConfiguration;
     private bool _areComponentsReady;
 
     public AutomaticMode(IShotGlassPositionSettingRepository shotGlassPositionSettingRepository,
-                         IXAxis xAxis,
-                         IYAxis yAxis,
+                         INcCommunication ncCommunication,
                          ISpiritDispenserControl spiritDispenserControl,
                          IEmergencyStop emergencyStop)
     {
         _currentStatus = new BehaviorSubject<Status>(Status.NotReady);
         _shotGlassPositionSettingRepository = shotGlassPositionSettingRepository;
-        _X_Axis = xAxis;
-        _Y_Axis = yAxis;
+        _ncCommunication = ncCommunication;
+        _xAxisConfiguration = ncCommunication.GetAxisConfiguration(Axis.X);
+        _yAxisConfiguration = ncCommunication.GetAxisConfiguration(Axis.Y);
         _spiritDispenserControl = spiritDispenserControl;
         _emergencyStop = emergencyStop;
         _emergencyStop.EmergencyStopPressedChanged += (estop) => CalculateStatuts();
 
         var components = new List<IObservable<Status>>
         {
-            _X_Axis.GetStatusObservable(),
-            _Y_Axis.GetStatusObservable(),
+            ncCommunication.GetStatusObservable(),
             _spiritDispenserControl.GetStatusObservable()
         };
 
@@ -54,12 +55,9 @@ public class AutomaticMode : IAutomaticMode
 
     public async Task ReferenceAllAxis()
     {
-        var taskRefX = _X_Axis.ReferenceDriveAsync();
-        var taskRefY = _Y_Axis.ReferenceDriveAsync();
         var taskRefDispenser = _spiritDispenserControl.ReferenceDriveAsync();
-
-        await taskRefX;
-        await taskRefY;
+        _ncCommunication.ReferenceAllAxis();
+        
         await taskRefDispenser;
     }
 
@@ -117,9 +115,9 @@ public class AutomaticMode : IAutomaticMode
 
     private List<Position> GetOptimizedRoute(List<ShotGlassPositionSetting> positionSettings)
     {
-        var currentPosition = new Position() { X = _X_Axis.CurrentPosition, Y = _Y_Axis.CurrentPosition };
+        var currentPosition = _ncCommunication.CurrentAxisPosition;
         var positions = positionSettings.Select(posSetting => posSetting.Position).ToList();
-        var optimizedRoute = RouteOptimizer.RouteOptimizer.GetFastestWayToGetDrunk(currentPosition, positions, _X_Axis.DriveSetting, _Y_Axis.DriveSetting);
+        var optimizedRoute = RouteOptimizer.RouteOptimizer.GetFastestWayToGetDrunk(currentPosition, positions, _xAxisConfiguration, _yAxisConfiguration);
 
         return optimizedRoute;
     }
@@ -128,11 +126,13 @@ public class AutomaticMode : IAutomaticMode
     {
         if (position != null)
         {
-            var taskX = _X_Axis.DriveToPositionAsync(position.X);
-            var taskY = _Y_Axis.DriveToPositionAsync(position.Y);
+            var driveTask = Task.Run(() => _ncCommunication.DriveTo(new AxisPosition[]
+            {
+                new AxisPosition(_xAxisConfiguration.AxisName, position.X),
+                new AxisPosition(_yAxisConfiguration.AxisName, position.Y),
+            }));
 
-            await taskX;
-            await taskY;
+            await driveTask.ConfigureAwait(false);
         }
     }
 

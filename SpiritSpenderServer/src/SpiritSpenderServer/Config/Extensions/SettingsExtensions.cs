@@ -7,5 +7,6 @@ public static class SettingsExtensions
         services.Configure<MongoDB>(configuration.GetSection(nameof(MongoDB)));
         services.Configure<IoBroker>(configuration.GetSection(nameof(IoBroker)));
         services.Configure<CommonServerSettings>(configuration.GetSection(nameof(CommonServerSettings)));
+        services.Configure<SerialCommunicationConfig>(configuration.GetSection(SerialCommunicationConfig.SECTION_NAME));
     }
 }

@@ -1,5 +1,5 @@
-﻿namespace SpiritSpenderServer.HardwareControl.Axis;
+﻿//namespace SpiritSpenderServer.HardwareControl.Axis;
 
-public interface IYAxis : IAxis
-{
-}
+//public interface IYAxis : IAxis
+//{
+//}

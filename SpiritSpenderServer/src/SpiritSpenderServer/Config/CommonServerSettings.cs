@@ -2,5 +2,5 @@
 
 public class CommonServerSettings
 {
-    public bool EnableSignalR { get; set; }
+    public bool UseSimulation { get; set; }
 }
