@@ -23,6 +23,7 @@
 
     public interface INcCommunication : IComponentWithStatus
     {
+        event Action<string>? MessageReceived;
         event Action<Position>? PositionChanged;
         NcState CurrentState { get; }
         Task InitAsync();
@@ -31,6 +32,7 @@
         void ReferenceAllAxis();
         void ReferenceAxis(string axisName);
         IAxisConfiguration GetAxisConfiguration(Axis axis);
+        void SendCommand(string command);
     }
 
     public enum Axis
@@ -41,6 +43,7 @@
 
     public class NcCommunication : INcCommunication
     {
+        private const int REPORT_INTERVAL_MS = 50;
         private readonly ISerialCommunication _serialCommunication;
         private readonly IAxisConfiguration _xAxisConfiguration;
         private readonly IAxisConfiguration _yAxisConfiguration;
@@ -49,20 +52,21 @@
         public NcCommunication(ISerialCommunication serialCommunication, IXAxisConfiguration xAxisConfiguration, IYAxisConfiguration yAxisConfiguration)
         {
             _serialCommunication = serialCommunication;
-            _serialCommunication.MessageReceived.Subscribe(message => DecodeFluidNcMessage(message));
+            _serialCommunication.MessageReceived.Subscribe(message => MessageReceivedHandler(message));
             _xAxisConfiguration = xAxisConfiguration;
             _yAxisConfiguration = yAxisConfiguration;
             CurrentAxisPosition = new Position();
             _statusSubject = new BehaviorSubject<Status>(Status.NotReady);
         }
 
+        public event Action<string>? MessageReceived;
         public event Action<Position>? PositionChanged;
 
         public NcState CurrentState { get; private set; }
         public async Task InitAsync()
         {
             await _serialCommunication.StartAsync();
-            SetReportInterval(50);
+            SetReportInterval(REPORT_INTERVAL_MS);
         }
 
         public void SetReportInterval(int interval)
@@ -73,8 +77,15 @@
 
         public Position CurrentAxisPosition { get; private set; }
 
+        private void MessageReceivedHandler(string message)
+        {
+            MessageReceived?.Invoke(message);
+            DecodeFluidNcMessage(message);
+        }
+
         private void DecodeFluidNcMessage(string message)
         {
+            
             if (message.StartsWith("<"))
             {
                 string[] parts = message.TrimStart('<').TrimEnd('>').Split('|');
@@ -119,9 +130,9 @@
         public void DriveTo(AxisPosition[] axisPositions)
         {
             var ncCommand = NcCommandCreator.FastPositioning(axisPositions);
-            _serialCommunication.Write(ncCommand);
+            SendCommandToSerialInterface(ncCommand);
 
-            while (!AreDestinationPositionsReched(axisPositions))
+            while (!AreDestinationPositionsReached(axisPositions))
             {
                 Thread.Sleep(50);
             }
@@ -129,12 +140,13 @@
 
         public void ReferenceAllAxis()
         {
-            _serialCommunication.Write($"$H {Environment.NewLine}");
+            SetReportInterval(REPORT_INTERVAL_MS);
+            SendCommandToSerialInterface("$H");
         }
 
         public void ReferenceAxis(string axisName)
         {
-            _serialCommunication.Write($"$H{axisName} {Environment.NewLine}");
+            SendCommandToSerialInterface($"$H{axisName}");
         }
 
         public IAxisConfiguration GetAxisConfiguration(Axis axis) => axis switch
@@ -144,7 +156,17 @@
             _ => throw new InvalidEnumArgumentException(),
         };
 
-        private bool AreDestinationPositionsReched(AxisPosition[] axisPositions)
+        public void SendCommand(string command)
+        {
+            SendCommandToSerialInterface(command);
+        }
+
+        private void SendCommandToSerialInterface(string command)
+        {
+            _serialCommunication.Write($"{command} {Environment.NewLine}");
+        }
+
+        private bool AreDestinationPositionsReached(AxisPosition[] axisPositions)
         {
             var xAxisPosition = axisPositions.FirstOrDefault(a => a.AxisName == "X");
             var yAxisPosition= axisPositions.FirstOrDefault(a => a.AxisName == "Y");
@@ -194,8 +216,6 @@
             {
                 ncCommand += $" {axisPosition.AxisName}{axisPosition.Position.Millimeters}";
             }
-
-            ncCommand += $" {Environment.NewLine}";
 
             return ncCommand;
         }

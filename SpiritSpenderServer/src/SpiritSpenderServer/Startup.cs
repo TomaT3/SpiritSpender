@@ -67,7 +67,8 @@ public class Startup
         services.AddSingleton<IYAxisConfiguration, YAxisConfiguration>();
 
         services.AddSingleton<AxisHubInformer>();
-        
+        services.AddSingleton<NcCommunicationHubInformer>();
+
 
         services.AddSingleton<IIoBrokerDotNet, IoBrokerDotNet>(sp =>
         {
@@ -135,6 +136,7 @@ public class Startup
         {
             endpoints.MapControllers();
             endpoints.MapHub<AxisHub>("/signal-r/axis");
+            endpoints.MapHub<NcCommunicationHub>("/signal-r/nc-communication");
         });
     }
 
