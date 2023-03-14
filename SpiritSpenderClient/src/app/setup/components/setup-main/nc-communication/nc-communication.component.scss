@@ -1,0 +1,33 @@
+.container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: min-content auto;
+}
+
+.horitontal-container {
+    display: flex;
+}
+
+.margin {
+    margin: 10px;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.max-height {
+    height: 100%;
+}
+
+.mat-form-field.fill-container,
+.mat-form-field.fill-container .mat-form-field-infix,
+.mat-form-field.fill-container .mat-form-field-flex,
+.mat-form-field.fill-container .mat-form-field-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.mat-form-field.fill-container textarea {
+  height: calc(100% - 25px);
+}

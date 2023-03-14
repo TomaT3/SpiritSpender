@@ -1,1 +1,13 @@
-<p>nc-communication works!</p>
+<div class="container">
+    <div class="horitontal-container">
+        <mat-form-field class="max-width margin" appearance="outline">
+            <mat-label>Nc Command</mat-label>
+            <input matInput type="text" [(ngModel)]="value">
+        </mat-form-field>
+        <button mat-fab class="margin" color="warn" (click)="this.sendNcCommand()">Send</button>
+    </div>
+    <mat-form-field  class="max-width max-height margin fill-container" appearance="fill">
+        <mat-label></mat-label>
+        <textarea  matInput ></textarea>
+    </mat-form-field>
+</div>

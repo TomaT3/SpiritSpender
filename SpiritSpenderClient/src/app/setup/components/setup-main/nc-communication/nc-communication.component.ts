@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NcCommunicationComponent implements OnInit {
 
+  value: string = '';
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public sendNcCommand(): void {
+
   }
 
 }
