@@ -8,6 +8,9 @@
     <mat-tab label="Status Lamp">
       <app-status-lamp></app-status-lamp>
     </mat-tab>
+    <mat-tab label="NC Communication">
+      <app-nc-communication></app-nc-communication>
+    </mat-tab>
     <mat-tab *ngFor="let driveName of drives" label="{{driveName}}-Axis">
       <app-drive [driveName]="driveName"></app-drive>
     </mat-tab>

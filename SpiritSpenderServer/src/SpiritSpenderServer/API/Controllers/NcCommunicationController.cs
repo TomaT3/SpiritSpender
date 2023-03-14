@@ -7,11 +7,11 @@ using SpiritSpenderServer.Automatic;
 
 [Route("api/[controller]")]
 [ApiController]
-public class NcController : ControllerBase
+public class NcCommunicationController : ControllerBase
 {
     private readonly INcCommunication _ncCommunication;
 
-    public NcController(INcCommunication ncCommunication)
+    public NcCommunicationController(INcCommunication ncCommunication)
     {
         _ncCommunication = ncCommunication;
     }

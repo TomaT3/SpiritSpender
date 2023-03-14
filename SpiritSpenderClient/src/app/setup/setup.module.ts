@@ -30,6 +30,7 @@ import { AutoSizeInputModule, AutoSizeInputOptions, AUTO_SIZE_INPUT_OPTIONS } fr
 import { StatusLampComponent } from './components/setup-main/status-lamp/status-lamp.component';
 import { StatusLampSettingsComponent } from './components/setup-main/status-lamp/status-lamp-settings/status-lamp-settings.component';
 import { StatusLampActionsComponent } from './components/setup-main/status-lamp/status-lamp-actions/status-lamp-actions.component';
+import { NcCommunicationComponent } from './components/setup-main/nc-communication/nc-communication.component';
 
 const CUSTOM_AUTO_SIZE_INPUT_OPTIONS: AutoSizeInputOptions = {
   extraWidth: 0,
@@ -44,7 +45,7 @@ const CUSTOM_AUTO_SIZE_INPUT_OPTIONS: AutoSizeInputOptions = {
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionSettingComponent, StatusLampComponent, StatusLampSettingsComponent, StatusLampActionsComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionSettingComponent, StatusLampComponent, StatusLampSettingsComponent, StatusLampActionsComponent, NcCommunicationComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,

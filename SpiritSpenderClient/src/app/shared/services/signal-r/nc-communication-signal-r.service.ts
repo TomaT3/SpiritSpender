@@ -1,15 +1,14 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { PositionDto } from '../../types/position-dto';
 
 const API_URL = environment.signalRBaseUrl
 
 @Injectable({
   providedIn: 'root'
 })
-export class AxisSignalRService {
-  positionChanged = new EventEmitter<PositionDto>();  
+export class NcCommunicationService {
+  messageReceived = new EventEmitter<string>();  
   connectionEstablished = new EventEmitter<Boolean>();  
   
   private _hubConnection: HubConnection;  
@@ -24,7 +23,7 @@ export class AxisSignalRService {
 
   private createConnection() {
     this._hubConnection = new HubConnectionBuilder()
-      .withUrl(API_URL + 'axis')
+      .withUrl(API_URL + 'nc-communication')
       .build();
 
       this._hubConnection.onclose((error => {
@@ -52,8 +51,8 @@ export class AxisSignalRService {
   }
 
   private registerOnServerEvents(): void {
-    this._hubConnection.on('PositionChanged', (data: PositionDto) => {
-      this.positionChanged.emit(data);
+    this._hubConnection.on('MessageReceived', (message: string) => {
+      this.messageReceived.emit(message);
     });
   }
 }
