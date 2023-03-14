@@ -9,38 +9,40 @@ stepping:
   disable_delay_us: 0
 
 axes:
-  # shared_stepper_disable_pin: gpio.13:low
+  shared_stepper_disable_pin: gpio.33:high:pd
   
   x:
-    steps_per_mm: 800
-    max_rate_mm_per_min: 2000
-    acceleration_mm_per_sec2: 25
-    max_travel_mm: 1000
+    steps_per_mm: 100
+    max_rate_mm_per_min: 6000
+    acceleration_mm_per_sec2: 100
+    max_travel_mm: 248.1
+    soft_limits: true
     homing:
       cycle: 1
       mpos_mm: 0
       positive_direction: false
     
     motor0:
-      limit_neg_pin: gpio.17:high:pd
+      limit_neg_pin: gpio.32:high:pd
+      pulloff_mm: 2.500
       standard_stepper:
-        step_pin: gpio.14
-        direction_pin: gpio.15
-        disable_pin: gpio.16
+        step_pin: gpio.27
+        direction_pin: gpio.26:low
 
-  # y:
-  #   steps_per_mm: 800
-  #   max_rate_mm_per_min: 2000
-  #   acceleration_mm_per_sec2: 25
-  #   max_travel_mm: 1000
-  #   homing:
-  #     cycle: 1
-  #     mpos_mm: 0
-  #     positive_direction: false
+  y:
+    steps_per_mm: 50
+    max_rate_mm_per_min: 7000
+    acceleration_mm_per_sec2: 100
+    max_travel_mm: 141.1
+    soft_limits: true
+    homing:
+      cycle: 1
+      mpos_mm: 0
+      positive_direction: false
 
-  #   motor0:
-  #     limit_neg_pin: gpio.27:high:pd
-  #     standard_stepper:
-  #       step_pin: gpio.23
-  #       direction_pin: gpio.25
-  #       disable_pin: gpio.26
+    motor0:
+      limit_neg_pin: gpio.18:high:pd
+      pulloff_mm: 2.500
+      standard_stepper:
+        step_pin: gpio.17
+        direction_pin: gpio.16:low
