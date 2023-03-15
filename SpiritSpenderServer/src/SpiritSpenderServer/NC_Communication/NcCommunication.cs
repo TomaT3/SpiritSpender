@@ -71,7 +71,7 @@
 
         public void SetReportInterval(int interval)
         {
-            var setIntervalString = $"$Report/Interval={interval} {Environment.NewLine}";
+            var setIntervalString = $"$Report/Interval={interval}{Environment.NewLine}";
             _serialCommunication.Write(setIntervalString);
         }
 
@@ -163,7 +163,7 @@
 
         private void SendCommandToSerialInterface(string command)
         {
-            _serialCommunication.Write($"{command} {Environment.NewLine}");
+            _serialCommunication.Write($"{command}{Environment.NewLine}");
         }
 
         private bool AreDestinationPositionsReached(AxisPosition[] axisPositions)
