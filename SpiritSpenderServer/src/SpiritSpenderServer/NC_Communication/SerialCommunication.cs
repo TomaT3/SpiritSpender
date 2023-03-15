@@ -35,7 +35,7 @@ public class SerialCommunication : ISerialCommunication
     public Task StartAsync()
     {
         _serialPort.Open();
-        StartListenToSerialPort();
+        Task.Run(() => StartListenToSerialPort());
         return Task.CompletedTask;
     }
 
