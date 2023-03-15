@@ -3,8 +3,8 @@ on:
   push:
     tags: 
       - 'v**'
-  release:
-    types: [published]
+  # release:
+  #   types: [published]
 
 jobs:
   setup-build-publish-deploy:
