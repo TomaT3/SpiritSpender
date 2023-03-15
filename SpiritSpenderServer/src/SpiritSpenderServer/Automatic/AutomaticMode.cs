@@ -141,7 +141,10 @@ public class AutomaticMode : IAutomaticMode
         if (_currentStatus.Value != Status.Running || resetState)
         {
             if (_emergencyStop.EmergencyStopPressed)
+            {
                 _currentStatus.OnNext(Status.Error);
+                return;
+            }
 
             if (IsStartPossible())
                 _currentStatus.OnNext(Status.Ready);

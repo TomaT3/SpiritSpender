@@ -6,6 +6,7 @@
     using System.Reactive.Subjects;
     using HardwareControl;
     using Persistence.Positions;
+    using SpiritSpenderServer.HardwareControl.EmergencyStop;
     using SpiritSpenderServer.NC_Communication.AxisConfigurations;
     using UnitsNet;
 
@@ -47,16 +48,24 @@
         private readonly ISerialCommunication _serialCommunication;
         private readonly IAxisConfiguration _xAxisConfiguration;
         private readonly IAxisConfiguration _yAxisConfiguration;
+        private readonly IEmergencyStop _emergencyStop;
         private BehaviorSubject<Status> _statusSubject;
 
-        public NcCommunication(ISerialCommunication serialCommunication, IXAxisConfiguration xAxisConfiguration, IYAxisConfiguration yAxisConfiguration)
+        public NcCommunication(ISerialCommunication serialCommunication, 
+            IXAxisConfiguration xAxisConfiguration,
+            IYAxisConfiguration yAxisConfiguration,
+            IEmergencyStop emergencyStop)
         {
             _serialCommunication = serialCommunication;
             _serialCommunication.MessageReceived.Subscribe(message => MessageReceivedHandler(message));
             _xAxisConfiguration = xAxisConfiguration;
             _yAxisConfiguration = yAxisConfiguration;
+            _emergencyStop = emergencyStop;
+            
             CurrentAxisPosition = new Position();
-            _statusSubject = new BehaviorSubject<Status>(Status.NotReady);
+
+            _statusSubject = new BehaviorSubject<Status>(emergencyStop.EmergencyStopPressed ? Status.Error : Status.NotReady);
+            _emergencyStop.EmergencyStopPressedChanged += EmergencyStopPressedChanged;
         }
 
         public event Action<string>? MessageReceived;
@@ -203,6 +212,19 @@
         {
             return _statusSubject.AsObservable();
         }
+
+        private void EmergencyStopPressedChanged(bool emergencyStopPressed)
+        {
+            if (emergencyStopPressed)
+            {
+                _statusSubject.OnNext(Status.Error);
+            }
+            else
+            {
+                _statusSubject.OnNext(Status.NotReady);
+            }
+        }
+
     }
 
     public static class NcCommandCreator
