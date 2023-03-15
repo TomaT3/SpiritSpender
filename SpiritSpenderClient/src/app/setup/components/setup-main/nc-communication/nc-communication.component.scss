@@ -1,11 +1,11 @@
 .container {
-    height: 100%;
-    display: grid;
-    grid-template-rows: min-content auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .horitontal-container {
     display: flex;
+    flex-direction: row;
 }
 
 .margin {
@@ -20,14 +20,6 @@
     height: 100%;
 }
 
-.mat-form-field.fill-container,
-.mat-form-field.fill-container .mat-form-field-infix,
-.mat-form-field.fill-container .mat-form-field-flex,
-.mat-form-field.fill-container .mat-form-field-wrapper {
-  height: 100%;
-  width: 100%;
-}
-
-.mat-form-field.fill-container textarea {
-  height: calc(100% - 25px);
+mat-form-field {
+    width: 95%; 
 }

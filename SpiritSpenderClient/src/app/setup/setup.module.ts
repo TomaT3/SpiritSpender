@@ -10,6 +10,7 @@ import { DriveComponent } from './components/setup-main/drive/drive.component';
 import { DriveSettingsComponent } from './components/setup-main/drive/drive-settings/drive-settings.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -53,6 +54,7 @@ const CUSTOM_AUTO_SIZE_INPUT_OPTIONS: AutoSizeInputOptions = {
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatGridListModule,
     MatCheckboxModule,
     MatSelectModule,
     MatButtonModule,

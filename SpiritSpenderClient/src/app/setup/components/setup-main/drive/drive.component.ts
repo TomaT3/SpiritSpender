@@ -23,6 +23,10 @@ export class DriveComponent implements OnInit {
     this.axisSignalRservice.positionChanged.subscribe((position: PositionDto) => this.positionChangedHandler(position));
   }
 
+  ngOnDestroy() {
+    this.axisSignalRservice?.positionChanged.unsubscribe();
+  }
+
   private positionChangedHandler(position: PositionDto){
     if(this.driveName == position.axisName)
     {

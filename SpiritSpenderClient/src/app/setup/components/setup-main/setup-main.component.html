@@ -1,4 +1,4 @@
-<mat-tab-group  [backgroundColor]="'primary'">
+<mat-tab-group dynamicHeight [backgroundColor]="'primary'">
     <mat-tab label="Spirit dispenser">
       <app-spirit-dispenser></app-spirit-dispenser>
     </mat-tab>
@@ -8,7 +8,7 @@
     <mat-tab label="Status Lamp">
       <app-status-lamp></app-status-lamp>
     </mat-tab>
-    <mat-tab label="NC Communication">
+    <mat-tab label="NC">
       <app-nc-communication></app-nc-communication>
     </mat-tab>
     <mat-tab *ngFor="let driveName of drives" label="{{driveName}}-Axis">

@@ -1,13 +1,16 @@
-<div class="container">
+<div class="container max-height">
     <div class="horitontal-container">
         <mat-form-field class="max-width margin" appearance="outline">
-            <mat-label>Nc Command</mat-label>
-            <input matInput type="text" [(ngModel)]="value">
+            <mat-label>NC Command</mat-label>
+            <input matInput type="text" [(ngModel)]="ncCommand">
         </mat-form-field>
         <button mat-fab class="margin" color="warn" (click)="this.sendNcCommand()">Send</button>
     </div>
-    <mat-form-field  class="max-width max-height margin fill-container" appearance="fill">
-        <mat-label></mat-label>
-        <textarea  matInput ></textarea>
-    </mat-form-field>
+    <div>
+        <mat-form-field class="margin"appearance="fill">
+            <mat-label>Received Messages from NC</mat-label>
+            <textarea matInput readonly tabindex="-1" rows="20">{{ncMessages}}</textarea>
+        </mat-form-field>
+    
+    </div>
 </div>

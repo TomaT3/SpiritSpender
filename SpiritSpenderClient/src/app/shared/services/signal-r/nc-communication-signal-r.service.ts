@@ -7,13 +7,11 @@ const API_URL = environment.signalRBaseUrl
 @Injectable({
   providedIn: 'root'
 })
-export class NcCommunicationService {
-  messageReceived = new EventEmitter<string>();  
-  connectionEstablished = new EventEmitter<Boolean>();  
-  
-  private _hubConnection: HubConnection;  
-  connection: signalR.HubConnection;
+export class NcCommunicationSignalRService {
+  messageReceived = new EventEmitter<string>();
 
+  private connectionEstablished = new EventEmitter<Boolean>();  
+  private _hubConnection: HubConnection;  
 
   constructor() {
     this.createConnection();

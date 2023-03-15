@@ -10,10 +10,9 @@ const API_URL = environment.signalRBaseUrl
 })
 export class AxisSignalRService {
   positionChanged = new EventEmitter<PositionDto>();  
-  connectionEstablished = new EventEmitter<Boolean>();  
-  
+
+  private connectionEstablished = new EventEmitter<Boolean>();  
   private _hubConnection: HubConnection;  
-  connection: signalR.HubConnection;
 
 
   constructor() {
