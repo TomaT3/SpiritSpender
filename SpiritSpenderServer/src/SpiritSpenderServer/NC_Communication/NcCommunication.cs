@@ -44,7 +44,7 @@
 
     public class NcCommunication : INcCommunication
     {
-        private const int REPORT_INTERVAL_MS = 50;
+        private const int REPORT_INTERVAL_MS = 100;
         private readonly ISerialCommunication _serialCommunication;
         private readonly IAxisConfiguration _xAxisConfiguration;
         private readonly IAxisConfiguration _yAxisConfiguration;
@@ -57,7 +57,7 @@
             IEmergencyStop emergencyStop)
         {
             _serialCommunication = serialCommunication;
-            _serialCommunication.MessageReceived.Subscribe(message => MessageReceivedHandler(message));
+            _serialCommunication.MessageReceived += MessageReceivedHandler;
             _xAxisConfiguration = xAxisConfiguration;
             _yAxisConfiguration = yAxisConfiguration;
             _emergencyStop = emergencyStop;
@@ -94,7 +94,6 @@
 
         private void DecodeFluidNcMessage(string message)
         {
-            
             if (message.StartsWith("<"))
             {
                 string[] parts = message.TrimStart('<').TrimEnd('>').Split('|');
@@ -114,6 +113,7 @@
 
         private void SetNcState(NcState state)
         {
+            Console.WriteLine($"Set new nc state: {state}");
             CurrentState = state;
             switch (CurrentState)
             {

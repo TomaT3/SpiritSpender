@@ -2,8 +2,6 @@
 
 using Microsoft.AspNetCore.SignalR;
 using NC_Communication;
-using Persistence.Positions;
-using UnitsNet.Units;
 
 public class NcCommunicationHubInformer
 {
@@ -15,8 +13,8 @@ public class NcCommunicationHubInformer
         ncCommunication.MessageReceived += MessageReceived;
     }
 
-    private async void MessageReceived(string message)
+    private void MessageReceived(string message)
     {
-        await _hubContext.Clients.All.MessageReceived(message);
+        Task.Run(async () => await _hubContext.Clients.All.MessageReceived(message));
     }
 }

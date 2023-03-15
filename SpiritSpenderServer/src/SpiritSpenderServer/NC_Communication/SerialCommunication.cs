@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 public interface ISerialCommunication
 {
-    IObservable<string> MessageReceived { get; }
+    event Action<string>? MessageReceived;
     public Task StartAsync();
     void Write(string text);
 }
@@ -16,11 +16,9 @@ public interface ISerialCommunication
 public class SerialCommunication : ISerialCommunication
 {
     private SerialPort _serialPort;
-    private BehaviorSubject<string> _messageReceived;
 
     public SerialCommunication(IOptions<SpiritSpenderServer.Config.SerialCommunicationConfig> serialCommunicationsOptions)
     {
-        _messageReceived = new BehaviorSubject<string>(string.Empty);
         var options = serialCommunicationsOptions.Value;
         var port = @$"{options.Port}";
         var baudrate = options.BaudRate;
@@ -30,7 +28,7 @@ public class SerialCommunication : ISerialCommunication
         
     }
 
-    public IObservable<string> MessageReceived => _messageReceived.AsObservable();
+    public event Action<string>? MessageReceived;
 
     public Task StartAsync()
     {
@@ -46,12 +44,12 @@ public class SerialCommunication : ISerialCommunication
             try
             {
                 string message = _serialPort.ReadLine();
-                _messageReceived.OnNext(message);
+                MessageReceived?.Invoke(message);
                 Console.WriteLine($"Received: {message}");
             }
             catch (TimeoutException timeoutException)
             {
-                //Console.WriteLine(timeoutException);
+                Console.WriteLine(timeoutException);
             }
             catch (Exception ex)
             {
