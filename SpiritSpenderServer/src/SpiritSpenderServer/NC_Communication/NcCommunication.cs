@@ -94,20 +94,27 @@
 
         private void DecodeFluidNcMessage(string message)
         {
-            if (message.StartsWith("<"))
+            if (message != null && message.StartsWith("<"))
             {
-                string[] parts = message.TrimStart('<').TrimEnd('>').Split('|');
+                try
+                {
+                    string[] parts = message.TrimStart('<').TrimEnd('>').Split('|');
+                    var newState = ToNcState(parts[0]);
+                    SetNcState(newState);
+                    string[] positions = parts[1].Substring(5).Split(',');
+                    var currentXPosition = Length.FromMillimeters(double.Parse(positions[0]));
+                    var currentYPosition = Length.FromMillimeters(double.Parse(positions[1]));
+                    CurrentAxisPosition = new Position() { X = currentXPosition, Y = currentYPosition };
+                    PositionChanged?.Invoke(CurrentAxisPosition);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
 
-                var newState = ToNcState(parts[0]);
-                SetNcState(newState);
-                string[] positions = parts[1].Substring(5).Split(',');
-                var currentXPosition = Length.FromMillimeters(double.Parse(positions[0]));
-                var currentYPosition = Length.FromMillimeters(double.Parse(positions[1]));
-                CurrentAxisPosition = new Position() { X = currentXPosition, Y = currentYPosition };
-                PositionChanged?.Invoke(CurrentAxisPosition);
-                string[] feedrate = parts[2].Substring(3).Split(',');
-                int fRateXAxis = int.Parse(feedrate[0]);
-                int fRateYAxis = int.Parse(feedrate[1]);
+                //string[] feedrate = parts[2].Substring(3).Split(',');
+                //int fRateXAxis = int.Parse(feedrate[0]);
+                //int fRateYAxis = int.Parse(feedrate[1]);
             }
         }
 
