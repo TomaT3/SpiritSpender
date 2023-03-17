@@ -52,6 +52,7 @@ export class AxisSignalRService {
 
   private registerOnServerEvents(): void {
     this._hubConnection.on('PositionChanged', (data: PositionDto) => {
+      console.log(`X: ${data?.X?.Value}  Y: ${data?.Y?.Value}`)
       this.positionChanged.emit(data);
     });
   }
