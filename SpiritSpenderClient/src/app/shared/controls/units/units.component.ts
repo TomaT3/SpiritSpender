@@ -42,11 +42,18 @@ export class UnitsComponent implements OnInit {
     this.unitsParameter = this.unitsParameter;
   }
 
-  public getUnitValue(): number {
+  public getValue(): number {
     if(this.unitsParameter === undefined || this.unitsParameter === null)
       return -1;
-
+    
     return this.unitsParameter.Value
+  }
+
+  public getUnit() {
+    if(this.unitsParameter === undefined || this.unitsParameter === null)
+      return "";
+
+    return this.unitsParameter.Unit
   }
   
 }

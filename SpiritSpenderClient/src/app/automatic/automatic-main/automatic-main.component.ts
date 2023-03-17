@@ -15,7 +15,7 @@ export class AutomaticMainComponent implements OnInit {
   private automaticPositions: AutomaticPositionsComponent;
 
   constructor(private automaticApiService: AutomaticApiService, private axisSignalRservice: AxisSignalRService) { 
-    this.currentPosition = new EmptyPositionDto();
+    //this.currentPosition = new EmptyPositionDto();
   }
 
   public currentPosition?: PositionDto;
