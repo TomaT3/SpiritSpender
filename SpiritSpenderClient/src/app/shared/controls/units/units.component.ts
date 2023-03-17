@@ -23,7 +23,7 @@ export class UnitsComponent implements OnInit {
   @Input() editable: boolean;
   @Output() unitsParameterChange = new EventEmitter<UnitsType>();
   
-  private _unitsParameter: UnitsType;
+  private _unitsParameter?: UnitsType;
 
   constructor() { }
 
@@ -42,5 +42,11 @@ export class UnitsComponent implements OnInit {
     this.unitsParameter = this.unitsParameter;
   }
 
+  public getUnitValue(): number {
+    if(this.unitsParameter === undefined || this.unitsParameter === null)
+      return -1;
+
+    return this.unitsParameter.Value
+  }
   
 }
