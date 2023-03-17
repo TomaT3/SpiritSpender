@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AxisSignalRService } from 'src/app/shared/services/signal-r/axis-signal-r.service';
-import { PositionDto, PositionDtoClass } from 'src/app/shared/types/position-dto';
-import { LengthUnit } from 'src/app/shared/types/units-type';
+import { PositionDto } from 'src/app/shared/types/position-dto';
 import { AutomaticApiService } from '../services/automatic-api.service';
 import { AutomaticPositionsComponent } from './automatic-positions/automatic-positions.component';
 
@@ -17,14 +16,14 @@ export class AutomaticMainComponent implements OnInit {
 
   constructor(private automaticApiService: AutomaticApiService, private axisSignalRservice: AxisSignalRService) { }
 
-  public currentPosition: PositionDto = new PositionDtoClass(23.4566, 11.9968)
+  public currentPosition?: PositionDto;
 
   ngOnInit(): void {
     this.axisSignalRservice.positionChanged.subscribe((position: PositionDto) => this.positionChangedHandler(position));
   }
 
   ngOnDestroy() {
-    this.axisSignalRservice?.positionChanged.unsubscribe();
+    //this.axisSignalRservice?.positionChanged.unsubscribe();
   }
 
   private positionChangedHandler(position: PositionDto){

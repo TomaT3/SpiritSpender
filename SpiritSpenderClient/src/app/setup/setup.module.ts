@@ -6,8 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { SetupRoutingModule } from './setup-routing.module';
 import { SetupMainComponent } from './components/setup-main/setup-main.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { DriveComponent } from './components/setup-main/drive/drive.component';
-import { DriveSettingsComponent } from './components/setup-main/drive/drive-settings/drive-settings.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -17,7 +15,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../shared/shared.module';
 import { NumberComponent } from './controls/number/number.component';
 import { DriveDirectionComponent } from './controls/enums/drive-direction/drive-direction.component';
-import { DriveActionsComponent } from './components/setup-main/drive/drive-actions/drive-actions.component';
 import { UnitstypeOneActionComponent } from './controls/unitstype-one-action/unitstype-one-action.component';
 import { UnitstypeTwoActionsComponent } from './controls/unitstype-two-actions/unitstype-two-actions.component';
 import { SpiritDispenserComponent } from './components/setup-main/spirit-dispenser/spirit-dispenser.component';
@@ -45,7 +42,7 @@ import { NcCommunicationComponent } from './components/setup-main/nc-communicati
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionSettingComponent, StatusLampComponent, StatusLampSettingsComponent, StatusLampActionsComponent, NcCommunicationComponent],
+  declarations: [SetupMainComponent, NumberComponent, DriveDirectionComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionSettingComponent, StatusLampComponent, StatusLampSettingsComponent, StatusLampActionsComponent, NcCommunicationComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,

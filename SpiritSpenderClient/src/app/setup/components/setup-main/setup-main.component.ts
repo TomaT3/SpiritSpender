@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DrivesApiService } from 'src/app/setup/services/drives-api.service';
 import { Observable } from 'rxjs';
 
 
@@ -11,9 +10,8 @@ import { Observable } from 'rxjs';
 export class SetupMainComponent implements OnInit {
   public drives: string[];
 
-  constructor(private drivesApiService: DrivesApiService) { }
+  constructor() { }
 
   async ngOnInit(): Promise<void> {
-    this.drives = await this.drivesApiService.getAllDrives();
   }
 }
