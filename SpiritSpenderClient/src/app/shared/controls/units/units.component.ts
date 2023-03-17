@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, NgZone, ViewChild, ElementRef  } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, NgZone, ViewChild, ElementRef, ViewEncapsulation  } from '@angular/core';
 import { UnitsType } from 'src/app/shared/types/units-type';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import {take} from 'rxjs/operators';
@@ -6,7 +6,8 @@ import {take} from 'rxjs/operators';
 @Component({
   selector: 'app-units',
   templateUrl: './units.component.html',
-  styleUrls: ['./units.component.scss']
+  styleUrls: ['./units.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UnitsComponent implements OnInit {
   @Input() title: string;

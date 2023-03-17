@@ -6,7 +6,19 @@
     //align-content:center;
 }
 
+.horitontal-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.axis-position {
+    margin: 10px;
+    width: 85px;
+}
+
 .item {
     align-self: center;
-    padding: 10px
+    margin: 10px
 }

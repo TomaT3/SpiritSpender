@@ -1,5 +1,5 @@
 <div *ngIf="this.currentPosition as UnitsType; else loading" class="grid-container">
-    <div class="current-position">Current position: {{this.currentPosition.Value | number: '1.2-2'}}</div>
+    <div class="current-position">Current position: {{this.currentPosition.Value| number: '1.2-2'}}</div>
     <div class="drive-setting">
         <app-drive-settings [driveName]="driveName" ></app-drive-settings>
     </div>

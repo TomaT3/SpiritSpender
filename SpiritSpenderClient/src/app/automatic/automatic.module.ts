@@ -6,10 +6,12 @@ import { AutomaticMainComponent } from './automatic-main/automatic-main.componen
 import { AutomaticPositionsComponent } from './automatic-main/automatic-positions/automatic-positions.component';
 import { PositionQuantityComponent } from './automatic-main/automatic-positions/position-quantity/position-quantity.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from "@angular/material/icon";
 import { HttpClientModule } from '@angular/common/http';
 import { AutomaticActionsComponent } from './automatic-main/automatic-actions/automatic-actions.component';
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [AutomaticMainComponent, AutomaticPositionsComponent, PositionQuantityComponent, AutomaticActionsComponent],
@@ -18,7 +20,10 @@ import { AutomaticActionsComponent } from './automatic-main/automatic-actions/au
     AutomaticRoutingModule,
     MatButtonModule,
     MatIconModule,
-    HttpClientModule
+    MatFormFieldModule,
+    MatInputModule,
+    HttpClientModule,
+    SharedModule
   ]
 })
 export class AutomaticModule { }

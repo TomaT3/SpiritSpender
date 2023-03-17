@@ -19,7 +19,7 @@ export class NcCommunicationComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.ncCommunicationSignalRService?.messageReceived.unsubscribe();
+    //this.ncCommunicationSignalRService?.messageReceived.unsubscribe();
   }
 
   public sendNcCommand(): void {

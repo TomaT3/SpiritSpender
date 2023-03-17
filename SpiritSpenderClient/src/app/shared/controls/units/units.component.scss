@@ -1,0 +1,9 @@
+.mat-form-field-suffix {
+    white-space: nowrap;
+    flex: auto;
+    position: unset;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-suffix {
+    top: 0em !important;
+}

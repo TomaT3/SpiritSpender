@@ -1,4 +1,16 @@
 <div class="container">
+    <div class="horitontal-container">
+        <app-units [title]="'X'" [autoSizeWidthToInput]="true" [(unitsParameter)]="currentPosition.X" [editable]="false"></app-units>
+        <app-units [title]="'Y'" [autoSizeWidthToInput]="true" [(unitsParameter)]="currentPosition.Y" [editable]="false"></app-units>
+        <!-- <mat-form-field class="axis-position">
+          <input matInput placeholder="X" [value]="currentPosition?.X?.Value | number: '1.2-2'">
+          <span matSuffix>mm</span>
+        </mat-form-field>
+        <mat-form-field class="axis-position">
+          <input matInput placeholder="Y" [value]="currentPosition?.Y?.Value | number: '1.2-2'">
+          <span matSuffix>mm</span>
+        </mat-form-field> -->
+      </div>
     <app-automatic-positions></app-automatic-positions>
     <div class="item">
         <button [style.font-size]="'x-large'" mat-raised-button color="warn" (click)="this.releaseTheSpirit()">--&gt; Release the spirit ! &lt;--</button>

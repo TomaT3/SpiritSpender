@@ -19,18 +19,18 @@ export class DriveComponent implements OnInit {
   constructor(private drivesApiService: DrivesApiService, private axisSignalRservice: AxisSignalRService) { }
 
   async ngOnInit(): Promise<void> {
-    this.currentPosition = await this.drivesApiService.getCurrentPosition(this.driveName);
-    this.axisSignalRservice.positionChanged.subscribe((position: PositionDto) => this.positionChangedHandler(position));
+    // this.currentPosition = await this.drivesApiService.getCurrentPosition(this.driveName);
+    // this.axisSignalRservice.positionChanged.subscribe((position: PositionDto) => this.positionChangedHandler(position));
   }
 
-  ngOnDestroy() {
-    this.axisSignalRservice?.positionChanged.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.axisSignalRservice?.positionChanged.unsubscribe();
+  // }
 
-  private positionChangedHandler(position: PositionDto){
-    if(this.driveName == position.axisName)
-    {
-      this.currentPosition = position.positon
-    }
-  }
+  // private positionChangedHandler(position: PositionDto){
+  //   if(this.driveName == position.axisName)
+  //   {
+  //     this.currentPosition = position.positon
+  //   }
+  // }
 }

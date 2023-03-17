@@ -10,11 +10,10 @@ import { DriveComponent } from './components/setup-main/drive/drive.component';
 import { DriveSettingsComponent } from './components/setup-main/drive/drive-settings/drive-settings.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { UnitsComponent } from './controls/units/units.component';
 import { SharedModule } from '../shared/shared.module';
 import { NumberComponent } from './controls/number/number.component';
 import { DriveDirectionComponent } from './controls/enums/drive-direction/drive-direction.component';
@@ -27,26 +26,26 @@ import { SpiritDispenserActionsComponent } from './components/setup-main/spirit-
 import { PositionsComponent } from './components/setup-main/positions/positions.component';
 import { PositionSettingsComponent } from './components/setup-main/positions/position-settings/position-settings.component';
 import { PositionSettingComponent } from './components/setup-main/positions/position-settings/position-setting/position-setting.component';
-import { AutoSizeInputModule, AutoSizeInputOptions, AUTO_SIZE_INPUT_OPTIONS } from 'ngx-autosize-input';
+//import { AutoSizeInputModule, AutoSizeInputOptions, AUTO_SIZE_INPUT_OPTIONS } from 'ngx-autosize-input';
 import { StatusLampComponent } from './components/setup-main/status-lamp/status-lamp.component';
 import { StatusLampSettingsComponent } from './components/setup-main/status-lamp/status-lamp-settings/status-lamp-settings.component';
 import { StatusLampActionsComponent } from './components/setup-main/status-lamp/status-lamp-actions/status-lamp-actions.component';
 import { NcCommunicationComponent } from './components/setup-main/nc-communication/nc-communication.component';
 
-const CUSTOM_AUTO_SIZE_INPUT_OPTIONS: AutoSizeInputOptions = {
-  extraWidth: 0,
-  includeBorders: false,
-  includePadding: true,
-  includePlaceholder: true,
-  maxWidth: -1,
-  minWidth: -1,
-  setParentWidth: false,
-  usePlaceHolderWhenEmpty: false,
-}
+// const CUSTOM_AUTO_SIZE_INPUT_OPTIONS: AutoSizeInputOptions = {
+//   extraWidth: 0,
+//   includeBorders: false,
+//   includePadding: true,
+//   includePlaceholder: true,
+//   maxWidth: -1,
+//   minWidth: -1,
+//   setParentWidth: false,
+//   usePlaceHolderWhenEmpty: false,
+// }
 
 
 @NgModule({
-  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, UnitsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionSettingComponent, StatusLampComponent, StatusLampSettingsComponent, StatusLampActionsComponent, NcCommunicationComponent],
+  declarations: [SetupMainComponent, DriveComponent, DriveSettingsComponent, NumberComponent, DriveDirectionComponent, DriveActionsComponent, UnitstypeOneActionComponent, UnitstypeTwoActionsComponent, SpiritDispenserComponent, SpiritDispenserSettingsComponent, SpiritDispenserActionsComponent, PositionsComponent, PositionSettingsComponent, PositionSettingComponent, StatusLampComponent, StatusLampSettingsComponent, StatusLampActionsComponent, NcCommunicationComponent],
   imports: [
     CommonModule,
     SetupRoutingModule,
@@ -60,10 +59,10 @@ const CUSTOM_AUTO_SIZE_INPUT_OPTIONS: AutoSizeInputOptions = {
     MatButtonModule,
     HttpClientModule,
     SharedModule,
-    AutoSizeInputModule
+    // AutoSizeInputModule,
   ],
-  providers: [
-    { provide: AUTO_SIZE_INPUT_OPTIONS, useValue: CUSTOM_AUTO_SIZE_INPUT_OPTIONS }
-  ]
+  // providers: [
+  //   { provide: AUTO_SIZE_INPUT_OPTIONS, useValue: CUSTOM_AUTO_SIZE_INPUT_OPTIONS }
+  // ]
 })
 export class SetupModule { }

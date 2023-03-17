@@ -49,8 +49,8 @@ export class NcCommunicationSignalRService {
   }
 
   private registerOnServerEvents(): void {
-    this._hubConnection.on('MessageReceived', (message: string) => {
-      this.messageReceived.emit(message);
+    this._hubConnection.on('MessageReceived', (data: string) => {
+      this.messageReceived.emit(data);
     });
   }
 }

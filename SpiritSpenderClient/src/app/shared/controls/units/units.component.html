@@ -1,0 +1,5 @@
+<mat-form-field appearance="outline" style="margin: 2px;">
+    <mat-label>{{title}}</mat-label>
+    <input autoSizeInput [setParentWidth]="this.autoSizeWidthToInput" [extraWidth]="10" matInput  [value]="this.unitsParameter.Value | number: '1.2-2'" (change)="valueChanged($event)" [disabled]="!editable">
+    <div class="mat-form-field-appearance-outline mat-form-field-suffix" matSuffix [style.opacity]="opacity">{{this.unitsParameter.Unit | unitToString}}</div>
+</mat-form-field>
